@@ -1,0 +1,37 @@
+@import 'colors';
+
+.section-header {
+
+  header {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    -webkit-box-shadow: 0 8px 6px -6px $light-gray;
+    -moz-box-shadow: 0 8px 6px -6px $light-gray;
+    box-shadow: 0 8px 6px -6px $light-gray;
+
+    .header-menu-item {
+      padding: 6px;
+      font-size: 16px;
+    }
+
+    @media screen and (max-width: 992px) {
+      .header-menu {
+        display: none;
+        position: absolute;
+        top: 66px;
+        right: 0;
+        width: 240px;
+        z-index: 1;
+        text-align: center;
+        background-color: $light-gray;
+      }
+
+      .header-menu-item {
+        display: block;
+        padding: 16px;
+        font-size: 20px;
+        color: $black;
+      }
+    }
+  }
+}

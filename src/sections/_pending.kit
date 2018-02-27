@@ -1,0 +1,44 @@
+<section class="container section-pending">
+  <form>
+    <div class="row center">
+      <div class="col-xs-12">
+        <h1>Pending Queries</h1>
+        <p>View pending queries on the XYO Block Chain</p>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(function() {
+    var section = $(".section-pending");
+
+    var refresh = function() {
+      console.log("refresh");
+      try {
+        var diviner = new XY.CRYPTO.DIVINER(new XY.CRYPTO.CONFIG().getDivinerAddress());
+        diviner.getPending(function (pending) {
+          console.log("Arie: " + JSON.stringify(pending));
+        });
+      } catch (ex) {
+        $(".error-message").text(ex.message);
+        console.error(ex);
+      }
+    }
+
+    section.find(".refresh").click(function() {
+      refresh();
+    });
+
+    $(".section-pending input").change(function() {
+      if ($(this).val() === "") {
+        $(this).removeClass("filled");
+      } else {
+        $(this).addClass("filled");
+      }
+    });
+
+    refresh();
+
+  });
+</script>

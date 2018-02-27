@@ -1,0 +1,30 @@
+.footer {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  color: white;
+  background: $dark-gray;
+
+  .social-share {
+    display: inline-block;
+    background: $gray;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 2px;
+    margin: 6px;
+    vertical-align: middle;
+
+    &:hover {
+      background: $light-gray;
+    }
+
+    a {
+      color: white;
+    }
+  }
+
+  .menu-item {
+    margin: 0 8px;
+  }
+}

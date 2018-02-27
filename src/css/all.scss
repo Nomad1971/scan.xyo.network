@@ -1,0 +1,17 @@
+// @Author: XY | The Findables Company <arietrouw>
+// @Date:   Wednesday, January 24, 2018 10:38 AM
+// @Email:  developer@xyfindables.com
+// @Filename: all.scss
+// @Last modified by:   arietrouw
+// @Last modified time: Monday, February 26, 2018 10:14 AM
+// @License: All Rights Reserved
+// @Copyright: Copyright XY | The Findables Company
+
+$font-family-sans-serif:  'Titillium Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-size-base: 16px;
+
+@import 'jquery-ui';
+@import 'xy/xy';
+@import 'helper-box';
+@import 'site';
+@import 'sections/sections';

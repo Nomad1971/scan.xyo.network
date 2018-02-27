@@ -1,0 +1,57 @@
+@import 'variables';
+@import 'colors';
+
+$button-background-color: $red !default;
+$button-border-color: $red !default;
+$button-color: $white !default;
+
+button {
+  background-color: $button-background-color;
+  border: solid 1px $button-border-color;
+  color: $button-color;
+  border-radius: 3px;
+  font-size: $font-size-large;
+  margin: 6px;
+  padding: 5px 15px;
+
+  &[class~='x-small'] {
+    font-size: $font-size-x-small;
+    line-height: $line-height-x-small;
+    opacity: 1;
+    border-radius: 2px;
+    margin: 2px;
+    padding: 3px 9px;
+  }
+
+  &[class~='small'] {
+    font-size: $font-size-base;
+    line-height: $line-height-computed;
+    opacity: 1;
+    border-radius: 3px;
+    margin: 4px;
+    padding: 4px 12px;
+  }
+
+  &[class~='large'] {
+    font-size: $font-size-x-large;
+    line-height: $line-height-x-large;
+    opacity: 1;
+    border-radius: 4px;
+    margin: 8px;
+    padding: 6px 18px;
+  }
+
+  &:hover {
+    opacity: .8;
+    box-shadow: none;
+  }
+
+  &[class~='secondary'] {
+    opacity: 1;
+    &:hover {
+      opacity: .8;
+      box-shadow: none;
+    }
+  }
+
+}

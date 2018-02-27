@@ -1,0 +1,56 @@
+@import 'variables';
+@import 'bootstrap';
+@import 'fonts';
+@import 'simple';
+@import 'colors';
+@import 'button';
+@import 'header';
+@import 'footer';
+
+$padding: 4px;
+
+body {
+  background: $white;
+  color: $dark-gray;
+  overflow-y: scroll;
+  font-size: $font-size-base;
+  @media screen and (max-width: $screen-xs-max) {
+    font-size: $font-size-small;
+  }
+}
+
+main {
+  min-height: 600px;
+}
+
+a {
+  color: $link-color;
+  transition: color 300ms, background-color 300ms;
+
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: none;
+  }
+}
+
+p {
+  font-size: $font-size-base;
+  padding: $padding;
+
+  @media screen and (max-width: $screen-xs-max) {
+    font-size: $font-size-small;
+  }
+
+  [class~='small'] {
+    font-size: $font-size-small;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: $padding;
+}

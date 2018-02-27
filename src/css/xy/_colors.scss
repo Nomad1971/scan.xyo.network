@@ -1,0 +1,26 @@
+@import 'variables';
+
+$black: #000;
+$blue: #00f;
+$gray: #787878;
+$green: #0f0;
+$offwhite: #f7f7f7;
+$red: #f00;
+$white: #fff;
+$light-gray: #9E9E9E;
+
+$light-gray: #ddd;
+
+$dark-gray: #4e4e4e;
+
+.black { color: $black; }
+.blue { color: $blue; }
+.gray { color: $gray; }
+.green { color: $green; }
+.offwhite { color: $offwhite; }
+.red { color: $red; }
+.white { color: $white; }
+
+.light-gray { color: $light-gray; }
+
+.dark-gray { color: $dark-gray; }

@@ -1,0 +1,23 @@
+// @Author: XY | The Findables Company <arietrouw>
+// @Date:   Tuesday, January 23, 2018 9:36 AM
+// @Email:  developer@xyfindables.com
+// @Filename: _site.scss
+// @Last modified by:   arietrouw
+// @Last modified time: Monday, February 26, 2018 9:57 AM
+// @License: All Rights Reserved
+// @Copyright: Copyright XY | The Findables Company
+
+hr {
+  border-bottom: 1px solid $white;
+  border-top: 1px solid $light-gray;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.had-error {
+  border-color: $red;
+}
+
+.error-message {
+  color: $red;
+}

@@ -1,0 +1,102 @@
+
+
+<section class="container section-networkselect" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+  <form>
+    <div class="row">
+      <div class="col-xs-12">
+        &nbsp;
+      </div>
+    </div>
+    <div class="install-meta-mask row center" style="display:none;">
+      <div class="col-xs-12">
+        <h3><a href="https://metamask.io/" target="_blank">Install Meta Mask</a></h3>
+      </div>
+    </div>
+    <div class="meta-mask-information row">
+      <div class="col-xs-12 col-sm-6 col-lg-2 center">
+        <p>
+          <label class="center" for="dapp_network">DApp Network</label><br>
+          <input class="center filled" style="width:100%;" name="dapp_network" id="dapp_network" readonly type="text"/>
+        </p>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 center">
+        <p>
+          <label class="center" for="dapp_balance">DApp Balance</label><br>
+          <input class="center filled" style="width:100%;" name="dapp_balance" id="dapp_balance" readonly type="text"/>
+        </p>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-2 center">
+        <p>
+          <label class="center" for="xyo_network">XYO Network</label><br>
+          <input class="center filled" style="width:100%;" name="xyo_network" id="xyo_network" readonly type="text"/>
+        </p>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 center">
+        <p>
+          <label class="center" for="xyo_balance">XYO Balance</label><br>
+          <input class="center filled" style="width:100%;" name="xyo_balance" id="xyo_balance" readonly type="text"/>
+        </p>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(function() {
+    var section = $(".section-networkselect");
+
+    var dappNetworkName = "None";
+
+    try {
+      var client = new XY.CRYPTO.CLIENT(function() {
+
+        client.getDAppNetworkName(function (error, result) {
+          if (error) {
+            console.log(error);
+          } else {
+            section.find("[name='dapp_network']").val(result);
+          }
+        });
+
+        client.getDAppBalance(function (error, result) {
+          if (error) {
+            console.error(error);
+          } else {
+            section.find("[name='dapp_balance']").val(result.cooked);
+          }
+        });
+
+        client.getXyoNetworkName(function (error, result) {
+          if (error) {
+            console.error(error);
+          } else {
+            section.find("[name='xyo_network']").val(result);
+          }
+        });
+
+        client.getXyoBalance(function (error, result) {
+          if (error) {
+            console.error(error);
+          } else {
+            section.find("[name='xyo_balance']").val(result.cooked);
+          }
+        });
+
+        $(".meta-mask-information").show();
+
+      });
+    } catch (ex) {
+      $(".install-meta-mask").fadeTo(1000, 1)
+      $(".meta-mask-information").fadeTo(300, .5);
+      $(".meta-mask-information").attr("disabled","disabled");
+    }
+
+    $(".section-networkselect input").change(function() {
+      if ($(this).val() === "") {
+        $(this).removeClass("filled");
+      } else {
+        $(this).addClass("filled");
+      }
+    });
+  });
+</script>

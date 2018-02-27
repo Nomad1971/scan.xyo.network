@@ -1,0 +1,45 @@
+@import 'variables';
+@import 'colors';
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.nobr {
+  white-space: nowrap;
+}
+
+.linked {
+  cursor: pointer;
+}
+
+.strike {
+  text-decoration: line-through;
+}
+
+.bg-odd {
+  background-color: $offwhite;
+  padding: 20px 0;
+}
+
+.bg-even {
+  background-color: $white;
+  padding: 20px 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.responsive {
+    max-width: 100%;
+    height: auto;
+}

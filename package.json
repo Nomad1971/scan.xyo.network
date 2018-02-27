@@ -1,0 +1,49 @@
+{
+  "name": "poo.xyfindables.com",
+  "version": "1.0.0",
+  "description": "poo.xyfindables.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xycorp/poo.xyfindables.com.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/xycorp/poo.xyfindables.com/issues"
+  },
+  "homepage": "https://github.com/xycorp/poo.xyfindables.com#readme",
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "graceful-fs": "^4.1.11",
+    "gulp-s3-upload": "^1.7.0",
+    "jquery": "^3.2.1",
+    "node": "^9.2.0",
+    "node-sass": "^4.7.2",
+    "sass": "^1.0.0-beta.4"
+  },
+  "devDependencies": {
+    "event-stream": "^3.3.4",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-css-copy-assets": "^0.0.4",
+    "gulp-debug": "^3.1.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-include": "^2.3.1",
+    "gulp-insert-lines": "^0.0.4",
+    "gulp-kit": "^0.3.0",
+    "gulp-open": "^2.0.0",
+    "gulp-purify-css": "^0.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8"
+  }
+}

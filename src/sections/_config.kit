@@ -1,0 +1,37 @@
+<section class="container section-config">
+  <form>
+    <div class="row center">
+      <div class="col-xs-12">
+        <h1>Configuration</h1>
+        <p>Settings for XYO Network Scan</p>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="diviner">Diviner API Address</label>
+          <input name="diviner" id="diviner" type="text" placeholder="localhost" value="localhost:24456"/>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Diviner Address" data-placement="left" data-content="The internet address of the diviner to use"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <button class="save" type="button">Save</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(function() {
+    var section = $(".section-config");
+    section.find(".save").click(function() {
+      var section = $(".section-config");
+      var diviner = section.find("[name='diviner']").val();
+      new XY.CRYPTO.CONFIG().setDivinerAddress(diviner).save();
+    });
+    var defaults = new XY.CRYPTO.CONFIG();
+    section.find("[name='diviner']").val(defaults.getDivinerAddress());
+  });
+</script>

@@ -1,0 +1,113 @@
+<section class="container section-send">
+  <form>
+    <div class="row center">
+      <div class="col-xs-12">
+        <h1>Send Query</h1>
+        <p>Create a query for the XY Oracle Network by filling out the fields below.<br>Be sure you have Meta Mask or other browser enabled wallet with a XYO balance to be able to send the transaction.</p>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="address">Target XYO Address</label>
+          <input name="address" id="address" type="text" placeholder="(e.g. 0x0000000000000000)" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Target Address" data-placement="left" data-content="The Target Address for your question is any origin chain public key or a declared public node id."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="bounty">Bounty</label>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Bounty" data-placement="left" data-content="The Number of XYO Tokens you are offering for the answer to your question."></span>
+          <input name="bounty" id="bounty" type="number" placeholder="(e.g. 6000)" />
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="epoch">Target Epoch (Optional)</label>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Epoch" data-placement="left" data-content="The Epoch for the time for which you are asking your question."></span>
+          <input name="epoch" id="epoch" type="number" placeholder="(e.g. 1511120342)" />
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="accuracy">Min Accuracy (Optional)</label>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Accuracy" data-placement="left" data-content="The minimum Accuracy that is required for the answer to be considered acceptible."></span>
+          <input name="accuracy" id="accuracy" type="number" placeholder="(e.g. 15)" />
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="certainty">Min Certainty (Optional)</label>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Certainty" data-placement="left" data-content="The minimum Certainty that is required for the answer to be considered acceptible."></span>
+          <input name="certainty" id="certainty" type="number" placeholder="(e.g. 5)" />
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="delay">Answer Delay (Optional)</label>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Answer Delay" data-placement="left" data-content="The number of seconds to wait after a valid answer has been submitted before committing it, allowing for a possible better answer."></span>
+          <input name="delay" id="delay" type="number" placeholder="(e.g. 30)" />
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="ether">Ether Gas (Optional)</label>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Ether Gas" data-placement="left" data-content="Ether gas to add question to Ethereum."></span>
+          <input name="ether" id="ether" type="number" placeholder="(e.g. 30000)" />
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <button class="send" type="button">Send Question</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(function() {
+    var section = $(".section-send");
+    section.find(".send").click(function() {
+      var section = $(".section-send");
+      var address = section.find("[name='address']").val();
+      var bounty = section.find("[name='bounty']").val();
+      var epoch = section.find("[name='epoch']").val();
+      var accuracy = section.find("[name='accuracy']").val();
+      var certainty = section.find("[name='certainty']").val();
+      var delay = section.find("[name='delay']").val();
+      var ether = section.find("[name='ether']").val();
+      try {
+        var question = new XY.CRYPTO.QUERY(address, bounty, epoch, accuracy, certainty, delay, ether);
+        question.send();
+      } catch (ex) {
+        $(".error-message").text(ex.message);
+        console.error(ex);
+      }
+    });
+    $(".section-send input").change(function() {
+      if ($(this).val() === "") {
+        $(this).removeClass("filled");
+      } else {
+        $(this).addClass("filled");
+      }
+    });
+  });
+</script>

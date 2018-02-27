@@ -1,0 +1,38 @@
+// @Author: XY | The Findables Company <arietrouw>
+// @Date:   Monday, February 26, 2018 10:12 AM
+// @Email:  developer@xyfindables.com
+// @Filename: _helper_box.scss
+// @Last modified by:   arietrouw
+// @Last modified time: Monday, February 26, 2018 4:18 PM
+// @License: All Rights Reserved
+// @Copyright: Copyright XY | The Findables Company
+
+.field-with-helper {
+
+  line-height: 32px;
+
+  .helper-box {
+    @extend .fa, .fa-question-circle-o;
+    cursor: pointer;
+    line-height: 32px;
+    font-size: 20px;
+    position: absolute;
+    right: 24px;
+    top: 40px;
+    color: $gray;
+
+    .popover {
+      width: 10px;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding-left: 8px;
+  }
+
+  label {
+    text-align: left;
+    width: 100%;
+  }
+}
