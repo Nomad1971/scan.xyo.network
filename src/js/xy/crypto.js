@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: crypto.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 2, 2018 10:12 AM
+ * @Last modified time: Friday, March 2, 2018 10:39 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -192,6 +192,108 @@ var XY;
     });
   };
 
+  XY.CRYPTO.CLIENT.prototype.getXYContract = function() {
+
+    return self.web3.eth.contract([{
+      'constant': true,
+      'inputs': [],
+      'name': 'receiveQuery',
+      'outputs': [{
+        'name': '',
+        'type': 'bool'
+      }],
+      'payable': false,
+      'stateMutability': 'pure',
+      'type': 'function'
+    }, {
+      'constant': false,
+      'inputs': [{
+        'name': '_xyoValue',
+        'type': 'uint256'
+      }, {
+        'name': '_xyoAddress',
+        'type': 'address'
+      }, {
+        'name': '_accuracy',
+        'type': 'uint256'
+      }, {
+        'name': '_certainty',
+        'type': 'uint256'
+      }, {
+        'name': '_delay',
+        'type': 'uint256'
+      }, {
+        'name': '_epoch',
+        'type': 'uint256'
+      }],
+      'name': 'publishQuery',
+      'outputs': [{
+        'name': '',
+        'type': 'bool'
+      }],
+      'payable': false,
+      'stateMutability': 'nonpayable',
+      'type': 'function'
+    }, {
+      'constant': true,
+      'inputs': [],
+      'name': 'hasPendingQuery',
+      'outputs': [{
+        'name': '',
+        'type': 'bool'
+      }],
+      'payable': false,
+      'stateMutability': 'view',
+      'type': 'function'
+    }, {
+      'anonymous': false,
+      'inputs': [{
+        'indexed': false,
+        'name': 'xyoValue',
+        'type': 'uint256'
+      }, {
+        'indexed': false,
+        'name': 'xyoAddress',
+        'type': 'address'
+      }, {
+        'indexed': false,
+        'name': 'accuracy',
+        'type': 'uint256'
+      }, {
+        'indexed': false,
+        'name': 'certainty',
+        'type': 'uint256'
+      }, {
+        'indexed': false,
+        'name': 'delay',
+        'type': 'uint256'
+      }, {
+        'indexed': false,
+        'name': 'epoch',
+        'type': 'uint256'
+      }],
+      'name': 'QueryReceived',
+      'type': 'event'
+    }, {
+      'anonymous': false,
+      'inputs': [{
+        'indexed': false,
+        'name': 'divinerAddress',
+        'type': 'address'
+      }, {
+        'indexed': false,
+        'name': 'lat',
+        'type': 'string'
+      }, {
+        'indexed': false,
+        'name': 'lng',
+        'type': 'string'
+      }],
+      'name': 'AnswerReceived',
+      'type': 'event'
+    }]);
+  }
+
   XY.CRYPTO.CLIENT.prototype.initializeEthNetwork = function(address, callback) {
     console.log('initializeEthNetwork');
     var self = this;
@@ -203,104 +305,7 @@ var XY;
       this.config.save();
       callback(null, address);
     } else {
-      var xyContract = self.web3.eth.contract([{
-        'constant': true,
-        'inputs': [],
-        'name': 'receiveQuery',
-        'outputs': [{
-          'name': '',
-          'type': 'bool'
-        }],
-        'payable': false,
-        'stateMutability': 'pure',
-        'type': 'function'
-      }, {
-        'constant': false,
-        'inputs': [{
-          'name': '_xyoValue',
-          'type': 'uint256'
-        }, {
-          'name': '_xyoAddress',
-          'type': 'address'
-        }, {
-          'name': '_accuracy',
-          'type': 'uint256'
-        }, {
-          'name': '_certainty',
-          'type': 'uint256'
-        }, {
-          'name': '_delay',
-          'type': 'uint256'
-        }, {
-          'name': '_epoch',
-          'type': 'uint256'
-        }],
-        'name': 'publishQuery',
-        'outputs': [{
-          'name': '',
-          'type': 'bool'
-        }],
-        'payable': false,
-        'stateMutability': 'nonpayable',
-        'type': 'function'
-      }, {
-        'constant': true,
-        'inputs': [],
-        'name': 'hasPendingQuery',
-        'outputs': [{
-          'name': '',
-          'type': 'bool'
-        }],
-        'payable': false,
-        'stateMutability': 'view',
-        'type': 'function'
-      }, {
-        'anonymous': false,
-        'inputs': [{
-          'indexed': false,
-          'name': 'xyoValue',
-          'type': 'uint256'
-        }, {
-          'indexed': false,
-          'name': 'xyoAddress',
-          'type': 'address'
-        }, {
-          'indexed': false,
-          'name': 'accuracy',
-          'type': 'uint256'
-        }, {
-          'indexed': false,
-          'name': 'certainty',
-          'type': 'uint256'
-        }, {
-          'indexed': false,
-          'name': 'delay',
-          'type': 'uint256'
-        }, {
-          'indexed': false,
-          'name': 'epoch',
-          'type': 'uint256'
-        }],
-        'name': 'QueryReceived',
-        'type': 'event'
-      }, {
-        'anonymous': false,
-        'inputs': [{
-          'indexed': false,
-          'name': 'divinerAddress',
-          'type': 'address'
-        }, {
-          'indexed': false,
-          'name': 'lat',
-          'type': 'string'
-        }, {
-          'indexed': false,
-          'name': 'lng',
-          'type': 'string'
-        }],
-        'name': 'AnswerReceived',
-        'type': 'event'
-      }]);
+      var xyContract = this.getXYContract();
       var xy = xyContract.new({
         from: web3.eth.accounts[0],
         data: '0x6060604052341561000f57600080fd5b61036c8061001e6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680634d0e323a1461005c578063990f4c6f14610089578063e491650e14610107575b600080fd5b341561006757600080fd5b61006f610134565b604051808215151515815260200191505060405180910390f35b341561009457600080fd5b6100ed600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803590602001909190803590602001909190803590602001909190505061013d565b604051808215151515815260200191505060405180910390f35b341561011257600080fd5b61011a6102e4565b604051808215151515815260200191505060405180910390f35b60006001905090565b6000808711151561014d57600080fd5b7f7504dfe211cd7e5a51d6cdcb9245552a436b075780a13f65320a855106648f64878787878787604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390a160c0604051908101604052808881526020018773ffffffffffffffffffffffffffffffffffffffff168152602001868152602001858152602001848152602001838152506000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000820151816000015560208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060408201518160020155606082015181600301556080820151816004015560a08201518160050155905050600190509695505050505050565b6000806000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600001541115610338576001905061033d565b600090505b905600a165627a7a723058205a713d6916bfadc44a5f5316263cfe7af39a6ae6ea0bda5a9a49d86a73cd192f0029',
@@ -324,304 +329,56 @@ var XY;
     }
   };
 
-  XY.CRYPTO.SENTINEL = XY.CRYPTO.SENTINEL || function(address) {
-    this.address = address;
-    this.ledger = [];
-  };
-
-  XY.CRYPTO.SENTINEL.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.SENTINEL.constructor = XY.CRYPTO.SENTINEL;
-
-  XY.CRYPTO.SENTINEL.prototype.toString = function() {
-    return 'XY.CRYPTO.SENTINEL: ' + this.address;
-  };
-
-  XY.CRYPTO.BRIDGE = XY.CRYPTO.BRIDGE || function(address) {
-    this.address = address;
-  };
-
-  XY.CRYPTO.BRIDGE.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.BRIDGE.constructor = XY.CRYPTO.BRIDGE;
-
-  XY.CRYPTO.BRIDGE.prototype.toString = function() {
-    return 'XY.CRYPTO.BRIDGE: ' + this.address;
-  };
-
-  XY.CRYPTO.ARCHIVER = XY.CRYPTO.ARCHIVER || function(address) {
-    this.address = address;
-  };
-
-  XY.CRYPTO.ARCHIVER.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.ARCHIVER.constructor = XY.CRYPTO.ARCHIVER;
-
-  XY.CRYPTO.ARCHIVER.prototype.toString = function() {
-    return 'XY.CRYPTO.ARCHIVER: ' + this.address;
-  };
-
-  XY.CRYPTO.DIVINER = XY.CRYPTO.DIVINER || function(address) {
-    this.address = address;
-  };
-
-  XY.CRYPTO.DIVINER.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.DIVINER.constructor = XY.CRYPTO.DIVINER;
-
-  XY.CRYPTO.DIVINER.prototype.toString = function() {
-    return 'XY.CRYPTO.DIVINER: ' + this.address;
-  };
-
-  XY.CRYPTO.DIVINER.prototype.getPending = function(callback) {
-    console.log('getPending');
-    $.ajax({
-      method: 'get',
-      contentType: 'application/json',
-      url: 'http://' + this.address + '/pending',
-      success: function(result) {
-        callback(JSON.parse(result));
-      }
-    });
-  };
-
-  XY.CRYPTO.QUERY = XY.CRYPTO.QUERY || function(targetAddress, bounty, epoch, accuracy, certainty, answerDelay, gas) {
-    this.targetAddress = targetAddress;
-    this.bounty = isNaN(parseInt(bounty)) ? 1 : parseInt(bounty);
-    this.epoch = isNaN(parseInt(epoch)) == NaN ? (new Date).getTime() : parseInt(epoch);
-    this.accuracy = isNaN(parseInt(accuracy)) == NaN ? 1 : parseInt(accuracy);
-    this.certainty = isNaN(parseInt(certainty)) == NaN ? 1 : parseInt(certainty);
-    this.answerDelay = isNaN(parseInt(answerDelay)) == NaN ? 0 : parseInt(answerDelay);
-    this.gas = isNaN(parseInt(gas)) == NaN ? 20000 : parseInt(gas)
+  XY.CRYPTO.CLIENT.prototype.sendQuery = function(xyoValue, xyoAddress, accuracy, certainty, delay, epoch, callback) {
+    console.log("sendQuery");
+    var targetAddress = xyoAddress;
+    var targetBounty = isNaN(parseInt(bounty)) ? 1 : parseInt(bounty);
+    var targetEpoch = isNaN(parseInt(epoch)) == NaN ? (new Date).getTime() : parseInt(epoch);
+    var targetAccuracy = isNaN(parseInt(accuracy)) == NaN ? 1 : parseInt(accuracy);
+    var targetCertainty = isNaN(parseInt(certainty)) == NaN ? 1 : parseInt(certainty);
+    var targetAnswerDelay = isNaN(parseInt(delay)) == NaN ? 0 : parseInt(delay);
 
     var nowEpoch = (new Date).getTime();
-    if (!(this.targetAddress) || this.targetAddress.length == 0) {
+    if (!(targetAddress) || targetAddress.length == 0) {
       throw {
-        message: 'Please specify a target address'
+        message: 'Please specify a target XYO address'
       };
-    } else if (this.bounty < 1) {
+    } else if (targetBounty < 1) {
       throw {
         message: 'Bounty is too low (minimum 1)'
       };
-    } else if (nowEpoch < this.epoch) {
+    } else if (nowEpoch < targetEpoch) {
       throw {
         message: 'Please specify a time in the past (' + nowEpoch + ')'
       };
-    } else if (this.accuracy <= 0) {
+    } else if (targetAccuracy <= 0) {
       throw {
-        message: 'Accuracy must be a positive number'
+        message: 'Accuracy must be a positive number: ' + accuracy
       };
-    } else if (this.certainty <= 0) {
+    } else if (targetCertainty <= 0) {
       throw {
         message: 'Certainty must be a positive number'
       };
-    } else if (this.answerDelay < 0) {
+    } else if (targetAnswerDelay < 0) {
       throw {
         message: 'Answer Delay must be a positive number'
       };
-    } else if (this.gas < 20000) {
-      throw {
-        message: 'Ether Gas too low. (Min 20000)'
-      };
-    } else if (typeof web3 === 'undefined') {
+    } else if (!this.web3) {
       throw {
         message: 'Wallet not detected.  Please install Meta Mask.'
       };
     }
-  };
 
-  XY.CRYPTO.QUERY.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.QUERY.constructor = XY.CRYPTO.QUERY;
-
-  XY.CRYPTO.QUERY.prototype.toString = function() {
-    return 'XY.CRYPTO.QUERY: ' + this.targetAddress;
-  };
-
-  XY.CRYPTO.QUERY.prototype.send = function() {
-
-    var web3Instance = new Web3(web3.currentProvider);
-    web3Instance.eth.defaultAccount = web3.eth.accounts[0];
-
-    var contractDesc = [{
-        'constant': true,
-        'inputs': [{
-          'name': '',
-          'type': 'uint256'
-        }],
-        'name': 'questions',
-        'outputs': [{
-          'name': '',
-          'type': 'address'
-        }],
-        'payable': false,
-        'stateMutability': 'view',
-        'type': 'function'
-      },
-      {
-        'constant': false,
-        'inputs': [{
-            'name': 'bounty',
-            'type': 'uint256'
-          },
-          {
-            'name': 'linkId',
-            'type': 'address'
-          },
-          {
-            'name': 'epoch',
-            'type': 'uint256'
-          },
-          {
-            'name': 'accuracy',
-            'type': 'uint32'
-          },
-          {
-            'name': 'certainty',
-            'type': 'uint32'
-          },
-          {
-            'name': 'answerDelay',
-            'type': 'uint256'
-          }
-        ],
-        'name': 'ask',
-        'outputs': [{
-          'name': '',
-          'type': 'address'
-        }],
-        'payable': false,
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+    var xyContract = this.getXYContract();
+    var xyInstance = xyContract.at(this.config.getXYEthContractAddress());
+    xyInstance.publishQuery(targetBounty, targetAddress, targetAccuracy, targetCertainty, targetAnswerDelay, targetEpoch, function(error, result) {
+      if (error) {
+        console.log("Error: " + error);
+      } else {
+        console.log("Success: " + result);
       }
-    ];
-
-    var AskQuestion = web3Instance.eth.contract(contractDesc);
-
-    var question = AskQuestion.at('0xeD90D4979cEF2f23a593f871C59CA40f4905E547');
-
-    question.ask(
-      this.bounty, this.targetAddress, this.epoch, this.accuracy, this.certainty, this.answerDelay, {
-        value: 0,
-        gas: this.ether
-      },
-      function(error, result) {
-        if (error) {
-          alert('Error: ' + error);
-        } else {
-          alert('Tx: ' + result);
-        }
-      }
-    );
-  };
-
-  XY.CRYPTO.QUERY = XY.CRYPTO.QUERY || function(targetAddress, bounty, epoch, accuracy, certainty, answerDelay, gas) {
-    this.targetAddress = targetAddress;
-    this.bounty = isNaN(parseInt(bounty)) ? -1 : parseInt(bounty);
-    this.epoch = isNaN(parseInt(epoch)) == NaN ? -1 : parseInt(epoch);
-    this.accuracy = isNaN(parseInt(accuracy)) == NaN ? -1 : parseInt(accuracy);
-    this.certainty = isNaN(parseInt(certainty)) == NaN ? -1 : parseInt(certainty);
-    this.answerDelay = isNaN(parseInt(answerDelay)) == NaN ? -1 : parseInt(answerDelay);
-    this.gas = isNaN(parseInt(gas)) == NaN ? -1 : parseInt(gas)
-
-    var nowEpoch = (new Date).getTime();
-    if (!(this.targetAddress) || this.targetAddress.length == 0) {
-      throw 'Please specify a target address';
-    } else if (this.bounty < 1000) {
-      throw 'Bounty is too low (minimum 1000)';
-    } else if (nowEpoch < this.epoch) {
-      throw 'Please specify a time in the past (' + nowEpoch + ')';
-    } else if (this.accuracy <= 0) {
-      throw 'Accuracy must be a positive number';
-    } else if (this.certainty <= 0) {
-      throw 'Certainty must be a positive number';
-    } else if (this.answerDelay < 0) {
-      throw 'Answer Delay must be a positive number';
-    } else if (this.gas < 20000) {
-      throw 'Ether Gas too low. (Min 20000)';
-    } else if (typeof web3 === 'undefined') {
-      throw 'Wallet not detected.  Please install Meta Mask.';
-    }
-  };
-
-  XY.CRYPTO.QUERY.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.QUERY.constructor = XY.CRYPTO.QUERY;
-
-  XY.CRYPTO.QUERY.prototype.toString = function() {
-    return 'XY.CRYPTO.QUERY: ' + this.targetAddress;
-  };
-
-  XY.CRYPTO.QUERY.prototype.send = function() {
-
-    var web3Instance = new Web3(web3.currentProvider);
-    web3Instance.eth.defaultAccount = web3.eth.accounts[0];
-
-    var contractDesc = [{
-        'constant': true,
-        'inputs': [{
-          'name': '',
-          'type': 'uint256'
-        }],
-        'name': 'questions',
-        'outputs': [{
-          'name': '',
-          'type': 'address'
-        }],
-        'payable': false,
-        'stateMutability': 'view',
-        'type': 'function'
-      },
-      {
-        'constant': false,
-        'inputs': [{
-            'name': 'bounty',
-            'type': 'uint256'
-          },
-          {
-            'name': 'linkId',
-            'type': 'address'
-          },
-          {
-            'name': 'epoch',
-            'type': 'uint256'
-          },
-          {
-            'name': 'accuracy',
-            'type': 'uint32'
-          },
-          {
-            'name': 'certainty',
-            'type': 'uint32'
-          },
-          {
-            'name': 'answerDelay',
-            'type': 'uint256'
-          }
-        ],
-        'name': 'ask',
-        'outputs': [{
-          'name': '',
-          'type': 'address'
-        }],
-        'payable': false,
-        'stateMutability': 'nonpayable',
-        'type': 'function'
-      }
-    ];
-
-    var AskQuestion = web3Instance.eth.contract(contractDesc);
-
-    var question = AskQuestion.at('0xeD90D4979cEF2f23a593f871C59CA40f4905E547');
-
-    question.ask(
-      this.bounty, this.targetAddress, this.epoch, this.accuracy, this.certainty, this.answerDelay, {
-        value: 0,
-        gas: this.ether
-      },
-      function(error, result) {
-        if (error) {
-          alert('Error: ' + error);
-        } else {
-          alert('Tx: ' + result);
-        }
-      }
-    );
-  };
+    });
+  }
 
   $(document).ready(function() {
     XY.CRYPTO.init();
