@@ -20,7 +20,7 @@
         <div class="field-with-helper">
           <label for="bounty">Bounty</label>
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Bounty" data-placement="left" data-content="The Number of XYO Tokens you are offering for the answer to your question."></span>
-          <input name="bounty" id="bounty" type="number" placeholder="(e.g. 6000)" />
+          <input name="bounty" id="bounty" type="number" placeholder="(e.g. 6000)" value='6000'/>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
         <div class="field-with-helper">
           <label for="accuracy">Min Accuracy (Optional)</label>
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Accuracy" data-placement="left" data-content="The minimum Accuracy that is required for the answer to be considered acceptible."></span>
-          <input name="accuracy" id="accuracy" type="number" placeholder="(e.g. 15)" />
+          <input name="accuracy" id="accuracy" type="number" placeholder="(e.g. 15)" value='15' />
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
         <div class="field-with-helper">
           <label for="certainty">Min Certainty (Optional)</label>
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Certainty" data-placement="left" data-content="The minimum Certainty that is required for the answer to be considered acceptible."></span>
-          <input name="certainty" id="certainty" type="number" placeholder="(e.g. 5)" />
+          <input name="certainty" id="certainty" type="number" placeholder="(e.g. 5)" value='5' />
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
         <div class="field-with-helper">
           <label for="delay">Answer Delay (Optional)</label>
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Answer Delay" data-placement="left" data-content="The number of seconds to wait after a valid answer has been submitted before committing it, allowing for a possible better answer."></span>
-          <input name="delay" id="delay" type="number" placeholder="(e.g. 30)" />
+          <input name="delay" id="delay" type="number" placeholder="(e.g. 30)" value='30' />
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
         <div class="field-with-helper">
           <label for="ether">Ether Gas (Optional)</label>
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Ether Gas" data-placement="left" data-content="Ether gas to add question to Ethereum."></span>
-          <input name="ether" id="ether" type="number" placeholder="(e.g. 30000)" />
+          <input name="ether" id="ether" type="number" placeholder="(e.g. 30000)" value='30000' />
         </div>
       </div>
     </div>
@@ -109,6 +109,7 @@
         console.error(ex);
       }
     });
+    section.find("[name='epoch']").val((new Date).getTime());
     $(".section-send input").change(function() {
       if ($(this).val() === "") {
         $(this).removeClass("filled");
