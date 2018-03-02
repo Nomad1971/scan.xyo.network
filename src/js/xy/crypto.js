@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: crypto.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 2, 2018 12:10 PM
+ * @Last modified time: Friday, March 2, 2018 1:20 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -202,40 +202,36 @@ var XY;
         }],
         "name": "answeredQueries",
         "outputs": [{
-            "name": "accuracyScore",
-            "type": "string"
+            "name": "xyoAddress",
+            "type": "address"
           },
           {
-            "name": "certaintyScore",
-            "type": "string"
+            "name": "latitudfe",
+            "type": "uint256"
           },
           {
-            "name": "lat",
-            "type": "string"
+            "name": "longitude",
+            "type": "uint256"
           },
           {
-            "name": "lng",
-            "type": "string"
+            "name": "altitude",
+            "type": "uint256"
           },
           {
-            "name": "alt",
-            "type": "string"
+            "name": "accuracy",
+            "type": "uint256"
+          },
+          {
+            "name": "certainty",
+            "type": "uint256"
+          },
+          {
+            "name": "epoch",
+            "type": "uint256"
           }
         ],
         "payable": false,
         "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "receiveQuery",
-        "outputs": [{
-          "name": "",
-          "type": "bool"
-        }],
-        "payable": false,
-        "stateMutability": "pure",
         "type": "function"
       },
       {
@@ -323,6 +319,46 @@ var XY;
         "type": "function"
       },
       {
+        "constant": false,
+        "inputs": [{
+            "name": "_xyoAddress",
+            "type": "address"
+          },
+          {
+            "name": "_latitude",
+            "type": "uint256"
+          },
+          {
+            "name": "_longitude",
+            "type": "uint256"
+          },
+          {
+            "name": "_altitude",
+            "type": "uint256"
+          },
+          {
+            "name": "_accuracy",
+            "type": "uint256"
+          },
+          {
+            "name": "_certainty",
+            "type": "uint256"
+          },
+          {
+            "name": "_epoch",
+            "type": "uint256"
+          }
+        ],
+        "name": "publishAnswer",
+        "outputs": [{
+          "name": "",
+          "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
         "anonymous": false,
         "inputs": [{
             "indexed": false,
@@ -362,18 +398,38 @@ var XY;
         "anonymous": false,
         "inputs": [{
             "indexed": false,
-            "name": "divinerAddress",
+            "name": "xyoAddress",
             "type": "address"
           },
           {
             "indexed": false,
-            "name": "lat",
-            "type": "string"
+            "name": "latitude",
+            "type": "uint256"
           },
           {
             "indexed": false,
-            "name": "lng",
-            "type": "string"
+            "name": "longitude",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "altitude",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "accuracy",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "certainty",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "epoch",
+            "type": "uint256"
           }
         ],
         "name": "AnswerReceived",
@@ -396,7 +452,7 @@ var XY;
       var xyContract = this.getXYContract();
       var xy = xyContract.new({
         from: web3.eth.accounts[0],
-        data: '0x6060604052341561000f57600080fd5b61079e8061001e6000396000f30060606040526004361061006d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632afe70fd146100725780634d0e323a146103655780637fc4077e14610392578063990f4c6f1461042e578063e491650e146104ac575b600080fd5b341561007d57600080fd5b6100a9600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506104d9565b60405180806020018060200180602001806020018060200186810386528b8181546001816001161561010002031660029004815260200191508054600181600116156101000203166002900480156101425780601f1061011757610100808354040283529160200191610142565b820191906000526020600020905b81548152906001019060200180831161012557829003601f168201915b505086810385528a8181546001816001161561010002031660029004815260200191508054600181600116156101000203166002900480156101c55780601f1061019a576101008083540402835291602001916101c5565b820191906000526020600020905b8154815290600101906020018083116101a857829003601f168201915b50508681038452898181546001816001161561010002031660029004815260200191508054600181600116156101000203166002900480156102485780601f1061021d57610100808354040283529160200191610248565b820191906000526020600020905b81548152906001019060200180831161022b57829003601f168201915b50508681038352888181546001816001161561010002031660029004815260200191508054600181600116156101000203166002900480156102cb5780601f106102a0576101008083540402835291602001916102cb565b820191906000526020600020905b8154815290600101906020018083116102ae57829003601f168201915b505086810382528781815460018160011615610100020316600290048152602001915080546001816001161561010002031660029004801561034e5780601f106103235761010080835404028352916020019161034e565b820191906000526020600020905b81548152906001019060200180831161033157829003601f168201915b50509a505050505050505050505060405180910390f35b341561037057600080fd5b61037861050a565b604051808215151515815260200191505060405180910390f35b341561039d57600080fd5b6103c9600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610513565b604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390f35b341561043957600080fd5b610492600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803590602001909190803590602001909190803590602001909190505061056f565b604051808215151515815260200191505060405180910390f35b34156104b757600080fd5b6104bf610716565b604051808215151515815260200191505060405180910390f35b6001602052806000526040600020600091509050806000019080600101908060020190806003019080600401905085565b60006001905090565b60006020528060005260406000206000915090508060000154908060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060020154908060030154908060040154908060050154905086565b6000808711151561057f57600080fd5b7f7504dfe211cd7e5a51d6cdcb9245552a436b075780a13f65320a855106648f64878787878787604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390a160c0604051908101604052808881526020018773ffffffffffffffffffffffffffffffffffffffff168152602001868152602001858152602001848152602001838152506000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000820151816000015560208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060408201518160020155606082015181600301556080820151816004015560a08201518160050155905050600190509695505050505050565b6000806000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000154111561076a576001905061076f565b600090505b905600a165627a7a72305820261ae5b8a8b543a04f49e7151ab701ceb20f424ed46cb607a57e702b788466d20029',
+        data: '0x6060604052341561000f57600080fd5b6107ca8061001e6000396000f30060606040526004361061006d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632afe70fd146100725780637fc4077e14610115578063990f4c6f146101b1578063e491650e1461022f578063ee29acc41461025c575b600080fd5b341561007d57600080fd5b6100a9600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506102e3565b604051808873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200187815260200186815260200185815260200184815260200183815260200182815260200197505050505050505060405180910390f35b341561012057600080fd5b61014c600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610345565b604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390f35b34156101bc57600080fd5b610215600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919080359060200190919080359060200190919080359060200190919050506103a1565b604051808215151515815260200191505060405180910390f35b341561023a57600080fd5b610242610548565b604051808215151515815260200191505060405180910390f35b341561026757600080fd5b6102c9600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919080359060200190919080359060200190919080359060200190919080359060200190919080359060200190919050506105a4565b604051808215151515815260200191505060405180910390f35b60016020528060005260406000206000915090508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060010154908060020154908060030154908060040154908060050154908060060154905087565b60006020528060005260406000206000915090508060000154908060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060020154908060030154908060040154908060050154905086565b600080871115156103b157600080fd5b7f7504dfe211cd7e5a51d6cdcb9245552a436b075780a13f65320a855106648f64878787878787604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390a160c0604051908101604052808881526020018773ffffffffffffffffffffffffffffffffffffffff168152602001868152602001858152602001848152602001838152506000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000820151816000015560208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060408201518160020155606082015181600301556080820151816004015560a08201518160050155905050600190509695505050505050565b6000806000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000154111561059c57600190506105a1565b600090505b90565b60007f2d5319218ecd1f4da0af8c76ba0018e25a62e57de679ae742797cd612295606a88888888888888604051808873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200187815260200186815260200185815260200184815260200183815260200182815260200197505050505050505060405180910390a160e0604051908101604052808973ffffffffffffffffffffffffffffffffffffffff16815260200188815260200187815260200186815260200185815260200184815260200183815250600160008a73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506020820151816001015560408201518160020155606082015181600301556080820151816004015560a0820151816005015560c0820151816006015590505060008060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000181905550600190509796505050505050505600a165627a7a7230582053fd90cdb9bf8c9bf8713d1252d750d9ce096c8e77a37082c33b8937d8b17ec90029',
         gas: '4700000'
       }, function(e, contract) {
         if (e) {
@@ -468,10 +524,50 @@ var XY;
     });
   }
 
+  XY.CRYPTO.CLIENT.prototype.sendAnswer = function(xyoAddress, latitude, longitude, altitude, accuracy, certainty, callback) {
+    console.log("sendQuery");
+
+    var nowEpoch = (new Date).getTime();
+    if (!(xyoAddress) || xyoAddress.length == 0) {
+      throw {
+        message: 'Please specify a target XYO address'
+      };
+    } else if (latitude < -90 || latitude > 90) {
+      throw {
+        message: 'Latitude is out of range (-90 to 90)'
+      };
+    } else if (longitude < -180 || latitude > 180) {
+      throw {
+        message: 'Latitude is out of range (-180 to 180)'
+      };
+    } else if (accuracy < 0 || accuracy > 100) {
+      throw {
+        message: 'Accuracy is out of range (0 to 100)'
+      };
+    } else if (certainty < 0 || certainty > 100) {
+      throw {
+        message: 'Certainty is out of range (0 to 100)'
+      };
+    } else if (!this.web3) {
+      throw {
+        message: 'Wallet not detected.  Please install Meta Mask.'
+      };
+    }
+
+    var xyContract = this.getXYContract();
+    var xyInstance = xyContract.at(this.config.getXYEthContractAddress());
+    xyInstance.publishAnswer(xyoAddress, latitude.toString().replace('.',''), longitude.toString().replace('.',''), altitude.toString().replace('.',''), accuracy, certainty, (new Date).getTime(), function(error, result) {
+      if (error) {
+        console.log("Error: " + error);
+      } else {
+        console.log("Success: " + result);
+      }
+    });
+  }
+
   XY.CRYPTO.CLIENT.prototype.getPendingQueries = function(callback) {
     var xyContract = this.getXYContract();
     var xyInstance = xyContract.at(this.config.getXYEthContractAddress());
-    window.arie = xyInstance;
     xyInstance.pendingQueries(this.web3.eth.defaultAccount, function(error, result) {
       if (error) {
         console.log("Error: " + error);
@@ -504,13 +600,13 @@ var XY;
   }
 
   XY.CRYPTO.QUERY.prototype.toString = function() {
-    return 'XY.CRYPTO.QUERY: Bounty=' + this.bounty
-      + ' Address=' + this.address
-      + ' Accuracy=' + this.accuracy
-      + ' Certainty=' + this.certainty
-      + ' Delay=' + this.delay
-      + ' Epoch=' + this.epoch
-      + '[' + this.secondsAgo() + ' seconds ago]';
+    return 'XY.CRYPTO.QUERY: Bounty=' + this.bounty +
+      ' Address=' + this.address +
+      ' Accuracy=' + this.accuracy +
+      ' Certainty=' + this.certainty +
+      ' Delay=' + this.delay +
+      ' Epoch=' + this.epoch +
+      '[' + this.secondsAgo() + ' seconds ago]';
   };
 
   $(document).ready(function() {

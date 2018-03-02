@@ -1,23 +1,22 @@
-<section class="container section-config">
+<section class="container section-configure">
   <form>
     <div class="row center">
       <div class="col-xs-12">
-        <h1>Configuration</h1>
-        <p>Settings for XYO Network Scan</p>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="diviner">Diviner API Address</label>
-          <input name="diviner" id="diviner" type="text" placeholder="localhost" value="localhost:24456"/>
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Diviner Address" data-placement="left" data-content="The internet address of the diviner to use"></span>
-        </div>
+        <h1>Configure</h1>
+        <p>Create an XY enabled contract manager</p>
       </div>
     </div>
     <div class="row center">
       <div class="col-xs-offset-3 col-xs-6">
-        <button class="save" type="button">Save</button>
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-6 right">
+        <button class="initialize-button" type="button">Initialize</button>
+      </div>
+      <div class="col-xs-6 left">
+        <button class="clear-button" type="button">Clear Config</button>
       </div>
     </div>
   </form>
@@ -25,13 +24,31 @@
 
 <script>
   $(document).ready(function() {
-    var section = $(".section-config");
-    section.find(".save").click(function() {
-      var section = $(".section-config");
-      var diviner = section.find("[name='diviner']").val();
-      new XY.CRYPTO.CONFIG().setDivinerAddress(diviner).save();
+    var section = $(".section-configure");
+    section.find(".initialize-button").click(function() {
+      var section = $(".section-configure");
+      var client = new XY.CRYPTO.CLIENT();
+      client.initializeEthNetwork(null, function(error, address) {
+        alert("XY Contract Initialized at: " + address);
+      });
     });
-    var defaults = new XY.CRYPTO.CONFIG();
-    section.find("[name='diviner']").val(defaults.getDivinerAddress());
+    section.find(".clear-button").click(function() {
+      var section = $(".section-configure");
+      try {
+        var client = new XY.CRYPTO.CLIENT();
+        client.config.clear();
+        alert("Config Cleared");
+      } catch (ex) {
+        $(".error-message").text(ex.message);
+        console.error(ex);
+      }
+    });
+    $(".section-send input").change(function() {
+      if ($(this).val() === "") {
+        $(this).removeClass("filled");
+      } else {
+        $(this).addClass("filled");
+      }
+    });
   });
 </script>
