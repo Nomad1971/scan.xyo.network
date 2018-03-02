@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: crypto.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 2, 2018 1:20 PM
+ * @Last modified time: Friday, March 2, 2018 3:27 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -195,6 +195,46 @@ var XY;
   XY.CRYPTO.CLIENT.prototype.getXYContract = function() {
 
     return self.web3.eth.contract([{
+        "constant": false,
+        "inputs": [{
+            "name": "_xyoAddress",
+            "type": "address"
+          },
+          {
+            "name": "_latitude",
+            "type": "int256"
+          },
+          {
+            "name": "_longitude",
+            "type": "int256"
+          },
+          {
+            "name": "_altitude",
+            "type": "int256"
+          },
+          {
+            "name": "_accuracy",
+            "type": "uint256"
+          },
+          {
+            "name": "_certainty",
+            "type": "uint256"
+          },
+          {
+            "name": "_epoch",
+            "type": "uint256"
+          }
+        ],
+        "name": "publishAnswer",
+        "outputs": [{
+          "name": "",
+          "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
         "constant": true,
         "inputs": [{
           "name": "",
@@ -206,16 +246,16 @@ var XY;
             "type": "address"
           },
           {
-            "name": "latitudfe",
-            "type": "uint256"
+            "name": "latitude",
+            "type": "int256"
           },
           {
             "name": "longitude",
-            "type": "uint256"
+            "type": "int256"
           },
           {
             "name": "altitude",
-            "type": "uint256"
+            "type": "int256"
           },
           {
             "name": "accuracy",
@@ -308,6 +348,21 @@ var XY;
       },
       {
         "constant": true,
+        "inputs": [{
+          "name": "",
+          "type": "uint256"
+        }],
+        "name": "answerList",
+        "outputs": [{
+          "name": "",
+          "type": "address"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
         "inputs": [],
         "name": "hasPendingQuery",
         "outputs": [{
@@ -316,46 +371,6 @@ var XY;
         }],
         "payable": false,
         "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [{
-            "name": "_xyoAddress",
-            "type": "address"
-          },
-          {
-            "name": "_latitude",
-            "type": "uint256"
-          },
-          {
-            "name": "_longitude",
-            "type": "uint256"
-          },
-          {
-            "name": "_altitude",
-            "type": "uint256"
-          },
-          {
-            "name": "_accuracy",
-            "type": "uint256"
-          },
-          {
-            "name": "_certainty",
-            "type": "uint256"
-          },
-          {
-            "name": "_epoch",
-            "type": "uint256"
-          }
-        ],
-        "name": "publishAnswer",
-        "outputs": [{
-          "name": "",
-          "type": "bool"
-        }],
-        "payable": false,
-        "stateMutability": "nonpayable",
         "type": "function"
       },
       {
@@ -404,17 +419,17 @@ var XY;
           {
             "indexed": false,
             "name": "latitude",
-            "type": "uint256"
+            "type": "int256"
           },
           {
             "indexed": false,
             "name": "longitude",
-            "type": "uint256"
+            "type": "int256"
           },
           {
             "indexed": false,
             "name": "altitude",
-            "type": "uint256"
+            "type": "int256"
           },
           {
             "indexed": false,
@@ -452,7 +467,7 @@ var XY;
       var xyContract = this.getXYContract();
       var xy = xyContract.new({
         from: web3.eth.accounts[0],
-        data: '0x6060604052341561000f57600080fd5b6107ca8061001e6000396000f30060606040526004361061006d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632afe70fd146100725780637fc4077e14610115578063990f4c6f146101b1578063e491650e1461022f578063ee29acc41461025c575b600080fd5b341561007d57600080fd5b6100a9600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506102e3565b604051808873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200187815260200186815260200185815260200184815260200183815260200182815260200197505050505050505060405180910390f35b341561012057600080fd5b61014c600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610345565b604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390f35b34156101bc57600080fd5b610215600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919080359060200190919080359060200190919080359060200190919050506103a1565b604051808215151515815260200191505060405180910390f35b341561023a57600080fd5b610242610548565b604051808215151515815260200191505060405180910390f35b341561026757600080fd5b6102c9600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919080359060200190919080359060200190919080359060200190919080359060200190919080359060200190919050506105a4565b604051808215151515815260200191505060405180910390f35b60016020528060005260406000206000915090508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060010154908060020154908060030154908060040154908060050154908060060154905087565b60006020528060005260406000206000915090508060000154908060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060020154908060030154908060040154908060050154905086565b600080871115156103b157600080fd5b7f7504dfe211cd7e5a51d6cdcb9245552a436b075780a13f65320a855106648f64878787878787604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390a160c0604051908101604052808881526020018773ffffffffffffffffffffffffffffffffffffffff168152602001868152602001858152602001848152602001838152506000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000820151816000015560208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060408201518160020155606082015181600301556080820151816004015560a08201518160050155905050600190509695505050505050565b6000806000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000154111561059c57600190506105a1565b600090505b90565b60007f2d5319218ecd1f4da0af8c76ba0018e25a62e57de679ae742797cd612295606a88888888888888604051808873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200187815260200186815260200185815260200184815260200183815260200182815260200197505050505050505060405180910390a160e0604051908101604052808973ffffffffffffffffffffffffffffffffffffffff16815260200188815260200187815260200186815260200185815260200184815260200183815250600160008a73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506020820151816001015560408201518160020155606082015181600301556080820151816004015560a0820151816005015560c0820151816006015590505060008060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000181905550600190509796505050505050505600a165627a7a7230582053fd90cdb9bf8c9bf8713d1252d750d9ce096c8e77a37082c33b8937d8b17ec90029',
+        data: '0x6060604052341561000f57600080fd5b61092b8061001e6000396000f300606060405260043610610078576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806312b749321461007d5780632afe70fd146101045780637fc4077e146101a7578063990f4c6f14610243578063c9930ee0146102c1578063e491650e14610324575b600080fd5b341561008857600080fd5b6100ea600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091908035906020019091908035906020019091908035906020019091908035906020019091908035906020019091905050610351565b604051808215151515815260200191505060405180910390f35b341561010f57600080fd5b61013b600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506105ae565b604051808873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200187815260200186815260200185815260200184815260200183815260200182815260200197505050505050505060405180910390f35b34156101b257600080fd5b6101de600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610610565b604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390f35b341561024e57600080fd5b6102a7600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803590602001909190803590602001909190803590602001909190505061066c565b604051808215151515815260200191505060405180910390f35b34156102cc57600080fd5b6102e26004808035906020019091905050610813565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561032f57600080fd5b610337610852565b604051808215151515815260200191505060405180910390f35b60007fd9fc59387261346eaef71cb06e6c131973f262bd4f463dd327006a4d0a13fdf388888888888888604051808873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200187815260200186815260200185815260200184815260200183815260200182815260200197505050505050505060405180910390a160e0604051908101604052808973ffffffffffffffffffffffffffffffffffffffff16815260200188815260200187815260200186815260200185815260200184815260200183815250600160008a73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506020820151816001015560408201518160020155606082015181600301556080820151816004015560a0820151816005015560c082015181600601559050506002805480600101828161050991906108ae565b916000526020600020900160008a909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505060008060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000018190555060019050979650505050505050565b60016020528060005260406000206000915090508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060010154908060020154908060030154908060040154908060050154908060060154905087565b60006020528060005260406000206000915090508060000154908060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060020154908060030154908060040154908060050154905086565b6000808711151561067c57600080fd5b7f7504dfe211cd7e5a51d6cdcb9245552a436b075780a13f65320a855106648f64878787878787604051808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001848152602001838152602001828152602001965050505050505060405180910390a160c0604051908101604052808881526020018773ffffffffffffffffffffffffffffffffffffffff168152602001868152602001858152602001848152602001838152506000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000820151816000015560208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060408201518160020155606082015181600301556080820151816004015560a08201518160050155905050600190509695505050505050565b60028181548110151561082257fe5b90600052602060002090016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000806000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000015411156108a657600190506108ab565b600090505b90565b8154818355818115116108d5578183600052602060002091820191016108d491906108da565b5b505050565b6108fc91905b808211156108f85760008160009055506001016108e0565b5090565b905600a165627a7a723058206dba388cfa6c0424487c6a71784a2dc7dc2ea3f76931e7c09bdf17b2052fbfe50029',
         gas: '4700000'
       }, function(e, contract) {
         if (e) {
@@ -556,7 +571,7 @@ var XY;
 
     var xyContract = this.getXYContract();
     var xyInstance = xyContract.at(this.config.getXYEthContractAddress());
-    xyInstance.publishAnswer(xyoAddress, latitude.toString().replace('.',''), longitude.toString().replace('.',''), altitude.toString().replace('.',''), accuracy, certainty, (new Date).getTime(), function(error, result) {
+    xyInstance.publishAnswer(xyoAddress, latitude.toString().replace('.', ''), longitude.toString().replace('.', ''), altitude.toString().replace('.', ''), accuracy, certainty, (new Date).getTime(), function(error, result) {
       if (error) {
         console.log("Error: " + error);
       } else {
@@ -575,6 +590,35 @@ var XY;
       } else {
         console.log("Success: " + JSON.stringify(XY.CRYPTO.QUERY.fromArray(result)));
         callback(null, XY.CRYPTO.QUERY.fromArray(result));
+      }
+    });
+  }
+
+  XY.CRYPTO.CLIENT.prototype.getCompleteQueryAddress = function(index, callback) {
+    var xyContract = this.getXYContract();
+    var xyInstance = xyContract.at(this.config.getXYEthContractAddress());
+
+    window.arie = xyInstance.answerList(index, function(error, result) {
+      if (error) {
+        console.log("Error: " + error);
+        callback(error, null);
+      } else {
+        console.log("Success: " + result);
+        callback(null, result);
+      }
+    });
+  }
+
+  XY.CRYPTO.CLIENT.prototype.getCompleteQuery = function(address, callback) {
+    var xyContract = this.getXYContract();
+    var xyInstance = xyContract.at(this.config.getXYEthContractAddress());
+    xyInstance.answeredQueries(address, function(error, result) {
+      if (error) {
+        console.log("Error: " + error);
+        callback(error, null);
+      } else {
+        console.log("Success: " + JSON.stringify(XY.CRYPTO.ANSWER.fromArray(result)));
+        callback(null, XY.CRYPTO.ANSWER.fromArray(result));
       }
     });
   }
@@ -605,6 +649,38 @@ var XY;
       ' Accuracy=' + this.accuracy +
       ' Certainty=' + this.certainty +
       ' Delay=' + this.delay +
+      ' Epoch=' + this.epoch +
+      '[' + this.secondsAgo() + ' seconds ago]';
+  };
+
+  XY.CRYPTO.ANSWER = XY.CRYPTO.ANSWER || function(address, latitude, longitude, altitude, accuracy, certainty, epoch) {
+    this.address = address;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.altitude = altitude;
+    this.accuracy = accuracy;
+    this.certainty = certainty;
+    this.epoch = epoch;
+  };
+
+  XY.CRYPTO.ANSWER.prototype = new XY.CRYPTO.BASE();
+  XY.CRYPTO.ANSWER.constructor = XY.CRYPTO.ANSWER;
+
+  XY.CRYPTO.ANSWER.fromArray = function(array) {
+    return new XY.CRYPTO.ANSWER(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
+  }
+
+  XY.CRYPTO.ANSWER.prototype.secondsAgo = function() {
+    return ((new Date).getTime() - this.epoch) / 1000;
+  }
+
+  XY.CRYPTO.ANSWER.prototype.toString = function() {
+    return 'XY.CRYPTO.QUERY: Address=' + this.address +
+      ' Latitude=' + this.latitude +
+      ' Longitude=' + this.longitude +
+      ' Altitude=' + this.altitude +
+      ' Accuracy=' + this.accuracy +
+      ' Certainty=' + this.certainty +
       ' Epoch=' + this.epoch +
       '[' + this.secondsAgo() + ' seconds ago]';
   };
