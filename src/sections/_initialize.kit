@@ -1,0 +1,54 @@
+<section class="container section-initialize">
+  <form>
+    <div class="row center">
+      <div class="col-xs-12">
+        <h1>Initialize</h1>
+        <p>Create an XY enabled contract manager</p>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-6 right">
+        <button class="initialize-button" type="button">Initialize</button>
+      </div>
+      <div class="col-xs-6 left">
+        <button class="clear-button" type="button">Clear Config</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(function() {
+    var section = $(".section-initialize");
+    section.find(".initialize-button").click(function() {
+      var section = $(".section-initialize");
+      var client = new XY.CRYPTO.CLIENT();
+      client.initializeEthNetwork(null, function(error, address) {
+        alert("XY Contract Initialized at: " + address);
+      });
+    });
+    section.find(".clear-button").click(function() {
+      var section = $(".section-initialize");
+      try {
+        var client = new XY.CRYPTO.CLIENT();
+        client.config.clear();
+        alert("Config Cleared");
+      } catch (ex) {
+        $(".error-message").text(ex.message);
+        console.error(ex);
+      }
+    });
+    $(".section-send input").change(function() {
+      if ($(this).val() === "") {
+        $(this).removeClass("filled");
+      } else {
+        $(this).addClass("filled");
+      }
+    });
+  });
+</script>
