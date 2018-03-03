@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: gulpfile.js
  * @Last modified by:   arietrouw
- * @Last modified time: Monday, February 26, 2018 10:26 AM
+ * @Last modified time: Friday, March 2, 2018 3:28 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */

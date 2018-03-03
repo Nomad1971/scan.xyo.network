@@ -33,12 +33,14 @@
       clearQueries();
       try {
         var client = new XY.CRYPTO.CLIENT();
-        client.getPendingQueries(function(error, result) {
+        client.getPendingQueries(function(error, query) {
           if (error) {
             console.log("Error: " + error);
           } else {
-            console.log("Complete: " + result);
-            addQuery(result);
+            console.log("Complete: " + query);
+            if (query.bounty > 0) {
+              addQuery(query);
+            }
           }
         });
       } catch (ex) {
