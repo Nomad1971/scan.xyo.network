@@ -1,8 +1,8 @@
-# poo.xyfindables.com
-Repo for poo.xyfindables.com
+# scan.xyo.network
+Repo for scan.xyo.network
 
 **Dependencies**
-* Node >= 6.1
+* Node >= 7.9
 
 Install
 ```
