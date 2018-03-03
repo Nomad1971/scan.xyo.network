@@ -2,7 +2,7 @@
   <form>
     <div class="row center">
       <div class="col-xs-12">
-        <h1>Send Answer</h1>
+        <h1>Send Calibrated Answer</h1>
         <p>Sends an answer for a pending query</p>
       </div>
     </div>
@@ -20,7 +20,7 @@
         <div class="field-with-helper">
           <label for="latitude">Latitude</label>
           <input name="latitude" id="latitude" type="text" placeholder="(e.g. 32.7172267)" value="32.7172267" />
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Latitude" data-placement="left" data-content="This is the latitude that was determine to be the location of the sentinel"></span>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Latitude" data-placement="left" data-content="This is the latitude that was determined to be the location of the sentinel"></span>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
         <div class="field-with-helper">
           <label for="longitude">Longitude</label>
           <input name="longitude" id="longitude" type="text" placeholder="(e.g. -117.1694746)" value="-117.1694746" />
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Longitude" data-placement="left" data-content="This is the longitude that was determine to be the location of the sentinel"></span>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Longitude" data-placement="left" data-content="This is the longitude that was determined to be the location of the sentinel"></span>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
         <div class="field-with-helper">
           <label for="altitude">Altitude</label>
           <input name="altitude" id="altitude" type="text" placeholder="(e.g. 12) in meters" value="12" />
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Altitude" data-placement="left" data-content="This is the altitude that was determine to be the location of the sentinel"></span>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Altitude" data-placement="left" data-content="This is the altitude that was determined to be the location of the sentinel"></span>
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
         <div class="field-with-helper">
           <label for="accuracy">Accuracy</label>
           <input name="accuracy" id="accuracy" type="text" placeholder="(e.g. 25)" value="25" />
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Accuracy" data-placement="left" data-content="This is the accuracy that was determine to be the location of the sentinel"></span>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Accuracy" data-placement="left" data-content="This is the accuracy that was determined to be the location of the sentinel"></span>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
         <div class="field-with-helper">
           <label for="certainty">Certainty</label>
           <input name="certainty" id="certainty" type="text" placeholder="(e.g. 25)" value="25" />
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Certainty" data-placement="left" data-content="This is the certainty that was determine to be the location of the sentinel"></span>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Certainty" data-placement="left" data-content="This is the certainty that was determined to be the location of the sentinel"></span>
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@
       var certainty = section.find("[name='certainty']").val();
       try {
         var client = new XY.CRYPTO.CLIENT();
-        client.sendAnswer(address, latitude, longitude, altitude, accuracy, certainty, function(error, result) {
+        client.sendCalibratedAnswer(address, latitude, longitude, altitude, accuracy, certainty, function(error, result) {
           if (error) {
             console.log("Error: " + error);
           } else {

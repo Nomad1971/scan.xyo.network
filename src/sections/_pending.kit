@@ -1,77 +1,32 @@
 <section class="container section-pending">
-  <div class="row center">
-    <div class="col-xs-12">
-      <h1>Pending Queries</h1>
-      <p>View pending queries on the Block Chain</p>
-    </div>
-  </div>
-  <div class="row center pending-queries">
-  </div>
-  <div class="row center">
-    <div class="col-xs-12">
-      <button class="refresh-button" type="button">Refresh</button>
-    </div>
-  </div>
+  <section class="section-menu">
+    <header>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 center" style="cursor: pointer;">
+            <a href="/pending/uncalibrated.html"><h1>Pending Uncalibrated Queries</h1></a>
+            <p>View pending uncalibrated queries on the Block Chain</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 center" style="cursor: pointer;">
+            <a href="/pending/calibrated.html"><h1>Pending Calibrated Queries</h1></a>
+            <p>View pending calibrated queries on the Block Chain</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 center" style="cursor: pointer;">
+            <a href="/pending/relative.html"><h1>Pending Relative Queries</h1></a>
+            <p>View pending relative queries on the Block Chain</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 center" style="cursor: pointer;">
+            <a href="/pending"><h1>Pending Fenced Queries (coming soon)</h1></a>
+            <p>View pending fenced queries on the Block Chain</p>
+          </div>
+        </div>
+      </div>
+    </header>
+  </section>
 </section>
-
-<style>
-  .xyo-query {
-    border: 1px solid black;
-    padding-top: 16px;
-    padding-bottom: 16px;
-  }
-  .xyo-query span {
-    padding: 10px;
-  }
-</style>
-
-<script>
-  $(document).ready(function() {
-    var section = $(".section-pending");
-
-    var refresh = function() {
-      clearQueries();
-      try {
-        var client = new XY.CRYPTO.CLIENT();
-        client.getPendingQueries(function(error, query) {
-          if (error) {
-            console.log("Error: " + error);
-          } else {
-            console.log("Complete: " + query);
-            if (query.bounty > 0) {
-              addQuery(query);
-            }
-          }
-        });
-      } catch (ex) {
-        $(".error-message").text(ex.message);
-        console.error(ex);
-      }
-    }
-
-    var clearQueries = function() {
-      section.find('.pending-queries').html("");
-    }
-
-    var addQuery = function(query) {
-      var html = [];
-      html.push('<div class="col-xs-12 col-sm-offset-2 col-sm-8 xyo-query">');
-      html.push('<span>XYO&nbsp;Value:&nbsp;<b>' + query.bounty + '</b></span> ');
-      html.push('<span>XYO&nbsp;Address:&nbsp;<b>' + query.address + '</b></span> ');
-      html.push('<span>Accuracy:&nbsp;<b>' + query.accuracy + '</b></span> ');
-      html.push('<span>Certainty:&nbsp;<b>' + query.certainty + '</b></span> ');
-      html.push('<span>Delay:&nbsp;<b>' + query.delay + '</b></span> ');
-      html.push('<span>Epoch:&nbsp;<b>' + query.epoch + '</b></span> ');
-      html.push('<span>Seconds&nbsp;Ago:&nbsp;<b>' + query.secondsAgo() + '</b></span> ');
-      html.push('</div>');
-      section.find('.pending-queries').html(html.join(''));
-    }
-
-    section.find(".refresh-button").click(function() {
-      refresh();
-    });
-
-    refresh();
-
-  });
-</script>
