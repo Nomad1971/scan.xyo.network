@@ -13,7 +13,13 @@
     </div>
     <div class="row center">
       <div class="col-xs-6 right">
-        <button class="initialize-button" type="button">Initialize</button>
+        <button class="initialize-uncalibrated-button" type="button">Initialize Uncalibrated Contract</button>
+      </div>
+      <div class="col-xs-6 right">
+        <button class="initialize-calibrated-button" type="button">Initialize Calibrated Contract</button>
+      </div>
+      <div class="col-xs-6 right">
+        <button class="initialize-relative-button" type="button">Initialize Relative Contract</button>
       </div>
       <div class="col-xs-6 left">
         <button class="clear-button" type="button">Clear Config</button>
@@ -25,11 +31,25 @@
 <script>
   $(document).ready(function() {
     var section = $(".section-configure");
-    section.find(".initialize-button").click(function() {
+    section.find(".initialize-uncalibrated-button").click(function() {
       var section = $(".section-configure");
       var client = new XY.CRYPTO.CLIENT();
-      client.initializeEthNetwork(null, function(error, address) {
-        alert("XY Contract Initialized at: " + address);
+      client.initializeUncalibratedContract(null, function(error, address) {
+        alert("XY Uncalibrated Contract Initialized at: " + address);
+      });
+    });
+    section.find(".initialize-calibrated-button").click(function() {
+      var section = $(".section-configure");
+      var client = new XY.CRYPTO.CLIENT();
+      client.initializeCalibratedContract(null, function(error, address) {
+        alert("XY Calibrated Contract Initialized at: " + address);
+      });
+    });
+    section.find(".initialize-relative-button").click(function() {
+      var section = $(".section-configure");
+      var client = new XY.CRYPTO.CLIENT();
+      client.initializeRelativeContract(null, function(error, address) {
+        alert("XY Relative Contract Initialized at: " + address);
       });
     });
     section.find(".clear-button").click(function() {

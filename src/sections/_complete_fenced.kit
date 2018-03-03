@@ -1,0 +1,99 @@
+<section class="container section-complete">
+  <div class="row center">
+    <div class="col-xs-12">
+      <h1>Complete Fenced Queries</h1>
+      <p>View completed queries on the Block Chain</p>
+    </div>
+  </div>
+  <div class="row center complete-queries">
+  </div>
+  <div class="row center">
+    <div class="col-xs-12">
+      <button class="refresh-button" type="button">Refresh</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .xyo-query {
+    border: 1px solid black;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .xyo-query span {
+    padding: 10px;
+  }
+</style>
+
+<script>
+  $(document).ready(function() {
+    var section = $(".section-complete");
+
+    var refresh = function() {
+      var index = 0;
+      clearAnswers();
+      try {
+        var client = new XY.CRYPTO.CLIENT();
+        readAnswer(client, index, function(error, result) {});
+
+      } catch (ex) {
+        $(".error-message").text(ex.message);
+        console.error(ex);
+      }
+    }
+
+    var readAnswer = function(client, index, callback) {
+      client.getCompleteFencedQueryAddress(index, function(error, result) {
+        if (error) {
+          console.log("Error: " + error);
+          callback(error, index);
+          return;
+        } else if (result) {
+          console.log("Complete: " + result);
+          addAnswerByAddress(client, result, function(error, result) {
+            readAnswer(client, index + 1, callback);
+          });
+          return;
+        }
+        callback(null, index);
+      });
+    }
+
+    var clearAnswers = function() {
+      section.find('.complete-queries').html("");
+    }
+
+    var addAnswerByAddress = function(client, address, callback) {
+      client.getCompleteFencedQuery(address, function(error, answer) {
+        if (error) {
+          callback(error, null);
+        } else {
+          addAnswer(answer);
+          callback(null, answer);
+        }
+      });
+    }
+
+    var addAnswer = function(answer) {
+      var html = [];
+      html.push('<div class="col-xs-12 col-sm-offset-2 col-sm-8 xyo-query">');
+      html.push('<span>XYO&nbsp;Address:&nbsp;<b>' + answer.address + '</b></span> ');
+      html.push('<span>Latitude:&nbsp;<b>' + answer.latitude + '</b></span> ');
+      html.push('<span>Longitude:&nbsp;<b>' + answer.longitude + '</b></span> ');
+      html.push('<span>Altitude:&nbsp;<b>' + answer.altitude + '</b></span> ');
+      html.push('<span>Accuracy:&nbsp;<b>' + answer.accuracy + '</b></span> ');
+      html.push('<span>Certainty:&nbsp;<b>' + answer.certainty + '</b></span> ');
+      html.push('<span>Epoch:&nbsp;<b>' + answer.epoch + '</b></span> ');
+      html.push('<span>Seconds&nbsp;Ago:&nbsp;<b>' + answer.secondsAgo() + '</b></span> ');
+      html.push('</div>');
+      section.find('.complete-queries').html(html.join(''));
+    }
+
+    section.find(".refresh-button").click(function() {
+      refresh();
+    });
+
+    refresh();
+
+  });
+</script>

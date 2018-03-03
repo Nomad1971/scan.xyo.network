@@ -1,121 +1,32 @@
 <section class="container section-send">
-  <form>
-    <div class="row center">
-      <div class="col-xs-12">
-        <h1>Send Query</h1>
-        <p>Create a query for the XY Oracle Network by filling out the fields below.
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="address">Target XYO Address</label>
-          <input name="address" id="address" type="text" placeholder="(e.g. 0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF01234567)" value="0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF01234567" />
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Target Address" data-placement="left" data-content="The Target Address for your question is any origin chain public key or a declared public node id."></span>
+  <section class="section-menu">
+    <header>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 center" style="cursor: pointer;">
+            <a href="/send/uncalibrated.html"><h1>Send Uncalibrated Query</h1></a>
+            <p>Ask the system where something is at a specified time, using the system meta data for calibration</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 center" style="cursor: pointer;">
+            <a href="/send/calibrated.html"><h1>Send Calibrated Query</h1></a>
+            <p>Ask the system where something is at a specified time, using a known truth provided by the caller</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 center" style="cursor: pointer;">
+            <a href="/send/relative.html"><h1>Send Relative Query</h1></a>
+            <p>Ask the system about the relative proximity between two addresses</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 center" style="cursor: pointer;">
+            <a href="/send"><h1>Send Geo Fence Query (Coming Sooon)</h1></a>
+            <p>Ask the system to notify when something has entered or exited a geo fenced area</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="bounty">Bounty</label>
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Bounty" data-placement="left" data-content="The Number of XYO Tokens you are offering for the answer to your question."></span>
-          <input name="bounty" id="bounty" type="number" placeholder="(e.g. 6000)" value='6000'/>
-        </div>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="epoch">Target Epoch (Optional)</label>
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Epoch" data-placement="left" data-content="The Epoch for the time for which you are asking your question."></span>
-          <input name="epoch" id="epoch" type="number" placeholder="(e.g. 1511120342)" />
-        </div>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="accuracy">Min Accuracy (Optional)</label>
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Accuracy" data-placement="left" data-content="The minimum Accuracy that is required for the answer to be considered acceptible."></span>
-          <input name="accuracy" id="accuracy" type="number" placeholder="(e.g. 15)" value='15' />
-        </div>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="certainty">Min Certainty (Optional)</label>
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Certainty" data-placement="left" data-content="The minimum Certainty that is required for the answer to be considered acceptible."></span>
-          <input name="certainty" id="certainty" type="number" placeholder="(e.g. 5)" value='5' />
-        </div>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="delay">Answer Delay (Optional)</label>
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Answer Delay" data-placement="left" data-content="The number of seconds to wait after a valid answer has been submitted before committing it, allowing for a possible better answer."></span>
-          <input name="delay" id="delay" type="number" placeholder="(e.g. 30)" value='30' />
-        </div>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="ether">Ether Gas (Optional)</label>
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Ether Gas" data-placement="left" data-content="Ether gas to add question to Ethereum."></span>
-          <input name="ether" id="ether" type="number" placeholder="(e.g. 30000)" value='30000' />
-        </div>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-offset-3 col-xs-6">
-        <span class="error-message"></span>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-offset-3 col-xs-6">
-        <button class="send" type="button">Send Query</button>
-      </div>
-    </div>
-  </form>
+    </header>
+  </section>
 </section>
-
-<script>
-  $(document).ready(function() {
-    var section = $(".section-send");
-    section.find(".send").click(function() {
-      console.log("Send Clicked");
-      var section = $(".section-send");
-      var address = section.find("[name='address']").val();
-      var bounty = section.find("[name='bounty']").val();
-      var epoch = section.find("[name='epoch']").val();
-      var accuracy = section.find("[name='accuracy']").val();
-      var certainty = section.find("[name='certainty']").val();
-      var delay = section.find("[name='delay']").val();
-      var ether = section.find("[name='ether']").val();
-      try {
-        var client = new XY.CRYPTO.CLIENT();
-        client.sendQuery(bounty, address, accuracy, certainty, delay, epoch, function(error, result) {
-          if (error) {
-            console.log("Error: " + error);
-          } else {
-            console.log("Complete: " + result);
-          }
-        });
-      } catch (ex) {
-        $(".error-message").text(ex.message);
-        console.error(ex);
-      }
-    });
-    section.find("[name='epoch']").val((new Date).getTime());
-    $(".section-send input").change(function() {
-      if ($(this).val() === "") {
-        $(this).removeClass("filled");
-      } else {
-        $(this).addClass("filled");
-      }
-    });
-  });
-</script>
