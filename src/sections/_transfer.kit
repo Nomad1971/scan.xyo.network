@@ -9,9 +9,18 @@
     <div class="row center">
       <div class="col-xs-8 col-xs-offset-2">
         <div class="field-with-helper">
-          <label for="address">Destination Wallet</label>
+          <label for="dapp_address">From Wallet</label>
+          <input name="dapp_address" id="dapp_address" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="From Address" data-placement="left" data-content="The Address where the tokens will be taken from.  To change this, select another account in your Meta Mask wallet."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="address">To Wallet</label>
           <input name="address" id="address" type="text" placeholder="(e.g. 0x0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF01234567)" value="" />
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Target Address" data-placement="left" data-content="The Address to send the tokens to."></span>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="To Address" data-placement="left" data-content="The Address to send the tokens to."></span>
         </div>
       </div>
     </div>
@@ -40,24 +49,34 @@
 <script>
   $(document).ready(function() {
     var section = $(".section-transfer");
+    try {
+      var client = new XYO.CLIENT(function() {
+        section.find("[name='dapp_address']").val(client.getDAppAddress());
+      });
+    } catch (ex) {
+      $(".error-message").text(ex.message);
+      console.error(ex);
+    }
     section.find(".transfer").click(function() {
       console.log("Transfer Clicked");
       var section = $(".section-transfer");
       var address = section.find("[name='address']").val();
       var amount = section.find("[name='amount']").val();
-      try {
-        var client = new XYO.CLIENT();
-        client.transfer(address, amount, function(error, result) {
-          if (error) {
-            console.log("Error: " + error);
-          } else {
-            console.log("Complete: " + result);
-          }
-        });
-      } catch (ex) {
-        $(".error-message").text(ex.message);
-        console.error(ex);
-      }
+      var client = new XYO.CLIENT(function() {
+        try {
+          client.transfer(address, amount, function(error, result) {
+            if (error) {
+              $(".error-message").text(ex.message);
+              console.error(ex);
+            } else {
+              console.log("Complete: " + result);
+            }
+          });
+        } catch (ex) {
+          $(".error-message").text(ex.message);
+          console.error(ex);
+        }
+      });
     });
   });
 </script>
