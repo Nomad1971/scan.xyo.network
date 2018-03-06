@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: xyo.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, March 6, 2018 1:53 PM
+ * @Last modified time: Tuesday, March 6, 2018 2:02 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -173,13 +173,13 @@ XYO.CLIENT.prototype.getXyoNetworkName = function (_callback) {
 
 XYO.CLIENT.prototype.getDAppBalance = function (_callback) {
   const self = this;
-  self.web3.eth.getBalance(self.etherWallet, (error, result) => {
-    if (error) {
-      _callback(error, null);
+  self.web3.eth.getBalance(self.etherWallet, (_error, _result) => {
+    if (_error) {
+      _callback(_error, null);
     } else {
       _callback(null, {
-        raw: result,
-        cooked: self.web3.fromWei(result, 'ether'),
+        raw: _result,
+        cooked: self.web3.fromWei(_result, 'ether'),
       });
     }
   });
@@ -232,31 +232,31 @@ XYO.CLIENT.prototype.transfer = function (_address, _amount, _callback) {
   const amount = this.toBigInt(_amount);
   const xyContract = this.getXyoTokenContract();
   const xyInstance = xyContract.at(this.config.getXyoTokenContractAddress());
-  xyInstance.transfer(_address, amount, (error, result) => {
-    if (error) {
-      console.log(`Error: ${error}`);
-      _callback(error, null);
+  xyInstance.transfer(_address, amount, (_error, _result) => {
+    if (_error) {
+      console.log(`Error: ${_error}`);
+      _callback(_error, null);
     } else {
-      console.log(`Success: ${result}`);
-      _callback(null, result);
+      console.log(`Success: ${_result}`);
+      _callback(null, _result);
     }
   });
 };
 
-XYO.CLIENT.prototype.getXyoBalance = function (callback) {
+XYO.CLIENT.prototype.getXyoBalance = function (_callback) {
   const self = this;
   self.web3.eth.call({
     to: '0x55296f69f40Ea6d20E478533C15A6B08B654E758',
     data: `0x70a08231000000000000000000000000${self.web3.eth.accounts[0].substring(2)}`,
-  }, (error, result) => {
-    if (error) {
-      callback(error, null);
-    } else if (result.length < 3) {
-      callback(null, 0);
+  }, (_error, _result) => {
+    if (_error) {
+      _callback(_error, null);
+    } else if (_result.length < 3) {
+      _callback(null, 0);
     } else {
-      callback(null, {
-        raw: result,
-        cooked: self.web3.fromWei(result, 'ether'),
+      _callback(null, {
+        raw: _result,
+        cooked: self.web3.fromWei(_result, 'ether'),
       });
     }
   });
@@ -1786,17 +1786,17 @@ XYO.CLIENT.prototype.sendUncalibratedQuery = function (
     delay,
     epoch,
     notifyAddress,
-    (error, result) => {
-      if (error) {
+    (_error, _result) => {
+      if (_error) {
         if (_callback) {
-          _callback(error, null);
+          _callback(_error, null);
         }
-        console.log(`Error: ${error}`);
+        console.log(`Error: ${_error}`);
       } else {
         if (_callback) {
-          _callback(null, result);
+          _callback(null, _result);
         }
-        console.log(`Success: ${result}`);
+        console.log(`Success: ${_result}`);
       }
     },
   );
@@ -1859,14 +1859,14 @@ XYO.CLIENT.prototype.sendCalibratedQuery = function (
     _callibrationLongitude,
     _callibrationAltitude,
     notifyAddress,
-    (error, result) => {
-      if (error) {
-        console.log(`Error: ${error}`);
+    (_error, _result) => {
+      if (_error) {
+        console.log(`Error: ${_error}`);
       } else {
-        console.log(`Success: ${result}`);
+        console.log(`Success: ${_result}`);
       }
       if (_callback) {
-        _callback(error, result);
+        _callback(_error, _result);
       }
     },
   );
@@ -1910,16 +1910,25 @@ XYO.CLIENT.prototype.sendFencedQuery = function (
   const xyContract = this.getCalibratedContract();
   const xyInstance = xyContract.at(this.config.getCalibratedContractAddress());
   const notifyAddress = 0;
-  xyInstance.publishQuery(bounty, address, accuracy, certainty, delay, epoch, notifyAddress, (error, result) => {
-    if (error) {
-      console.log(`Error: ${error}`);
-    } else {
-      console.log(`Success: ${result}`);
-    }
-    if (_callback) {
-      _callback(error, result);
-    }
-  });
+  xyInstance.publishQuery(
+    bounty,
+    address,
+    accuracy,
+    certainty,
+    delay,
+    epoch,
+    notifyAddress,
+    (_error, _result) => {
+      if (_error) {
+        console.log(`Error: ${_error}`);
+      } else {
+        console.log(`Success: ${_result}`);
+      }
+      if (_callback) {
+        _callback(_error, _result);
+      }
+    },
+  );
 };
 
 XYO.CLIENT.prototype.sendRelativeQuery = function (
@@ -1974,14 +1983,14 @@ XYO.CLIENT.prototype.sendRelativeQuery = function (
     epoch,
     address,
     notifyAddress,
-    (error, result) => {
-      if (error) {
-        console.log(`Error: ${error}`);
+    (_error, _result) => {
+      if (_error) {
+        console.log(`Error: ${_error}`);
       } else {
-        console.log(`Success: ${result}`);
+        console.log(`Success: ${_result}`);
       }
       if (_callback) {
-        _callback(error, result);
+        _callback(_error, _result);
       }
     },
   );
@@ -2014,14 +2023,14 @@ XYO.CLIENT.prototype.sendUncalibratedAnswer = function (_address, _latitude, _lo
     this.toBigInt(_altitude),
     _accuracy,
     _certainty,
-    (new Date()).getTime(), (error, result) => {
-      if (error) {
-        console.log(`Error: ${error}`);
+    (new Date()).getTime(), (_error, _result) => {
+      if (_error) {
+        console.log(`Error: ${_error}`);
       } else {
-        console.log(`Success: ${result}`);
+        console.log(`Success: ${_result}`);
       }
       if (_callback) {
-        _callback(error, result);
+        _callback(_error, _result);
       }
     },
   );
