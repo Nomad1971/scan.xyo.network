@@ -86,7 +86,7 @@
       var certainty = section.find("[name='certainty']").val();
       var delay = section.find("[name='delay']").val();
       try {
-        var client = new XY.CRYPTO.CLIENT();
+        var client = new XYO.CLIENT();
         client.sendFencedQuery(bounty, address, accuracy, certainty, delay, epoch, function(error, result) {
           if (error) {
             console.log("Error: " + error);

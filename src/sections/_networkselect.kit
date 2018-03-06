@@ -44,12 +44,10 @@
 <script>
   $(document).ready(function() {
     var section = $(".section-networkselect");
-
     var dappNetworkName = "None";
 
     try {
-      var client = new XY.CRYPTO.CLIENT(function() {
-
+      var client = new XYO.CLIENT(function() {
         client.getDAppNetworkName(function (error, result) {
           if (error) {
             console.log(error);

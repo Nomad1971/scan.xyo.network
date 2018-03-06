@@ -27,7 +27,7 @@
     var section = $(".section-initialize");
     section.find(".initialize-button").click(function() {
       var section = $(".section-initialize");
-      var client = new XY.CRYPTO.CLIENT();
+      var client = new XYO.CLIENT();
       client.initializeEthNetwork(null, function(error, address) {
         alert("XY Contract Initialized at: " + address);
       });
@@ -35,7 +35,7 @@
     section.find(".clear-button").click(function() {
       var section = $(".section-initialize");
       try {
-        var client = new XY.CRYPTO.CLIENT();
+        var client = new XYO.CLIENT();
         client.config.clear();
         alert("Config Cleared");
       } catch (ex) {

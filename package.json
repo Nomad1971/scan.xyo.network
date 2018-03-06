@@ -19,10 +19,12 @@
   "dependencies": {
     "bootstrap-sass": "^3.3.7",
     "graceful-fs": "^4.1.11",
+    "gulp-cloudfront-invalidate": "^0.1.5",
     "gulp-s3-upload": "^1.7.0",
     "jquery": "^3.2.1",
     "node": "^9.2.0",
     "node-sass": "^4.7.2",
+    "npm": "^5.7.1",
     "sass": "^1.0.0-beta.4"
   },
   "devDependencies": {

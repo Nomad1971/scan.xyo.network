@@ -126,7 +126,7 @@
       var calibration_latitude = section.find("[name='calibration_latitude']").val();
       var calibration_altitude = section.find("[name='calibration_altitude']").val();
       try {
-        var client = new XY.CRYPTO.CLIENT();
+        var client = new XYO.CLIENT();
         client.sendCalibratedQuery(bounty, address, accuracy, certainty, delay, epoch, calibration_address, calibration_latitude, calibration_longitude, calibration_altitude, function(error, result) {
           if (error) {
             console.log("Error: " + error);

@@ -32,7 +32,7 @@
     var refresh = function() {
       clearQueries();
       try {
-        var client = new XY.CRYPTO.CLIENT();
+        var client = new XYO.CLIENT();
         client.getPendingCalibratedQueries(function(error, query) {
           if (error) {
             console.log("Error: " + error);

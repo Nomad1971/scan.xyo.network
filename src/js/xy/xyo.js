@@ -2,46 +2,42 @@
  * @Author: XY | The Findables Company <arietrouw>
  * @Date:   Tuesday, January 23, 2018 9:36 AM
  * @Email:  developer@xyfindables.com
- * @Filename: crypto.js
+ * @Filename: xyo.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, March 3, 2018 3:38 PM
+ * @Last modified time: Monday, March 5, 2018 5:14 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-
-
-var XY;
+var XYO;
 
 (function() {
   'use strict';
 
-  XY = XY || {};
-
-  XY.CRYPTO = XY.CRYPTO || {
+  XYO = {
     init: function() {
-      console.log('XY.CRYPTO Init');
+      console.log('XYO Init');
     }
   };
 
-  XY.CRYPTO.BASE = XY.CRYPTO.BASE || function(address) {
+  XYO.BASE = XYO.BASE || function(address) {
     this.address = address;
   };
 
-  XY.CRYPTO.BASE.prototype.toString = function() {
-    return 'XY.CRYPTO.BASE: ' + this.address;
+  XYO.BASE.prototype.toString = function() {
+    return 'XYO.BASE: ' + this.address;
   };
 
-  XY.CRYPTO.EXCEPTION = XY.CRYPTO.EXCEPTION || function(type, code, message) {
+  XYO.EXCEPTION = XYO.EXCEPTION || function(type, code, message) {
     this.type = type;
     this.code = code;
     this.message = message;
   }
 
-  XY.CRYPTO.EXCEPTION.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.EXCEPTION.constructor = XY.CRYPTO.EXCEPTION;
+  XYO.EXCEPTION.prototype = new XYO.BASE();
+  XYO.EXCEPTION.constructor = XYO.EXCEPTION;
 
-  XY.CRYPTO.CONFIG = XY.CRYPTO.CONFIG || function(name) {
+  XYO.CONFIG = XYO.CONFIG || function(name) {
     name = name || 'default';
     var loaded = false;
     try {
@@ -66,64 +62,68 @@ var XY;
     }
   }
 
-  XY.CRYPTO.CONFIG.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.CONFIG.constructor = XY.CRYPTO.CONFIG;
+  XYO.CONFIG.prototype = new XYO.BASE();
+  XYO.CONFIG.constructor = XYO.CONFIG;
 
-  XY.CRYPTO.CONFIG.prototype.setDivinerAddress = function(diviner) {
+  XYO.CONFIG.prototype.getXyoTokenContractAddress = function() {
+    return '0x55296f69f40Ea6d20E478533C15A6B08B654E758';
+  }
+
+  XYO.CONFIG.prototype.setDivinerAddress = function(diviner) {
     this.diviner = diviner;
     return this;
   }
 
-  XY.CRYPTO.CONFIG.prototype.getDivinerAddress = function() {
+  XYO.CONFIG.prototype.getDivinerAddress = function() {
     return this.diviner;
   }
 
-  XY.CRYPTO.CONFIG.prototype.setUncalibratedContractAddress = function(address) {
+  XYO.CONFIG.prototype.setUncalibratedContractAddress = function(address) {
     this.uncalibratedContractAddress = address;
     return this;
   }
 
-  XY.CRYPTO.CONFIG.prototype.getUncalibratedContractAddress = function() {
+  XYO.CONFIG.prototype.getUncalibratedContractAddress = function() {
     return this.uncalibratedContractAddress;
   }
 
-  XY.CRYPTO.CONFIG.prototype.setCalibratedContractAddress = function(address) {
+  XYO.CONFIG.prototype.setCalibratedContractAddress = function(address) {
     this.calibratedContractAddress = address;
     return this;
   }
 
-  XY.CRYPTO.CONFIG.prototype.getCalibratedContractAddress = function() {
+  XYO.CONFIG.prototype.getCalibratedContractAddress = function() {
     return this.calibratedContractAddress;
   }
 
-  XY.CRYPTO.CONFIG.prototype.setRelativeContractAddress = function(address) {
+  XYO.CONFIG.prototype.setRelativeContractAddress = function(address) {
     this.relativeContractAddress = address;
     return this;
   }
 
-  XY.CRYPTO.CONFIG.prototype.getRelativeContractAddress = function() {
+  XYO.CONFIG.prototype.getRelativeContractAddress = function() {
     return this.relativeContractAddress;
   }
 
-  XY.CRYPTO.CONFIG.prototype.clear = function(name) {
+  XYO.CONFIG.prototype.clear = function(name) {
     name = name || 'default';
     localStorage.setItem('xy-crypto-config-' + name, '{}');
     return this;
   }
 
-  XY.CRYPTO.CONFIG.prototype.save = function(name) {
+  XYO.CONFIG.prototype.save = function(name) {
     name = name || 'default';
     localStorage.setItem('xy-crypto-config-' + name, JSON.stringify(this));
     return this;
   }
 
-  XY.CRYPTO.CLIENT = XY.CRYPTO.CLIENT || function(onWalletChange) {
+  XYO.CLIENT = XYO.CLIENT || function(onWalletChange) {
     var self = this;
     if (typeof web3 === 'undefined') {
-      throw new XY.CRYPTO.EXCEPTION(XY.CRYPTO.CLIENT, 1, 'Web3 Undefined');
+      throw new XYO.EXCEPTION(XYO.CLIENT, 1, 'Web3 Undefined');
     }
     this.web3 = new Web3(web3.currentProvider);
-    this.config = new XY.CRYPTO.CONFIG();
+    this.config = new XYO.CONFIG();
     this.etherWallet = null;
     this.onWalletChange = onWalletChange;
     setTimeout(function() {
@@ -134,10 +134,10 @@ var XY;
     }, 1000);
   };
 
-  XY.CRYPTO.CLIENT.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.CLIENT.constructor = XY.CRYPTO.CLIENT;
+  XYO.CLIENT.prototype = new XYO.BASE();
+  XYO.CLIENT.constructor = XYO.CLIENT;
 
-  XY.CRYPTO.CLIENT.prototype.checkWalletAddress = function() {
+  XYO.CLIENT.prototype.checkWalletAddress = function() {
     if (this.etherWallet !== this.web3.eth.accounts[0]) {
       this.etherWallet = this.web3.eth.accounts[0];
       if (this.onWalletChange) {
@@ -146,7 +146,7 @@ var XY;
     }
   };
 
-  XY.CRYPTO.CLIENT.prototype.getDAppNetworkName = function(callback) {
+  XYO.CLIENT.prototype.getDAppNetworkName = function(callback) {
     this.web3.version.getNetwork(function(error, netId) {
       switch (netId) {
         case '1':
@@ -171,11 +171,11 @@ var XY;
     });
   };
 
-  XY.CRYPTO.CLIENT.prototype.getXyoNetworkName = function(callback) {
+  XYO.CLIENT.prototype.getXyoNetworkName = function(callback) {
     callback(null, 'XYO-Main');
   };
 
-  XY.CRYPTO.CLIENT.prototype.getDAppBalance = function(callback) {
+  XYO.CLIENT.prototype.getDAppBalance = function(callback) {
     var self = this;
     self.web3.eth.getBalance(self.etherWallet, function(error, result) {
       if (error) {
@@ -189,7 +189,39 @@ var XY;
     });
   };
 
-  XY.CRYPTO.CLIENT.prototype.getXyoBalance = function(callback) {
+  XYO.CLIENT.prototype.toBigInt = function(value) {
+    console.log('toBigInt: ' + value);
+    var stringVal = value.toString();
+    var decimalSplit = stringVal.split('.');
+    var zerosToAdd = 18;
+    if (decimalSplit.length > 1) {
+      zerosToAdd -= decimalSplit[1].length;
+    }
+    value = decimalSplit.join('');
+    console.log('toBigInt2: ' + value);
+    while (zerosToAdd) {
+      value = value + '0';
+      zerosToAdd--;
+    }
+    console.log('toBigInt3: ' + value);
+    return new web3.BigNumber(value);
+  }
+
+  XYO.CLIENT.prototype.transfer = function(address, amount, callback) {
+    console.log('transfer: ' + address + ", " + amount);
+    amount = this.toBigInt(amount);
+    var xyContract = this.getXyoTokenContract();
+    var xyInstance = xyContract.at(this.config.getXyoTokenContractAddress());
+    xyInstance.transfer(address, amount, function(error, result) {
+      if (error) {
+        console.log("Error: " + error);
+      } else {
+        console.log("Success: " + result);
+      }
+    });
+  };
+
+  XYO.CLIENT.prototype.getXyoBalance = function(callback) {
     var self = this;
     self.web3.eth.call({
       to: '0x55296f69f40Ea6d20E478533C15A6B08B654E758',
@@ -210,7 +242,269 @@ var XY;
     });
   };
 
-  XY.CRYPTO.CLIENT.prototype.getUncalibratedContract = function() {
+  XYO.CLIENT.prototype.getXyoTokenContract = function() {
+    return self.web3.eth.contract([{
+        "constant": true,
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [{
+          "name": "",
+          "type": "uint256"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [{
+          "name": "",
+          "type": "string"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "name",
+        "outputs": [{
+          "name": "",
+          "type": "string"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [{
+          "name": "",
+          "type": "uint8"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [{
+            "name": "",
+            "type": "address"
+          },
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "allowance",
+        "outputs": [{
+          "name": "",
+          "type": "uint256"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [{
+          "name": "",
+          "type": "address"
+        }],
+        "name": "balanceOf",
+        "outputs": [{
+          "name": "",
+          "type": "uint256"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [{
+            "name": "initialSupply",
+            "type": "uint256"
+          },
+          {
+            "name": "tokenName",
+            "type": "string"
+          },
+          {
+            "name": "tokenSymbol",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{
+            "indexed": true,
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Burn",
+        "type": "event"
+      },
+      {
+        "constant": false,
+        "inputs": [{
+            "name": "_from",
+            "type": "address"
+          },
+          {
+            "name": "_to",
+            "type": "address"
+          },
+          {
+            "name": "_value",
+            "type": "uint256"
+          }
+        ],
+        "name": "transferFrom",
+        "outputs": [{
+          "name": "success",
+          "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{
+            "indexed": true,
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Transfer",
+        "type": "event"
+      },
+      {
+        "constant": false,
+        "inputs": [{
+            "name": "_from",
+            "type": "address"
+          },
+          {
+            "name": "_value",
+            "type": "uint256"
+          }
+        ],
+        "name": "burnFrom",
+        "outputs": [{
+          "name": "success",
+          "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [{
+            "name": "_spender",
+            "type": "address"
+          },
+          {
+            "name": "_value",
+            "type": "uint256"
+          }
+        ],
+        "name": "approve",
+        "outputs": [{
+          "name": "success",
+          "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [{
+            "name": "_spender",
+            "type": "address"
+          },
+          {
+            "name": "_value",
+            "type": "uint256"
+          },
+          {
+            "name": "_extraData",
+            "type": "bytes"
+          }
+        ],
+        "name": "approveAndCall",
+        "outputs": [{
+          "name": "success",
+          "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [{
+            "name": "_to",
+            "type": "address"
+          },
+          {
+            "name": "_value",
+            "type": "uint256"
+          }
+        ],
+        "name": "transfer",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [{
+          "name": "_value",
+          "type": "uint256"
+        }],
+        "name": "burn",
+        "outputs": [{
+          "name": "success",
+          "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ]);
+  }
+
+  XYO.CLIENT.prototype.getUncalibratedContract = function() {
 
     return self.web3.eth.contract([{
         "constant": false,
@@ -479,7 +773,7 @@ var XY;
     ]);
   }
 
-  XY.CRYPTO.CLIENT.prototype.getCalibratedContract = function() {
+  XYO.CLIENT.prototype.getCalibratedContract = function() {
 
     return self.web3.eth.contract([{
         "constant": false,
@@ -800,7 +1094,7 @@ var XY;
     ]);
   }
 
-  XY.CRYPTO.CLIENT.prototype.getFencedContract = function() {
+  XYO.CLIENT.prototype.getFencedContract = function() {
 
     return self.web3.eth.contract([{
         "constant": false,
@@ -1069,7 +1363,7 @@ var XY;
     ]);
   }
 
-  XY.CRYPTO.CLIENT.prototype.getRelativeContract = function() {
+  XYO.CLIENT.prototype.getRelativeContract = function() {
 
     return self.web3.eth.contract([{
         "constant": true,
@@ -1325,7 +1619,7 @@ var XY;
     ]);
   }
 
-  XY.CRYPTO.CLIENT.prototype.initializeUncalibratedContract = function(address, callback) {
+  XYO.CLIENT.prototype.initializeUncalibratedContract = function(address, callback) {
     console.log('initializeUncalibratedContract');
     var self = this;
     if (this.config.getUncalibratedContractAddress()) {
@@ -1360,7 +1654,7 @@ var XY;
     }
   };
 
-  XY.CRYPTO.CLIENT.prototype.initializeCalibratedContract = function(address, callback) {
+  XYO.CLIENT.prototype.initializeCalibratedContract = function(address, callback) {
     console.log('initializeCalibratedContract');
     var self = this;
     if (this.config.getCalibratedContractAddress()) {
@@ -1395,7 +1689,7 @@ var XY;
     }
   };
 
-  XY.CRYPTO.CLIENT.prototype.initializeRelativeContract = function(address, callback) {
+  XYO.CLIENT.prototype.initializeRelativeContract = function(address, callback) {
     console.log('initializeRelativeContract');
     var self = this;
     if (this.config.getRelativeContractAddress()) {
@@ -1430,7 +1724,7 @@ var XY;
     }
   };
 
-  XY.CRYPTO.CLIENT.prototype.sendUncalibratedQuery = function(bounty, xyoAddress, accuracy, certainty, delay, epoch, callback) {
+  XYO.CLIENT.prototype.sendUncalibratedQuery = function(bounty, xyoAddress, accuracy, certainty, delay, epoch, callback) {
     console.log("sendUncalibratedQuery");
     var targetAddress = xyoAddress;
     var targetBounty = isNaN(parseInt(bounty)) ? 1 : parseInt(bounty);
@@ -1482,7 +1776,7 @@ var XY;
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.sendCalibratedQuery = function(bounty, xyoAddress, accuracy, certainty, delay, epoch, callibration_address, callibration_latitude, callibration_longitude, callibration_altitude, callback) {
+  XYO.CLIENT.prototype.sendCalibratedQuery = function(bounty, xyoAddress, accuracy, certainty, delay, epoch, callibration_address, callibration_latitude, callibration_longitude, callibration_altitude, callback) {
     console.log("sendCalibratedQuery");
     var targetAddress = xyoAddress;
     var targetBounty = isNaN(parseInt(bounty)) ? 1 : parseInt(bounty);
@@ -1550,7 +1844,7 @@ var XY;
       });
   }
 
-  XY.CRYPTO.CLIENT.prototype.sendFencedQuery = function(bounty, xyoAddress, accuracy, certainty, delay, epoch, callback) {
+  XYO.CLIENT.prototype.sendFencedQuery = function(bounty, xyoAddress, accuracy, certainty, delay, epoch, callback) {
     console.log("sendFencedQuery");
     var targetAddress = xyoAddress;
     var targetBounty = isNaN(parseInt(bounty)) ? 1 : parseInt(bounty);
@@ -1602,7 +1896,7 @@ var XY;
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.sendRelativeQuery = function(bounty, xyoAddress, accuracy, certainty, delay, epoch, relativeAddress, notify, callback) {
+  XYO.CLIENT.prototype.sendRelativeQuery = function(bounty, xyoAddress, accuracy, certainty, delay, epoch, relativeAddress, notify, callback) {
     console.log("sendRelativeQuery");
     var targetAddress = xyoAddress;
     var targetBounty = isNaN(parseInt(bounty)) ? 1 : parseInt(bounty);
@@ -1657,7 +1951,7 @@ var XY;
   }
 
 
-  XY.CRYPTO.CLIENT.prototype.sendUncalibratedAnswer = function(xyoAddress, latitude, longitude, altitude, accuracy, certainty, callback) {
+  XYO.CLIENT.prototype.sendUncalibratedAnswer = function(xyoAddress, latitude, longitude, altitude, accuracy, certainty, callback) {
     console.log("sendUncalibratedAnswer");
 
     var nowEpoch = (new Date).getTime();
@@ -1698,7 +1992,7 @@ var XY;
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.sendCalibratedAnswer = function(xyoAddress, latitude, longitude, altitude, accuracy, certainty, callback) {
+  XYO.CLIENT.prototype.sendCalibratedAnswer = function(xyoAddress, latitude, longitude, altitude, accuracy, certainty, callback) {
     console.log("sendCalibratedAnswer");
 
     var nowEpoch = (new Date).getTime();
@@ -1739,7 +2033,7 @@ var XY;
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.sendRelativeAnswer = function(xyoAddress, range, accuracy, certainty, callback) {
+  XYO.CLIENT.prototype.sendRelativeAnswer = function(xyoAddress, range, accuracy, certainty, callback) {
     console.log("sendRelativeAnswer");
 
     var nowEpoch = (new Date).getTime();
@@ -1772,7 +2066,7 @@ var XY;
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getPendingUncalibratedQueries = function(callback) {
+  XYO.CLIENT.prototype.getPendingUncalibratedQueries = function(callback) {
     var xyContract = this.getUncalibratedContract();
     var xyInstance = xyContract.at(this.config.getUncalibratedContractAddress());
     xyInstance.pendingQueries(this.web3.eth.defaultAccount, function(error, result) {
@@ -1780,13 +2074,13 @@ var XY;
         console.log("Error: " + error);
         callback(error, null);
       } else {
-        console.log("Success: " + JSON.stringify(XY.CRYPTO.UNCALIBRATEDQUERY.fromArray(result)));
-        callback(null, XY.CRYPTO.UNCALIBRATEDQUERY.fromArray(result));
+        console.log("Success: " + JSON.stringify(XYO.UNCALIBRATEDQUERY.fromArray(result)));
+        callback(null, XYO.UNCALIBRATEDQUERY.fromArray(result));
       }
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getPendingCalibratedQueries = function(callback) {
+  XYO.CLIENT.prototype.getPendingCalibratedQueries = function(callback) {
     var xyContract = this.getCalibratedContract();
     var xyInstance = xyContract.at(this.config.getCalibratedContractAddress());
     xyInstance.pendingQueries(this.web3.eth.defaultAccount, function(error, result) {
@@ -1794,13 +2088,13 @@ var XY;
         console.log("Error: " + error);
         callback(error, null);
       } else {
-        console.log("Success: " + JSON.stringify(XY.CRYPTO.CALIBRATEDQUERY.fromArray(result)));
-        callback(null, XY.CRYPTO.CALIBRATEDQUERY.fromArray(result));
+        console.log("Success: " + JSON.stringify(XYO.CALIBRATEDQUERY.fromArray(result)));
+        callback(null, XYO.CALIBRATEDQUERY.fromArray(result));
       }
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getPendingRelativeQueries = function(callback) {
+  XYO.CLIENT.prototype.getPendingRelativeQueries = function(callback) {
     var xyContract = this.getRelativeContract();
     var xyInstance = xyContract.at(this.config.getRelativeContractAddress());
     xyInstance.pendingQueries(this.web3.eth.defaultAccount, function(error, result) {
@@ -1809,13 +2103,13 @@ var XY;
         callback(error, null);
       } else {
         console.log("Success: " + JSON.stringify(result));
-        console.log("Success: " + JSON.stringify(XY.CRYPTO.RELATIVEQUERY.fromArray(result)));
-        callback(null, XY.CRYPTO.RELATIVEQUERY.fromArray(result));
+        console.log("Success: " + JSON.stringify(XYO.RELATIVEQUERY.fromArray(result)));
+        callback(null, XYO.RELATIVEQUERY.fromArray(result));
       }
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getCompleteUncalibratedQueryAddress = function(index, callback) {
+  XYO.CLIENT.prototype.getCompleteUncalibratedQueryAddress = function(index, callback) {
     var xyContract = this.getUncalibratedContract();
     var xyInstance = xyContract.at(this.config.getUncalibratedContractAddress());
 
@@ -1830,7 +2124,7 @@ var XY;
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getCompleteCalibratedQueryAddress = function(index, callback) {
+  XYO.CLIENT.prototype.getCompleteCalibratedQueryAddress = function(index, callback) {
     var xyContract = this.getCalibratedContract();
     var xyInstance = xyContract.at(this.config.getCalibratedContractAddress());
 
@@ -1845,7 +2139,7 @@ var XY;
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getCompleteRelativeQueryAddress = function(index, callback) {
+  XYO.CLIENT.prototype.getCompleteRelativeQueryAddress = function(index, callback) {
     var xyContract = this.getRelativeContract();
     var xyInstance = xyContract.at(this.config.getRelativeContractAddress());
 
@@ -1860,7 +2154,7 @@ var XY;
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getCompleteUncalibratedQuery = function(address, callback) {
+  XYO.CLIENT.prototype.getCompleteUncalibratedQuery = function(address, callback) {
     var xyContract = this.getUncalibratedContract();
     var xyInstance = xyContract.at(this.config.getUncalibratedContractAddress());
     xyInstance.answeredQueries(address, function(error, result) {
@@ -1868,13 +2162,13 @@ var XY;
         console.log("Error: " + error);
         callback(error, null);
       } else {
-        console.log("Success: " + JSON.stringify(XY.CRYPTO.UNCALIBRATEDANSWER.fromArray(result)));
-        callback(null, XY.CRYPTO.UNCALIBRATEDANSWER.fromArray(result));
+        console.log("Success: " + JSON.stringify(XYO.UNCALIBRATEDANSWER.fromArray(result)));
+        callback(null, XYO.UNCALIBRATEDANSWER.fromArray(result));
       }
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getCompleteCalibratedQuery = function(address, callback) {
+  XYO.CLIENT.prototype.getCompleteCalibratedQuery = function(address, callback) {
     var xyContract = this.getCalibratedContract();
     var xyInstance = xyContract.at(this.config.getCalibratedContractAddress());
     xyInstance.answeredQueries(address, function(error, result) {
@@ -1882,13 +2176,13 @@ var XY;
         console.log("Error: " + error);
         callback(error, null);
       } else {
-        console.log("Success: " + JSON.stringify(XY.CRYPTO.CALIBRATEDANSWER.fromArray(result)));
-        callback(null, XY.CRYPTO.CALIBRATEDANSWER.fromArray(result));
+        console.log("Success: " + JSON.stringify(XYO.CALIBRATEDANSWER.fromArray(result)));
+        callback(null, XYO.CALIBRATEDANSWER.fromArray(result));
       }
     });
   }
 
-  XY.CRYPTO.CLIENT.prototype.getCompleteRelativeQuery = function(address, callback) {
+  XYO.CLIENT.prototype.getCompleteRelativeQuery = function(address, callback) {
     var xyContract = this.getRelativeContract();
     var xyInstance = xyContract.at(this.config.getRelativeContractAddress());
     xyInstance.answeredQueries(address, function(error, result) {
@@ -1896,13 +2190,13 @@ var XY;
         console.log("Error: " + error);
         callback(error, null);
       } else {
-        console.log("Success: " + JSON.stringify(XY.CRYPTO.RELATIVEANSWER.fromArray(result)));
-        callback(null, XY.CRYPTO.RELATIVEANSWER.fromArray(result));
+        console.log("Success: " + JSON.stringify(XYO.RELATIVEANSWER.fromArray(result)));
+        callback(null, XYO.RELATIVEANSWER.fromArray(result));
       }
     });
   }
 
-  XY.CRYPTO.UNCALIBRATEDQUERY = XY.CRYPTO.UNCALIBRATEDQUERY || function(bounty, address, accuracy, certainty, delay, epoch) {
+  XYO.UNCALIBRATEDQUERY = XYO.UNCALIBRATEDQUERY || function(bounty, address, accuracy, certainty, delay, epoch) {
     this.bounty = bounty;
     this.address = address;
     this.accuracy = accuracy;
@@ -1911,19 +2205,19 @@ var XY;
     this.epoch = epoch;
   };
 
-  XY.CRYPTO.UNCALIBRATEDQUERY.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.UNCALIBRATEDQUERY.constructor = XY.CRYPTO.UNCALIBRATEDQUERY;
+  XYO.UNCALIBRATEDQUERY.prototype = new XYO.BASE();
+  XYO.UNCALIBRATEDQUERY.constructor = XYO.UNCALIBRATEDQUERY;
 
-  XY.CRYPTO.UNCALIBRATEDQUERY.fromArray = function(array) {
-    return new XY.CRYPTO.UNCALIBRATEDQUERY(array[0], array[1], array[2], array[3], array[4], array[5]);
+  XYO.UNCALIBRATEDQUERY.fromArray = function(array) {
+    return new XYO.UNCALIBRATEDQUERY(array[0], array[1], array[2], array[3], array[4], array[5]);
   }
 
-  XY.CRYPTO.UNCALIBRATEDQUERY.prototype.secondsAgo = function() {
+  XYO.UNCALIBRATEDQUERY.prototype.secondsAgo = function() {
     return ((new Date).getTime() - this.epoch) / 1000;
   }
 
-  XY.CRYPTO.UNCALIBRATEDQUERY.prototype.toString = function() {
-    return 'XY.CRYPTO.UNCALIBRATEDQUERY: Bounty=' + this.bounty +
+  XYO.UNCALIBRATEDQUERY.prototype.toString = function() {
+    return 'XYO.UNCALIBRATEDQUERY: Bounty=' + this.bounty +
       ' Address=' + this.address +
       ' Accuracy=' + this.accuracy +
       ' Certainty=' + this.certainty +
@@ -1932,7 +2226,7 @@ var XY;
       '[' + this.secondsAgo() + ' seconds ago]';
   };
 
-  XY.CRYPTO.CALIBRATEDQUERY = XY.CRYPTO.CALIBRATEDQUERY || function(bounty, address, accuracy, certainty, delay, epoch, calibration_address, calibration_latitude, calibration_longitude, calibration_altitude) {
+  XYO.CALIBRATEDQUERY = XYO.CALIBRATEDQUERY || function(bounty, address, accuracy, certainty, delay, epoch, calibration_address, calibration_latitude, calibration_longitude, calibration_altitude) {
     this.bounty = bounty;
     this.address = address;
     this.accuracy = accuracy;
@@ -1945,19 +2239,19 @@ var XY;
     this.calibration_altitude = calibration_altitude;
   };
 
-  XY.CRYPTO.CALIBRATEDQUERY.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.CALIBRATEDQUERY.constructor = XY.CRYPTO.CALIBRATEDQUERY;
+  XYO.CALIBRATEDQUERY.prototype = new XYO.BASE();
+  XYO.CALIBRATEDQUERY.constructor = XYO.CALIBRATEDQUERY;
 
-  XY.CRYPTO.CALIBRATEDQUERY.fromArray = function(array) {
-    return new XY.CRYPTO.CALIBRATEDQUERY(array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7], array[8], array[9]);
+  XYO.CALIBRATEDQUERY.fromArray = function(array) {
+    return new XYO.CALIBRATEDQUERY(array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7], array[8], array[9]);
   }
 
-  XY.CRYPTO.CALIBRATEDQUERY.prototype.secondsAgo = function() {
+  XYO.CALIBRATEDQUERY.prototype.secondsAgo = function() {
     return ((new Date).getTime() - this.epoch) / 1000;
   }
 
-  XY.CRYPTO.CALIBRATEDQUERY.prototype.toString = function() {
-    return 'XY.CRYPTO.CALIBRATEDQUERY: Bounty=' + this.bounty +
+  XYO.CALIBRATEDQUERY.prototype.toString = function() {
+    return 'XYO.CALIBRATEDQUERY: Bounty=' + this.bounty +
       ' Address=' + this.address +
       ' Accuracy=' + this.accuracy +
       ' Certainty=' + this.certainty +
@@ -1970,7 +2264,7 @@ var XY;
       ' Calibration Altitude=' + this.calibration_altitude;
   };
 
-  XY.CRYPTO.RELATIVEQUERY = XY.CRYPTO.RELATIVEQUERY || function(bounty, address, accuracy, certainty, delay, epoch, relative_address) {
+  XYO.RELATIVEQUERY = XYO.RELATIVEQUERY || function(bounty, address, accuracy, certainty, delay, epoch, relative_address) {
     this.bounty = bounty;
     this.address = address;
     this.accuracy = accuracy;
@@ -1980,19 +2274,19 @@ var XY;
     this.relative_address = relative_address;
   };
 
-  XY.CRYPTO.RELATIVEQUERY.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.RELATIVEQUERY.constructor = XY.CRYPTO.RELATIVEQUERY;
+  XYO.RELATIVEQUERY.prototype = new XYO.BASE();
+  XYO.RELATIVEQUERY.constructor = XYO.RELATIVEQUERY;
 
-  XY.CRYPTO.RELATIVEQUERY.fromArray = function(array) {
-    return new XY.CRYPTO.RELATIVEQUERY(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
+  XYO.RELATIVEQUERY.fromArray = function(array) {
+    return new XYO.RELATIVEQUERY(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
   }
 
-  XY.CRYPTO.RELATIVEQUERY.prototype.secondsAgo = function() {
+  XYO.RELATIVEQUERY.prototype.secondsAgo = function() {
     return ((new Date).getTime() - this.epoch) / 1000;
   }
 
-  XY.CRYPTO.RELATIVEQUERY.prototype.toString = function() {
-    return 'XY.CRYPTO.RELATIVEQUERY: Bounty=' + this.bounty +
+  XYO.RELATIVEQUERY.prototype.toString = function() {
+    return 'XYO.RELATIVEQUERY: Bounty=' + this.bounty +
       ' Address=' + this.address +
       ' Accuracy=' + this.accuracy +
       ' Certainty=' + this.certainty +
@@ -2002,7 +2296,7 @@ var XY;
       ' Calibration Address=' + this.relative_address;
   };
 
-  XY.CRYPTO.UNCALIBRATEDANSWER = XY.CRYPTO.UNCALIBRATEDANSWER || function(address, latitude, longitude, altitude, accuracy, certainty, epoch) {
+  XYO.UNCALIBRATEDANSWER = XYO.UNCALIBRATEDANSWER || function(address, latitude, longitude, altitude, accuracy, certainty, epoch) {
     this.address = address;
     this.latitude = latitude;
     this.longitude = longitude;
@@ -2012,18 +2306,18 @@ var XY;
     this.epoch = epoch;
   };
 
-  XY.CRYPTO.UNCALIBRATEDANSWER.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.UNCALIBRATEDANSWER.constructor = XY.CRYPTO.UNCALIBRATEDANSWER;
+  XYO.UNCALIBRATEDANSWER.prototype = new XYO.BASE();
+  XYO.UNCALIBRATEDANSWER.constructor = XYO.UNCALIBRATEDANSWER;
 
-  XY.CRYPTO.UNCALIBRATEDANSWER.fromArray = function(array) {
-    return new XY.CRYPTO.UNCALIBRATEDANSWER(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
+  XYO.UNCALIBRATEDANSWER.fromArray = function(array) {
+    return new XYO.UNCALIBRATEDANSWER(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
   }
 
-  XY.CRYPTO.UNCALIBRATEDANSWER.prototype.secondsAgo = function() {
+  XYO.UNCALIBRATEDANSWER.prototype.secondsAgo = function() {
     return ((new Date).getTime() - this.epoch) / 1000;
   }
 
-  XY.CRYPTO.UNCALIBRATEDANSWER.prototype.toString = function() {
+  XYO.UNCALIBRATEDANSWER.prototype.toString = function() {
     return 'UNCALIBRATEDANSWER: Address=' + this.address +
       ' Latitude=' + this.latitude +
       ' Longitude=' + this.longitude +
@@ -2034,7 +2328,7 @@ var XY;
       '[' + this.secondsAgo() + ' seconds ago]';
   };
 
-  XY.CRYPTO.CALIBRATEDANSWER = XY.CRYPTO.CALIBRATEDANSWER || function(address, latitude, longitude, altitude, accuracy, certainty, epoch) {
+  XYO.CALIBRATEDANSWER = XYO.CALIBRATEDANSWER || function(address, latitude, longitude, altitude, accuracy, certainty, epoch) {
     this.address = address;
     this.latitude = latitude;
     this.longitude = longitude;
@@ -2044,18 +2338,18 @@ var XY;
     this.epoch = epoch;
   };
 
-  XY.CRYPTO.CALIBRATEDANSWER.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.CALIBRATEDANSWER.constructor = XY.CRYPTO.CALIBRATEDANSWER;
+  XYO.CALIBRATEDANSWER.prototype = new XYO.BASE();
+  XYO.CALIBRATEDANSWER.constructor = XYO.CALIBRATEDANSWER;
 
-  XY.CRYPTO.CALIBRATEDANSWER.fromArray = function(array) {
-    return new XY.CRYPTO.CALIBRATEDANSWER(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
+  XYO.CALIBRATEDANSWER.fromArray = function(array) {
+    return new XYO.CALIBRATEDANSWER(array[0], array[1], array[2], array[3], array[4], array[5], array[6]);
   }
 
-  XY.CRYPTO.CALIBRATEDANSWER.prototype.secondsAgo = function() {
+  XYO.CALIBRATEDANSWER.prototype.secondsAgo = function() {
     return ((new Date).getTime() - this.epoch) / 1000;
   }
 
-  XY.CRYPTO.CALIBRATEDANSWER.prototype.toString = function() {
+  XYO.CALIBRATEDANSWER.prototype.toString = function() {
     return 'CALIBRATEDANSWER: Address=' + this.address +
       ' Latitude=' + this.latitude +
       ' Longitude=' + this.longitude +
@@ -2067,7 +2361,7 @@ var XY;
   };
 
 
-  XY.CRYPTO.RELATIVEANSWER = XY.CRYPTO.RELATIVEANSWER || function(address, range, accuracy, certainty, epoch) {
+  XYO.RELATIVEANSWER = XYO.RELATIVEANSWER || function(address, range, accuracy, certainty, epoch) {
     this.address = address;
     this.range = range;
     this.accuracy = accuracy;
@@ -2075,18 +2369,18 @@ var XY;
     this.epoch = epoch;
   };
 
-  XY.CRYPTO.RELATIVEANSWER.prototype = new XY.CRYPTO.BASE();
-  XY.CRYPTO.RELATIVEANSWER.constructor = XY.CRYPTO.RELATIVEANSWER;
+  XYO.RELATIVEANSWER.prototype = new XYO.BASE();
+  XYO.RELATIVEANSWER.constructor = XYO.RELATIVEANSWER;
 
-  XY.CRYPTO.RELATIVEANSWER.fromArray = function(array) {
-    return new XY.CRYPTO.RELATIVEANSWER(array[0], array[1], array[2], array[3], array[4]);
+  XYO.RELATIVEANSWER.fromArray = function(array) {
+    return new XYO.RELATIVEANSWER(array[0], array[1], array[2], array[3], array[4]);
   }
 
-  XY.CRYPTO.RELATIVEANSWER.prototype.secondsAgo = function() {
+  XYO.RELATIVEANSWER.prototype.secondsAgo = function() {
     return ((new Date).getTime() - this.epoch) / 1000;
   }
 
-  XY.CRYPTO.RELATIVEANSWER.prototype.toString = function() {
+  XYO.RELATIVEANSWER.prototype.toString = function() {
     return 'RELATIVEANSWER: Address=' + this.address +
       ' Range=' + this.range +
       ' Accuracy=' + this.accuracy +
@@ -2096,7 +2390,7 @@ var XY;
   };
 
   $(document).ready(function() {
-    XY.CRYPTO.init();
+    XYO.init();
   });
 
 }());
