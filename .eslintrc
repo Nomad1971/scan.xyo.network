@@ -3,7 +3,7 @@
 # @Email:  developer@xyfindables.com
 # @Filename: .eslintrc
 # @Last modified by:   arietrouw
-# @Last modified time: Tuesday, March 6, 2018 10:24 AM
+# @Last modified time: Tuesday, March 6, 2018 3:07 PM
 # @License: All Rights Reserved
 # @Copyright: Copyright XY | The Findables Company
 
@@ -17,19 +17,6 @@
     "mocha": true
   },
   "rules": {
-    "valid-jsdoc": ["error", {
-      "requireReturn": true,
-      "requireReturnType": true,
-      "requireParamDescription": true,
-      "requireReturnDescription": true
-    }],
-    "require-jsdoc": ["error", {
-        "require": {
-            "FunctionDeclaration": true,
-            "MethodDefinition": true,
-            "ClassDeclaration": true
-        }
-    }],
     "func-names": 0
   }
 }
