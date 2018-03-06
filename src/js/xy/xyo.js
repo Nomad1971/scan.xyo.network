@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: xyo.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, March 6, 2018 2:02 PM
+ * @Last modified time: Tuesday, March 6, 2018 3:51 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -232,7 +232,7 @@ XYO.CLIENT.prototype.transfer = function (_address, _amount, _callback) {
   const amount = this.toBigInt(_amount);
   const xyContract = this.getXyoTokenContract();
   const xyInstance = xyContract.at(this.config.getXyoTokenContractAddress());
-  xyInstance.transfer(_address, amount, (_error, _result) => {
+  xyInstance.transfer(_address, amount, { gasPrice: 10000000000 }, (_error, _result) => {
     if (_error) {
       console.log(`Error: ${_error}`);
       _callback(_error, null);
