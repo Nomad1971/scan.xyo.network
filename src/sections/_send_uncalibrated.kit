@@ -90,6 +90,7 @@
         client.sendUncalibratedQuery(bounty, address, accuracy, certainty, delay, epoch, function(error, result) {
           if (error) {
             console.log("Error: " + error);
+            $(".error-message").text(error);
           } else {
             console.log("Complete: " + result);
           }

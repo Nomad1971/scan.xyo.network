@@ -4,20 +4,18 @@
  * @Email:  developer@xyfindables.com
  * @Filename: xyo.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, March 6, 2018 3:51 PM
+ * @Last modified time: Wednesday, March 7, 2018 12:50 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
 /* global Web3:true */
 /* global web3:true */
+/* global XYO:true */
 /* eslint no-console: 0 */
 /* eslint max-len: 0 */
 
-const XYO = {
-  init() {
-    console.log('XYO Init');
-  },
+window.XYO = window.XYO || {
 };
 
 XYO.BASE = XYO.BASE || function (_address) {
@@ -2497,5 +2495,3 @@ XYO.RELATIVEANSWER.prototype.toString = function () {
   } Epoch=${this.epoch
   }[${this.secondsAgo()} seconds ago]`;
 };
-
-XYO.init();

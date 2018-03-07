@@ -1,0 +1,62 @@
+<section class='container section-signin'>
+  <form>
+    <div class='row center'>
+      <div class='col-xs-12'>
+        <h1>Create an XYO account</h1>
+        <p>Create an XYO account to be able to store your settings.</p>
+      </div>
+    </div>
+    <div class='row center'>
+      <div class='col-xs-8 col-xs-offset-2'>
+        <div class='field-with-helper'>
+          <label for='email'>Email</label>
+          <input name='email' id='email' type='text' placeholder='' value='' />
+          <span class='helper-box' data-toggle='popover' data-trigger='manual' title='Email Address' data-placement='left' data-content='Your email address.'></span>
+        </div>
+      </div>
+    </div>
+    <div class='row center'>
+      <div class='col-xs-8 col-xs-offset-2'>
+        <div class='field-with-helper'>
+          <label for='password'>Password</label>
+          <input name='password' id='password' type='password' placeholder='' value=''/>
+          <span class='helper-box' data-toggle='popover' data-trigger='manual' title='Password' data-placement='left' data-content='Your password.'></span>
+        </div>
+      </div>
+    </div>
+    <div class='row center'>
+      <div class='col-xs-offset-3 col-xs-6'>
+        <span class='error-message'></span>
+      </div>
+    </div>
+    <div class='row center'>
+      <div class='col-xs-offset-3 col-xs-6'>
+        <button class='signup' type='button'>Sign In</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(function() {
+    var section = $('.section-signin');
+    section.find('.signup').click(function() {
+      var section = $('.section-signin');
+      var email = section.find('[name="email"]').val();
+      var password = section.find('[name="password"]').val();
+      try {
+        XYO.ACCOUNT.signIn(email, password, function(_error, _result) {
+          if (_error) {
+            console.error(_error);
+            $(".error-message").text(_error.message);
+          } else {
+            console.log('Complete: ' + JSON.stringify(_result));
+          }
+        });
+      } catch (ex) {
+        $('.error-message').text(ex.message);
+        console.error(ex);
+      }
+    });
+  });
+</script>
