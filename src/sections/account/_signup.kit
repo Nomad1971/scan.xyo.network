@@ -51,6 +51,7 @@
             $(".error-message").text(_error.message);
           } else {
             console.log('Complete: ' + JSON.stringify(_result));
+            top.location.href = '/account/needtoverify';
           }
         });
       } catch (ex) {

@@ -1,27 +1,30 @@
 {
-  "name": "poo.xyfindables.com",
+  "name": "scan.xyo.network",
   "version": "1.0.0",
-  "description": "poo.xyfindables.com",
+  "description": "scan.xyo.network",
   "main": "index.js",
   "scripts": {
+    "build": "gulp",
+    "watch": "gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xycorp/poo.xyfindables.com.git"
+    "url": "git+https://github.com/XYOracleNetwork/scan.xyo.network.git"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/xycorp/poo.xyfindables.com/issues"
+    "url": "https://github.com/XYOracleNetwork/scan.xyo.network/issues"
   },
-  "homepage": "https://github.com/xycorp/poo.xyfindables.com#readme",
+  "homepage": "https://github.com/XYOracleNetwork/scan.xyo.network#readme",
   "dependencies": {
-    "hydrogen": "^0.2.0"
+    "xyo-solidity": "^0.1.5"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
     "bootstrap-sass": "^3.3.7",
+    "browserify": "^16.1.1",
     "eslint": "^4.18.2",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-fixer": "^0.1.4",
@@ -55,6 +58,7 @@
     "node": "^9.7.0",
     "node-sass": "^4.7.2",
     "npm": "^5.7.1",
-    "sass": "^1.0.0-beta.5.3"
+    "sass": "^1.0.0-beta.5.3",
+    "vinyl-source-stream": "^2.0.0"
   }
 }

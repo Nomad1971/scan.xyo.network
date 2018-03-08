@@ -51,6 +51,11 @@
             $(".error-message").text(_error.message);
           } else {
             console.log('Complete: ' + JSON.stringify(_result));
+            if (_result.user.userConfirmed) {
+              console.error("Just created a confirmed user?");
+            } else {
+              top.location.href = '/needtoverify';
+            }
           }
         });
       } catch (ex) {
