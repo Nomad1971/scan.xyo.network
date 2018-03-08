@@ -2,11 +2,32 @@
   <header>
     <div class="container">
       <div class="row">
-        <div class="col-xs-12 center" style="font-size: 24px; cursor: pointer;">
-          <img src="/img/xyo-med.png" width="200px" onclick="top.location.href='/'">
+        <div class="col-xs-offset-3 col-xs-6 center" style="font-size: 24px; cursor: pointer;">
+          <img src="/img/xyo-med.png" width="200px" onclick="top.location.href='/'"/>
           <p>Network Scanner</p>
+        </div>
+        <div class="col-xs-3">
+          <span class="signin-button" style="display:none">
+            <button type="button" class='small pull-right' onclick='top.location.href="/account/signin"'>Sign&nbsp;In</button>
+          </span>
+          <span class="signout-button" style="display:none">
+            <button type="button" class='small pull-right' onclick='XYO.ACCOUNT.signOut();top.location.href="/"'>Sign&nbsp;Out</button>
+          </span>
         </div>
       </div>
     </div>
   </header>
 </section>
+
+<script>
+  $(document).ready(function() {
+    return;
+    if (XYO.ACCOUNT.isSignedIn()) {
+      $('.signin-button').hide();
+      $('.signout-button').show();
+    } else {
+      $('.signout-button').hide();
+      $('.signin-button').show();
+    }
+  });
+</script>
