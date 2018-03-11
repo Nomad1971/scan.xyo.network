@@ -19,7 +19,10 @@
   },
   "homepage": "https://github.com/XYOracleNetwork/scan.xyo.network#readme",
   "dependencies": {
-    "xyo-solidity": "^0.1.5"
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.13.0",
+    "xyo-solidity": "^0.1.14"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
@@ -32,18 +35,16 @@
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "event-stream": "^3.3.4",
     "graceful-fs": "^4.1.11",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.1.0",
-    "gulp-clean-css": "^3.9.2",
+    "gulp-clean-css": "^3.9.3",
     "gulp-cloudfront-invalidate": "^0.1.5",
     "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.5.0",
     "gulp-css-copy-assets": "^0.0.4",
     "gulp-debug": "^3.2.0",
     "gulp-htmlmin": "^3.0.0",
-    "gulp-include": "^2.3.1",
     "gulp-insert-lines": "^0.0.4",
     "gulp-kit": "^0.3.0",
     "gulp-open": "^2.1.0",
@@ -54,11 +55,13 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
-    "jquery": "^3.3.1",
-    "node": "^9.7.0",
-    "node-sass": "^4.7.2",
+    "node": "^9.8.0",
+    "node-sass": "^4.8.0",
     "npm": "^5.7.1",
+    "pump": "^3.0.0",
     "sass": "^1.0.0-beta.5.3",
-    "vinyl-source-stream": "^2.0.0"
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "vinyl-transform": "^1.0.0"
   }
 }

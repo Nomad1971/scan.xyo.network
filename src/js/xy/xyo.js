@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: xyo.js
  * @Last modified by:   arietrouw
- * @Last modified time: Thursday, March 8, 2018 10:55 AM
+ * @Last modified time: Saturday, March 10, 2018 7:03 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -261,6 +261,8 @@ XYO.CLIENT.prototype.getXyoBalance = function (_callback) {
 };
 
 XYO.CLIENT.prototype.getXyoTokenContract = function () {
+  $.getJSON('dist/contracts/xy.json', function(json) {
+  });
   return this.web3.eth.contract([{
     constant: true,
     inputs: [],

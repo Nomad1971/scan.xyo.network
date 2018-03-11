@@ -4,36 +4,31 @@
  * @Email:  developer@xyfindables.com
  * @Filename: gulpfile.js
  * @Last modified by:   arietrouw
- * @Last modified time: Thursday, March 8, 2018 10:55 AM
+ * @Last modified time: Saturday, March 10, 2018 6:51 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
+const browserify = require(`browserify`);
+const buffer = require(`vinyl-buffer`);
+const cleanCSS = require(`gulp-clean-css`);
+const cloudfront = require(`gulp-cloudfront-invalidate`);
+const concat = require(`gulp-concat`);
+const connect = require(`gulp-connect`);
+const debug = require(`gulp-debug`)(`gulp`);
 const es = require(`event-stream`);
 const gulp = require(`gulp`);
-
-const kit = require(`gulp-kit`);
-const concat = require(`gulp-concat`);
-
+const gulpS3Upload = require(`gulp-s3-upload`)({ useIAM: true });
 const htmlmin = require(`gulp-htmlmin`);
-
-const include = require(`gulp-include`);
-
-// css
-const sass = require(`gulp-sass`);
-const cleanCSS = require(`gulp-clean-css`);
-const purify = require(`gulp-purify-css`);
-
-const rename = require(`gulp-rename`);
-const debug = require(`gulp-debug`)(`gulp`);
-const connect = require(`gulp-connect`);
+const kit = require(`gulp-kit`);
 const open = require(`gulp-open`);
+const pump = require(`pump`);
+const purify = require(`gulp-purify-css`);
+const sass = require(`gulp-sass`);
+const source = require(`vinyl-source-stream`);
+const sourcemaps = require(`gulp-sourcemaps`);
+const uglify = require(`gulp-uglify`);
 
-const gulpS3Upload = require(`gulp-s3-upload`)({
-  useIAM: true,
-});
-
-const cloudfront = require(`gulp-cloudfront-invalidate`);
 
 const SOURCE_BASE = `./src`;
 const OUTPUT_BASE = `./dist`;
@@ -89,30 +84,27 @@ const compileKit = () => gulp.src(getLocation(SOURCE_BASE, `/**/*.kit`))
   .pipe(gulp.dest(OUTPUT_BASE))
   .pipe(connect.reload());
 
-const compileJS = () => {
-  const jsIncludes = {
-    extension: `js`,
-    hardFail: true,
-    includePaths: [
-      `./node_modules`,
-      getLocation(SOURCE_BASE, `/js`),
-    ],
-  };
+const javascript = () => {
+  const b = browserify({
+    insertGlobals: true,
+    entries: [getLocation(SOURCE_BASE, `/js/all.js`)],
+    debug: true,
+  });
 
-  const all = gulp.src(getLocation(SOURCE_BASE, `/js/all-require.js`))
-    .pipe(include(jsIncludes).on(`error`, (error) => {
-      debug(error.message);
-    }))
-    .pipe(rename({
-      basename: `all`,
-      suffix: `-dist`,
-      extname: `.js`,
-    }))
-    /* .pipe(uglify()) */
-    .pipe(gulp.dest(getLocation(OUTPUT_BASE, `/js/`)))
-    .pipe(connect.reload());
+  return b.bundle()
+    .pipe(source(`all.js`))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    // .pipe(uglify())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(getLocation(OUTPUT_BASE, `/js`)));
 
-  return [all];
+  // .pipe(sourcemaps.init({ loadMaps: true }))
+  // Add transformation tasks to the pipeline here.
+  // .pipe(uglify())
+  //
+  // .pipe(sourcemaps.write())
+  // .pipe(gulp.dest(getLocation(OUTPUT_BASE, `/js/*.js`)));
 };
 
 const purifyCSS = () => gulp.src(getLocation(OUTPUT_BASE, `/css/all.css`))
@@ -195,7 +187,7 @@ gulp.task(`watch`, () => {
 gulp.task(`serve`, serve);
 gulp.task(`sass`, compileSCSS);
 gulp.task(`purify`, purifyCSS);
-gulp.task(`js`, compileJS);
+gulp.task(`js`, javascript);
 gulp.task(`kit`, compileKit);
 gulp.task(`images`, processImages);
 gulp.task(`fonts`, processFonts);
