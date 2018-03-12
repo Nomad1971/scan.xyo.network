@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: gulpfile.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, March 10, 2018 6:51 PM
+ * @Last modified time: Sunday, March 11, 2018 9:19 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -15,14 +15,12 @@ const cleanCSS = require(`gulp-clean-css`);
 const cloudfront = require(`gulp-cloudfront-invalidate`);
 const concat = require(`gulp-concat`);
 const connect = require(`gulp-connect`);
-const debug = require(`gulp-debug`)(`gulp`);
 const es = require(`event-stream`);
 const gulp = require(`gulp`);
 const gulpS3Upload = require(`gulp-s3-upload`)({ useIAM: true });
 const htmlmin = require(`gulp-htmlmin`);
 const kit = require(`gulp-kit`);
 const open = require(`gulp-open`);
-const pump = require(`pump`);
 const purify = require(`gulp-purify-css`);
 const sass = require(`gulp-sass`);
 const source = require(`vinyl-source-stream`);
@@ -32,6 +30,7 @@ const uglify = require(`gulp-uglify`);
 
 const SOURCE_BASE = `./src`;
 const OUTPUT_BASE = `./dist`;
+const MODULE_BASE = `./node_modules`;
 
 const PORT = 8080;
 
@@ -44,7 +43,7 @@ const compileSCSS = () => {
         `./node_modules/`,
       ],
     }).on(`error`, (err) => {
-      debug(err.message);
+      console.log(err.message);
     }));
 
   const css =
@@ -76,7 +75,7 @@ const serve = () => {
 
 const compileKit = () => gulp.src(getLocation(SOURCE_BASE, `/**/*.kit`))
   .pipe(kit().on(`error`, (err) => {
-    debug(err.message);
+    console.log(err.message);
   }))
   .pipe(htmlmin({
     collapseWhitespace: true,
@@ -141,6 +140,14 @@ const processData = () => gulp.src([
   .pipe(gulp.dest(OUTPUT_BASE))
   .pipe(connect.reload());
 
+const processSolidity = () => gulp.src([
+  getLocation(MODULE_BASE, `/**/dist/**/*.json`),
+], {
+  base: `${MODULE_BASE}/**/dist/`,
+})
+  .pipe(gulp.dest(OUTPUT_BASE))
+  .pipe(connect.reload());
+
 const publish = () => {
   gulp.src(`./dist/**`)
     .pipe(gulpS3Upload({
@@ -162,8 +169,8 @@ const invalidate = () => {
 };
 
 const reloadPage = (event) => {
-  debug(`>>>>>>> Reload Page <<<<<<<`);
-  debug(event);
+  console.log(`>>>>>>> Reload Page <<<<<<<`);
+  console.log(event);
   connect.reload();
 };
 
@@ -174,9 +181,11 @@ const watch = () => {
 };
 
 gulp.task(`default`, [`develop`]);
-gulp.task(`develop`, [`kit`, `sass`, `js`, `assets`, `watch`], (callback) => {
+gulp.task(`develop`, [`kit`, `sass`, `js`, `assets`, `watch`, `solidity`], (callback) => {
+  console.log(`Hello`);
   purifyCSS();
   serve();
+  reloadPage();
   callback();
 });
 gulp.task(`release`, [`kit`, `sass`, `js`, `purify`, `assets`]);
@@ -192,5 +201,6 @@ gulp.task(`kit`, compileKit);
 gulp.task(`images`, processImages);
 gulp.task(`fonts`, processFonts);
 gulp.task(`data`, processData);
+gulp.task(`solidity`, processSolidity);
 gulp.task(`publish`, publish);
 gulp.task(`invalidate`, invalidate);

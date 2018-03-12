@@ -4,11 +4,15 @@
  * @Email:  developer@xyfindables.com
  * @Filename: ajax-setup.js
  * @Last modified by:   arietrouw
- * @Last modified time: Monday, February 26, 2018 10:24 AM
+ * @Last modified time: Sunday, March 11, 2018 11:33 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-$.ajaxSetup({
-	crossDomain: true
+/* global $: true */
+
+$(document).ready(() => {
+  $.ajaxSetup({
+    crossDomain: true,
+  });
 });

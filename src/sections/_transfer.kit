@@ -47,7 +47,7 @@
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function(event) {
+  $(document).ready(() => {
     var section = $(".section-transfer");
     try {
       var client = new XYO.CLIENT(function() {

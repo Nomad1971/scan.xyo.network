@@ -1,0 +1,58 @@
+
+
+<section class="container section-saleselect" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+  <form>
+    <div class="row">
+      <div class="col-xs-12">
+        &nbsp;
+      </div>
+    </div>
+    <div class="install-meta-mask row center" style="display:none;">
+      <div class="col-xs-12">
+        <h3><a href="https://metamask.io/" target="_blank">Install Meta Mask</a></h3>
+      </div>
+    </div>
+    <div class="meta-mask-information row">
+      <div class="col-xs-12 col-sm-6 center">
+        <p>
+          <label class="center" for="sale_address">Sale Address</label><br/>
+          <input class="center filled" style="width:100%;" name="sale_address" id="sale_address" readonly type="text"/>
+        </p>
+      </div>
+      <div class="col-xs-12 col-sm-6 center">
+        <p>
+          <label class="center" for="sale_contract">Sale Contract</label><br/>
+          <input class="center filled" style="width:100%;" name="sale_contract" id="sale_contract" readonly type="text"/>
+        </p>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(() => {
+    var section = $(".section-saleselect");
+    try {
+      var client = new XYO.CLIENT(function() {
+        /*client.getTokenSaleAddress(function (error, result) {
+          if (error) {
+            console.log(error);
+          } else {
+            section.find("[name='sale_address']").val(result);
+          }
+        });*/
+
+        section.find("[name='sale_contract']").val("XYEligibleTokenSale");
+
+        $(".meta-mask-information").show();
+
+      });
+    } catch (ex) {
+      console.log("No Meta Mask Found or Meta Mask Not Signed In");
+      $(".install-meta-mask").fadeTo(1000, 1)
+      $(".meta-mask-information").fadeTo(300, .5);
+      $(".meta-mask-information").attr("disabled","disabled");
+    }
+
+  });
+</script>

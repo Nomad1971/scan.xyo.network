@@ -74,7 +74,7 @@
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function(event) {
+  $(document).ready(() => {
     var section = $(".section-send-fenced");
     section.find(".send").click(function() {
       console.log("Send Clicked");

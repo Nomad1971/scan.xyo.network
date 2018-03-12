@@ -4,14 +4,23 @@
  * @Email:  developer@xyfindables.com
  * @Filename: all-require.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, March 10, 2018 6:58 PM
+ * @Last modified time: Sunday, March 11, 2018 10:54 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-require(`jquery`);
+// we are assigning the global jquery here to make sure they are available for following module
+// see: https://stackoverflow.com/questions/33019133/browserify-change-the-order-the-dependencies-are-loaded
+
+global.jQuery = require(`jquery`);
+global.$ = global.jQuery;
+
 require(`bootstrap`);
-require(`./xy/amazon-cognito-identity.js`);
+
+require(`./xy/XYAccount.js`);
+require(`./xy/XYBase.js`);
+require(`./xy/XYClient.js`);
+require(`./xy/XYConfig.js`);
+require(`./xy/XYContract.js`);
+
 require(`./ajax-setup.js`);
-require(`./xy/xyo.js`);
-require(`./xy/xyo-account.js`);

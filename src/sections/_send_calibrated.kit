@@ -110,7 +110,7 @@
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function(event) {
+  $(document).ready(() => {
     var section = $(".section-send-calibrated");
     section.find(".send").click(function() {
       console.log("Send Clicked");
