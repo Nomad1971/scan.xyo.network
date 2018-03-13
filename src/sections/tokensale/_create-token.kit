@@ -1,0 +1,78 @@
+
+
+<section class="container section-create-token" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+  <form>
+    <div class="row center">
+      <div class="col-xs-12">
+        <h1>Create Token - Ethereum ERC20</h1>
+        <p>Create a ERC20 compliant token.</p>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="initial_supply">Initial Supply</label>
+          <input name="initial_supply" id="initial_supply" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Initial Supply" data-placement="left" data-content="The initial number of tokens available."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="token_name">Token Name</label>
+          <input name="token_name" id="token_name" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Token Name" data-placement="left" data-content="The name of your token."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="token_symbol">Token Symbol</label>
+          <input name="token_symbol" id="token_symbol" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Token Symbol" data-placement="left" data-content="The symbol of your token."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <button class="create_token" type="button">Create Token</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(() => {
+    let section = $(".section-create-token");
+    section.find(".create_token").click(function() {
+      var client = new XYClient(function(client) {
+        var section = $(".section-create-token");
+        var initialSupply = section.find("[name='initial_supply']").val();
+        var tokenName = section.find("[name='token_name']").val();
+        var tokenSymbol = section.find("[name='tokenSymbol']").val();
+        let contract = new XYContract('/contracts/TokenSale/ERC20.json', (contract) => {
+          try {
+            window.arie2 = contract;
+            let instance = contract.getContract(client.getWeb3()).new(
+              [initialSupply, tokenName, tokenSymbol],
+              {data:contract.getByteCode(), from: client.getDAppAddress(), gasPrice: 10000000000, gas: 2000000},
+              (error, result) => {
+              }
+            );
+            window.arie = instance;
+          } catch (ex) {
+            $(".error-message").text(ex.message);
+            console.error(ex);
+          }
+        });
+      });
+    });
+  });
+</script>

@@ -86,7 +86,7 @@
       var accuracy = section.find("[name='accuracy']").val();
       var certainty = section.find("[name='certainty']").val();
       try {
-        var client = new XYO.CLIENT();
+        var client = new XYClient();
         client.sendUncalibratedAnswer(address, latitude, longitude, altitude, accuracy, certainty, function(error, result) {
           if (error) {
             console.log("Error: " + error);

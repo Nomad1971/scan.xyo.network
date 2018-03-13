@@ -33,21 +33,21 @@
     var section = $(".section-configure");
     section.find(".initialize-uncalibrated-button").click(function() {
       var section = $(".section-configure");
-      var client = new XYO.CLIENT();
+      var client = new XYClient();
       client.initializeUncalibratedContract(null, function(error, address) {
         alert("XY Uncalibrated Contract Initialized at: " + address);
       });
     });
     section.find(".initialize-calibrated-button").click(function() {
       var section = $(".section-configure");
-      var client = new XYO.CLIENT();
+      var client = new XYClient();
       client.initializeCalibratedContract(null, function(error, address) {
         alert("XY Calibrated Contract Initialized at: " + address);
       });
     });
     section.find(".initialize-relative-button").click(function() {
       var section = $(".section-configure");
-      var client = new XYO.CLIENT();
+      var client = new XYClient();
       client.initializeRelativeContract(null, function(error, address) {
         alert("XY Relative Contract Initialized at: " + address);
       });
@@ -55,7 +55,7 @@
     section.find(".clear-button").click(function() {
       var section = $(".section-configure");
       try {
-        var client = new XYO.CLIENT();
+        var client = new XYClient();
         client.config.clear();
         alert("Config Cleared");
       } catch (ex) {

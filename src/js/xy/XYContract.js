@@ -4,21 +4,45 @@
  * @Email:  developer@xyfindables.com
  * @Filename: XYContract.js
  * @Last modified by:   arietrouw
- * @Last modified time: Sunday, March 11, 2018 11:39 PM
+ * @Last modified time: Monday, March 12, 2018 7:20 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
+/* global $:true */
+
 const XYBase = require(`./XYBase.js`);
 
 class XYContract extends XYBase {
-  constructor(_address) {
+  constructor(_file, _callback) {
     super();
-    this.address = _address;
+    const callback = _callback;
+    this.file = _file;
+    $.getJSON(_file, (data) => {
+      this.debug(data);
+      window.arie = data;
+      this.contract = data;
+      callback(this);
+    }, (error) => {
+      this.debug(error);
+      callback(null);
+    });
+  }
+
+  getContract(_web3) {
+    return _web3.eth.contract(JSON.parse(this.contract.interface));
+  }
+
+  getByteCode() {
+    return `0x${this.contract.bytecode}`;
+  }
+
+  getInstance(_web3, _address) {
+    return this.getContract(_web3).at(_address);
   }
 
   toString() {
-    return `XYContract: ${this.address}`;
+    return `XYContract: ${this.name}:${this.address}`;
   }
 }
 

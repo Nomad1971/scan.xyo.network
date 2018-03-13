@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: XYBase.js
  * @Last modified by:   arietrouw
- * @Last modified time: Sunday, March 11, 2018 11:36 PM
+ * @Last modified time: Monday, March 12, 2018 11:39 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -12,8 +12,12 @@
 /* eslint no-console: 0 */
 
 class XYBase {
-  static debug(_message) {
-    console.log(_message);
+  debug(_message) {
+    if (typeof _message === `string`) {
+      console.log(`${this.constructor.name}: ${_message}`);
+    } else {
+      console.log(`${this.constructor.name}: ${JSON.stringify(_message)}`);
+    }
   }
 
   static throwError(_message, _callback) {
@@ -24,7 +28,7 @@ class XYBase {
   }
 
   toString() {
-    return `XYBase: ${this.address}`;
+    return `${this.constructor.name}: ${this.address}`;
   }
 }
 

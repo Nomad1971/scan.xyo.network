@@ -96,7 +96,7 @@
       var delay = section.find("[name='delay']").val();
       var relative_address = section.find("[name='relative_address']").val();
       try {
-        var client = new XYO.CLIENT();
+        var client = new XYClient();
         var notifyAddress = 0;
         client.sendRelativeQuery(bounty, address, accuracy, certainty, delay, epoch, relative_address, notifyAddress, function(error, result) {
           if (error) {

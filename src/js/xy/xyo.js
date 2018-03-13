@@ -13,7 +13,7 @@
 /* eslint max-len: 0 */
 
 
-/* XYO.CLIENT.prototype.initializeUncalibratedContract = function (_address, _callback) {
+/* XYClient.prototype.initializeUncalibratedContract = function (_address, _callback) {
   console.log(`initializeUncalibratedContract`);
   const self = this;
   if (this.config.getUncalibratedContractAddress()) {
@@ -48,7 +48,7 @@
   }
 };
 
-XYO.CLIENT.prototype.initializeCalibratedContract = function (_address, _callback) {
+XYClient.prototype.initializeCalibratedContract = function (_address, _callback) {
   console.log(`initializeCalibratedContract`);
   const self = this;
   if (this.config.getCalibratedContractAddress()) {
@@ -83,7 +83,7 @@ XYO.CLIENT.prototype.initializeCalibratedContract = function (_address, _callbac
   }
 };
 
-XYO.CLIENT.prototype.initializeRelativeContract = function (_address, _callback) {
+XYClient.prototype.initializeRelativeContract = function (_address, _callback) {
   console.log(`initializeRelativeContract`);
   const self = this;
   if (this.config.getRelativeContractAddress()) {
@@ -118,7 +118,7 @@ XYO.CLIENT.prototype.initializeRelativeContract = function (_address, _callback)
   }
 }; */
 
-/* XYO.CLIENT.prototype.sendUncalibratedQuery = function (
+/* XYClient.prototype.sendUncalibratedQuery = function (
   _bounty,
   _address,
   _accuracy,
@@ -180,7 +180,7 @@ XYO.CLIENT.prototype.initializeRelativeContract = function (_address, _callback)
   );
 };
 
-XYO.CLIENT.prototype.sendCalibratedQuery = function (
+XYClient.prototype.sendCalibratedQuery = function (
   _bounty,
   _address,
   _accuracy,
@@ -250,7 +250,7 @@ XYO.CLIENT.prototype.sendCalibratedQuery = function (
   );
 };
 
-XYO.CLIENT.prototype.sendFencedQuery = function (
+XYClient.prototype.sendFencedQuery = function (
   _bounty,
   _address,
   _accuracy,
@@ -309,7 +309,7 @@ XYO.CLIENT.prototype.sendFencedQuery = function (
   );
 };
 
-XYO.CLIENT.prototype.sendRelativeQuery = function (
+XYClient.prototype.sendRelativeQuery = function (
   _bounty,
   _address,
   _accuracy,
@@ -375,7 +375,7 @@ XYO.CLIENT.prototype.sendRelativeQuery = function (
 };
 
 
-XYO.CLIENT.prototype.sendUncalibratedAnswer = function (_address, _latitude, _longitude, _altitude, _accuracy, _certainty, _callback) {
+XYClient.prototype.sendUncalibratedAnswer = function (_address, _latitude, _longitude, _altitude, _accuracy, _certainty, _callback) {
   console.log(`sendUncalibratedAnswer`);
   this.checkAddress(_address);
   if (!(_address) || _address.length === 0) {
@@ -414,7 +414,7 @@ XYO.CLIENT.prototype.sendUncalibratedAnswer = function (_address, _latitude, _lo
   );
 };
 
-XYO.CLIENT.prototype.sendCalibratedAnswer = function (
+XYClient.prototype.sendCalibratedAnswer = function (
   _address,
   _latitude,
   _longitude,
@@ -461,7 +461,7 @@ XYO.CLIENT.prototype.sendCalibratedAnswer = function (
   );
 };
 
-XYO.CLIENT.prototype.sendRelativeAnswer = function (_address, _range, _accuracy, _certainty, _callback) {
+XYClient.prototype.sendRelativeAnswer = function (_address, _range, _accuracy, _certainty, _callback) {
   console.log(`sendRelativeAnswer`);
   this.checkAddress(_address);
   if (!(_address) || _address.length === 0) {
@@ -488,7 +488,7 @@ XYO.CLIENT.prototype.sendRelativeAnswer = function (_address, _range, _accuracy,
   });
 };
 
-XYO.CLIENT.prototype.getPendingUncalibratedQueries = function (_callback) {
+XYClient.prototype.getPendingUncalibratedQueries = function (_callback) {
   const xyContract = this.getUncalibratedContract();
   const xyInstance = xyContract.at(this.config.getUncalibratedContractAddress());
   xyInstance.pendingQueries(this.web3.eth.defaultAccount, (_error, _result) => {
@@ -506,7 +506,7 @@ XYO.CLIENT.prototype.getPendingUncalibratedQueries = function (_callback) {
   });
 };
 
-XYO.CLIENT.prototype.getPendingCalibratedQueries = function (_callback) {
+XYClient.prototype.getPendingCalibratedQueries = function (_callback) {
   const xyContract = this.getCalibratedContract();
   const xyInstance = xyContract.at(this.config.getCalibratedContractAddress());
   xyInstance.pendingQueries(this.web3.eth.defaultAccount, (_error, _result) => {
@@ -521,7 +521,7 @@ XYO.CLIENT.prototype.getPendingCalibratedQueries = function (_callback) {
   });
 };
 
-XYO.CLIENT.prototype.getPendingRelativeQueries = function (_callback) {
+XYClient.prototype.getPendingRelativeQueries = function (_callback) {
   const xyContract = this.getRelativeContract();
   const xyInstance = xyContract.at(this.config.getRelativeContractAddress());
   xyInstance.pendingQueries(this.web3.eth.defaultAccount, (_error, _result) => {
@@ -540,7 +540,7 @@ XYO.CLIENT.prototype.getPendingRelativeQueries = function (_callback) {
   });
 };
 
-XYO.CLIENT.prototype.getCompleteUncalibratedQueryAddress = function (_index, _callback) {
+XYClient.prototype.getCompleteUncalibratedQueryAddress = function (_index, _callback) {
   const xyContract = this.getUncalibratedContract();
   const xyInstance = xyContract.at(this.config.getUncalibratedContractAddress());
 
@@ -556,7 +556,7 @@ XYO.CLIENT.prototype.getCompleteUncalibratedQueryAddress = function (_index, _ca
   });
 };
 
-XYO.CLIENT.prototype.getCompleteCalibratedQueryAddress = function (_index, _callback) {
+XYClient.prototype.getCompleteCalibratedQueryAddress = function (_index, _callback) {
   const xyContract = this.getCalibratedContract();
   const xyInstance = xyContract.at(this.config.getCalibratedContractAddress());
 
@@ -572,7 +572,7 @@ XYO.CLIENT.prototype.getCompleteCalibratedQueryAddress = function (_index, _call
   });
 };
 
-XYO.CLIENT.prototype.getCompleteRelativeQueryAddress = function (_index, _callback) {
+XYClient.prototype.getCompleteRelativeQueryAddress = function (_index, _callback) {
   const xyContract = this.getRelativeContract();
   const xyInstance = xyContract.at(this.config.getRelativeContractAddress());
 
@@ -588,7 +588,7 @@ XYO.CLIENT.prototype.getCompleteRelativeQueryAddress = function (_index, _callba
   });
 };
 
-XYO.CLIENT.prototype.getCompleteUncalibratedQuery = function (_address, _callback) {
+XYClient.prototype.getCompleteUncalibratedQuery = function (_address, _callback) {
   this.checkAddress(_address);
   const xyContract = this.getUncalibratedContract();
   const xyInstance = xyContract.at(this.config.getUncalibratedContractAddress());
@@ -607,7 +607,7 @@ XYO.CLIENT.prototype.getCompleteUncalibratedQuery = function (_address, _callbac
   });
 };
 
-XYO.CLIENT.prototype.getCompleteCalibratedQuery = function (_address, _callback) {
+XYClient.prototype.getCompleteCalibratedQuery = function (_address, _callback) {
   this.checkAddress(_address);
   const xyContract = this.getCalibratedContract();
   const xyInstance = xyContract.at(this.config.getCalibratedContractAddress());
@@ -626,7 +626,7 @@ XYO.CLIENT.prototype.getCompleteCalibratedQuery = function (_address, _callback)
   });
 };
 
-XYO.CLIENT.prototype.getCompleteRelativeQuery = function (_address, _callback) {
+XYClient.prototype.getCompleteRelativeQuery = function (_address, _callback) {
   this.checkAddress(_address);
   const xyContract = this.getRelativeContract();
   const xyInstance = xyContract.at(this.config.getRelativeContractAddress());

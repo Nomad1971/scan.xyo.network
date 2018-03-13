@@ -3,7 +3,7 @@
     <div class="row center">
       <div class="col-xs-12">
         <h1>Transfer XYO Tokens - Ethereum ERC20</h1>
-        <p>Send XYO from one wallet to another wallet.
+        <p>Send XYO from one wallet to another wallet.</p>
       </div>
     </div>
     <div class="row center">
@@ -48,9 +48,9 @@
 
 <script>
   $(document).ready(() => {
-    var section = $(".section-transfer");
+    let section = $(".section-transfer");
     try {
-      var client = new XYO.CLIENT(function() {
+      var client = new XYClient(function(client) {
         section.find("[name='dapp_address']").val(client.getDAppAddress());
       });
     } catch (ex) {
@@ -59,23 +59,27 @@
     }
     section.find(".transfer").click(function() {
       console.log("Transfer Clicked");
-      var section = $(".section-transfer");
-      var address = section.find("[name='address']").val();
-      var amount = section.find("[name='amount']").val();
-      var client = new XYO.CLIENT(function() {
-        try {
-          client.transfer(address, amount, function(error, result) {
-            if (error) {
-              $(".error-message").text(ex.message);
-              console.error(ex);
-            } else {
-              console.log("Complete: " + result);
-            }
-          });
-        } catch (ex) {
-          $(".error-message").text(ex.message);
-          console.error(ex);
-        }
+      var client = new XYClient(function(client) {
+        var section = $(".section-transfer");
+        var address = section.find("[name='address']").val();
+        var amount = client.toBigInt(section.find("[name='amount']").val(), 10);
+        console.log('BN:' + amount);
+        let contract = new XYContract('/contracts/TokenSale/ERC20.json', (contract) => {
+          try {
+            let instance = contract.getInstance(this.web3, client.config.tokenAddress);
+            window.arie = instance;
+            instance.transfer(address, amount, { gasPrice: 10000000000 }, (_error, _result) => {
+              if (_error) {
+                console.log(`Error: ${_error}`);
+              } else {
+                console.log(`Success: ${_result}`);
+              }
+            });
+          } catch (ex) {
+            $(".error-message").text(ex.message);
+            console.error(ex);
+          }
+        });
       });
     });
   });
