@@ -1,5 +1,3 @@
-
-
 <section class="container section-create-token" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
   <form>
     <div class="row center">
@@ -12,7 +10,7 @@
       <div class="col-xs-8 col-xs-offset-2">
         <div class="field-with-helper">
           <label for="initial_supply">Initial Supply</label>
-          <input name="initial_supply" id="initial_supply" type="text" value="1000" />
+          <input name="initial_supply" id="initial_supply" type="text" value="1000000000000" />
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Initial Supply" data-placement="left" data-content="The initial number of tokens available."></span>
         </div>
       </div>
@@ -54,7 +52,7 @@
     section.find(".create_token").click(function() {
       var client = new XYClient(function(client) {
         var section = $(".section-create-token");
-        var initialSupply = section.find("[name='initial_supply']").val();
+        var initialSupply = client.toBigInt(section.find("[name='initial_supply']").val());
         var tokenName = section.find("[name='token_name']").val();
         var tokenSymbol = section.find("[name='tokenSymbol']").val();
         let contract = new XYContract('/contracts/TokenSale/ERC20.json', (contract) => {
@@ -66,6 +64,7 @@
                 if (error) {
                   console.error(error);
                 } else {
+                  console.log("Address: " + result.address);
                   client.config.tokenAddress = result.address;
                   client.config.save();
                 }

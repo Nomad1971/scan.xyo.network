@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: XYContract.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, March 13, 2018 5:27 PM
+ * @Last modified time: Wednesday, March 14, 2018 3:25 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */

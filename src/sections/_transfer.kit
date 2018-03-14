@@ -68,7 +68,6 @@
           let contract = new XYContract('/contracts/TokenSale/ERC20.json', (contract) => {
             try {
               let instance = contract.getInstance(this.web3, client.config.tokenAddress);
-              window.arie = instance;
               instance.transfer(address, amount, { gasPrice: 10000000000 }, (_error, _result) => {
                 if (_error) {
                   console.log(`Error: ${_error}`);

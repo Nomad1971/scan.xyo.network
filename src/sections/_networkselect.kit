@@ -74,11 +74,11 @@
           }
         });
 
-        client.getXyoBalance(function (error, result) {
+        client.getTokenBalance(function (error, result) {
           if (error) {
             console.error(error);
           } else {
-            section.find("[name='xyo_balance']").val(result.cooked);
+            section.find("[name='xyo_balance']").val(result);
           }
         });
 

@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: xyo-account.js
  * @Last modified by:   arietrouw
- * @Last modified time: Sunday, March 11, 2018 11:38 PM
+ * @Last modified time: Wednesday, March 14, 2018 3:34 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -42,7 +42,6 @@ class XYAccount extends XYBase {
       if (_error && _error.statusCode !== 200) {
         _callback(_error, null);
       } else {
-        window.arie = _result;
         _callback(null, _result);
       }
     });

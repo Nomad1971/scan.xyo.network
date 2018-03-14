@@ -31,6 +31,12 @@
           <input class="center" style="width:100%;" name="sale_contract" id="sale_contract" readonly type="text"/>
         </p>
       </div>
+      <div class="col-xs-12 col-sm-6 center">
+        <p>
+          <label class="center" for="token_balance">Token Balance</label><br/>
+          <input class="center" style="width:100%;" name="token_balance" id="token_balance" readonly type="text"/>
+        </p>
+      </div>
     </div>
   </form>
 </section>
@@ -43,6 +49,15 @@
         section.find("[name='token_address']").val(client.config.tokenAddress);
         section.find("[name='sale_address']").val(client.config.saleAddress);
         section.find("[name='sale_contract']").val(client.config.saleContractName);
+
+        client.getTokenBalance(function (error, result) {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log('Token Balance: ', result);
+            section.find("[name='token_balance']").val(result);
+          }
+        });
 
         $(".meta-mask-information").show();
 

@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: XYClient.js
  * @Last modified by:   arietrouw
- * @Last modified time: Monday, March 12, 2018 6:14 PM
+ * @Last modified time: Wednesday, March 14, 2018 3:34 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -12,6 +12,7 @@
 
 const XYBase = require(`./XYBase.js`);
 const XYConfig = require(`./XYConfig.js`);
+const XYContract = require(`./XYContract.js`);
 
 class XYClient extends XYBase {
   constructor(_onWalletChange) {
@@ -23,6 +24,10 @@ class XYClient extends XYBase {
     this.tokenPlaces = 18;
     this.xyoNetworkName = `XYO-Main`;
     this.checkWalletAddress();
+  }
+
+  getCurrentSaleContract(callback) {
+    return new XYContract(this.config.saleContractFile, callback).atAddress(this.config.saleAddress);
   }
 
   toBigInt(_value) {
@@ -137,21 +142,20 @@ class XYClient extends XYBase {
     }
   }
 
-  getXyoBalance(_callback) {
-    const web3 = this.getWeb3();
-    web3.eth.call({
-      to: this.config.tokenAddress,
-      data: `0x70a08231000000000000000000000000${web3.eth.accounts[0].substring(2)}`,
-    }, (_error, _result) => {
-      if (_error) {
-        _callback(_error, null);
-      } else if (_result.length < 3) {
-        _callback(null, 0);
-      } else {
-        _callback(null, {
-          raw: _result,
-          cooked: web3.fromWei(_result, `ether`),
+  getTokenBalance(_callback) {
+    const contractFile = `/contracts/TokenSale/ERC20.json`;
+    const _ = new XYContract(contractFile, (contract) => {
+      try {
+        const instance = contract.getInstance(this.getWeb3(), this.config.tokenAddress);
+        instance.balanceOf(this.etherWallet, (error, result) => {
+          if (error) {
+            _callback(error, null);
+          } else {
+            _callback(null, result.toString(10));
+          }
         });
+      } catch (ex) {
+        console.error(ex);
       }
     });
   }

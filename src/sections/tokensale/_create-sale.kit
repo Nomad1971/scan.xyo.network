@@ -1,5 +1,3 @@
-
-
 <section class="container section-create-sale" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
   <form>
     <div class="row center">
@@ -13,7 +11,12 @@
         <div class="field-with-helper">
           <label for="sale_contract">Sale Contract</label>
           <select name="sale_contract" id="sale_contract" value="">
-            <option>XYOfficialTokenSale</option>
+            <option default>XYOfficialTokenSale</option>
+            <option default>XYTokenSale</option>
+            <option default>XYTimedTokenSale</option>
+            <option default>XYPendingTokenSale</option>
+            <option default>XYEligibleTokenSale</option>
+            <option default>XYTokenSale</option>
           </select>
         </div>
       </div>
@@ -118,7 +121,8 @@
         var endPrice = section.find("[name='end_price']").val();
         var totalVariableTokens = section.find("[name='total_variable_tokens']").val();
         var totalFixedTokens = section.find("[name='total_fixed_tokens']").val();
-        let contract = new XYContract('/contracts/TokenSale/' + contractName + '.json', (contract) => {
+        var saleContractFile = '/contracts/TokenSale/' + contractName + '.json';
+        let contract = new XYContract(saleContractFile, (contract) => {
           try {
             let instance = contract.getContract(client.getWeb3()).new(
               [tokenAddress, minEther, startTime, endTime, startPrice, endPrice, totalVariableTokens, totalFixedTokens],
@@ -129,6 +133,7 @@
                 } else {
                   client.config.saleAddress = result.address;
                   client.config.saleContractName = contractName;
+                  client.config.saleContractFile = saleContractFile;
                   client.config.save();
                 }
               }

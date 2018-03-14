@@ -1,29 +1,28 @@
-
-
-<section class="container section-saleselect" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+<section class="container section-create-sale" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
   <form>
-    <div class="row">
+    <div class="row center">
       <div class="col-xs-12">
-        &nbsp;
+        <h1>Buy Token - Ethereum ERC20</h1>
+        <p>Buy a ERC20 compliant token from a sale.</p>
       </div>
     </div>
-    <div class="install-meta-mask row center" style="display:none;">
-      <div class="col-xs-12">
-        <h3><a href="https://metamask.io/" target="_blank">Install Meta Mask</a></h3>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="ether_to_send">Ether to Send (0 Places)</label>
+          <input name="ether_to_send" id="ether_to_send" type="number" value="0.01" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Ether to Send" data-placement="left" data-content=""></span>
+        </div>
       </div>
     </div>
-    <div class="meta-mask-information row">
-      <div class="col-xs-12 col-sm-6 center">
-        <p>
-          <label class="center" for="sale_address">Sale Address</label><br/>
-          <input class="center filled" style="width:100%;" name="sale_address" id="sale_address" readonly type="text"/>
-        </p>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <span class="error-message"></span>
       </div>
-      <div class="col-xs-12 col-sm-6 center">
-        <p>
-          <label class="center" for="sale_contract">Sale Contract</label><br/>
-          <input class="center filled" style="width:100%;" name="sale_contract" id="sale_contract" readonly type="text"/>
-        </p>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <button class="create_sale" type="button">Send Ether</button>
       </div>
     </div>
   </form>
@@ -31,28 +30,35 @@
 
 <script>
   $(document).ready(() => {
-    var section = $(".section-saleselect");
-    try {
-      var client = new XYClient(function() {
-        /*client.getTokenSaleAddress(function (error, result) {
-          if (error) {
-            console.log(error);
-          } else {
-            section.find("[name='sale_address']").val(result);
-          }
-        });*/
+    let section = $(".section-create-sale");
+    section.find(".create_sale").click(function() {
+      var client = new XYClient(function(client) {
+        var section = $(".section-create-sale");
+        var etherToSend = section.find("[name='ether_to_send']").val();
 
-        section.find("[name='sale_contract']").val("XYEligibleTokenSale");
-
-        $(".meta-mask-information").show();
+        try {
+          var params = {from: client.getDAppAddress(), to: client.config.saleAddress, gasPrice: 10000000000, gas: 2000000, value: web3.toWei(etherToSend, 'ether')};
+          console.log("Params: " + JSON.stringify(params));
+          client.getWeb3().eth.sendTransaction(
+            params,
+            (error, result) => {
+              if (error) {
+                console.error(error);
+              } else {
+                alert(result);
+              }
+          });
+        } catch (ex) {
+          $(".error-message").text(ex.message);
+          console.error(ex);
+        }
 
       });
-    } catch (ex) {
-      console.log("No Meta Mask Found or Meta Mask Not Signed In");
-      $(".install-meta-mask").fadeTo(1000, 1)
-      $(".meta-mask-information").fadeTo(300, .5);
-      $(".meta-mask-information").attr("disabled","disabled");
-    }
-
+    });
+    var client = new XYClient(function(client) {
+      section.find("[name='token_address']").val(client.config.tokenAddress);
+      section.find("[name='start_time']").val(1521529200000);
+      section.find("[name='end_time']").val(1526799600000);
+    });
   });
 </script>
