@@ -12,7 +12,7 @@
       <div class="col-xs-8 col-xs-offset-2">
         <div class="field-with-helper">
           <label for="initial_supply">Initial Supply</label>
-          <input name="initial_supply" id="initial_supply" type="text" value="" />
+          <input name="initial_supply" id="initial_supply" type="text" value="1000" />
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Initial Supply" data-placement="left" data-content="The initial number of tokens available."></span>
         </div>
       </div>
@@ -21,7 +21,7 @@
       <div class="col-xs-8 col-xs-offset-2">
         <div class="field-with-helper">
           <label for="token_name">Token Name</label>
-          <input name="token_name" id="token_name" type="text" value="" />
+          <input name="token_name" id="token_name" type="text" value="Test" />
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Token Name" data-placement="left" data-content="The name of your token."></span>
         </div>
       </div>
@@ -30,7 +30,7 @@
       <div class="col-xs-8 col-xs-offset-2">
         <div class="field-with-helper">
           <label for="token_symbol">Token Symbol</label>
-          <input name="token_symbol" id="token_symbol" type="text" value="" />
+          <input name="token_symbol" id="token_symbol" type="text" value="TST" />
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Token Symbol" data-placement="left" data-content="The symbol of your token."></span>
         </div>
       </div>
@@ -59,14 +59,18 @@
         var tokenSymbol = section.find("[name='tokenSymbol']").val();
         let contract = new XYContract('/contracts/TokenSale/ERC20.json', (contract) => {
           try {
-            window.arie2 = contract;
             let instance = contract.getContract(client.getWeb3()).new(
               [initialSupply, tokenName, tokenSymbol],
               {data:contract.getByteCode(), from: client.getDAppAddress(), gasPrice: 10000000000, gas: 2000000},
               (error, result) => {
+                if (error) {
+                  console.error(error);
+                } else {
+                  client.config.tokenAddress = result.address;
+                  client.config.save();
+                }
               }
             );
-            window.arie = instance;
           } catch (ex) {
             $(".error-message").text(ex.message);
             console.error(ex);

@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: XYConfig.js
  * @Last modified by:   arietrouw
- * @Last modified time: Sunday, March 11, 2018 11:39 PM
+ * @Last modified time: Tuesday, March 13, 2018 5:57 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -16,38 +16,43 @@ class XYConfig extends XYBase {
     super();
     this.name = _name || `default`;
 
-    let loaded = false;
-
-    try {
-      const data = localStorage.getItem(`xy-crypto-config-${this.name}`);
-      const obj = JSON.parse(data);
-      if (obj) {
-        Object.keys(obj).forEach(function (key) {
-          this.debug(`Config Field: ${key}=${obj[key]}`);
-          this[key] = obj[key];
-        });
-        loaded = true;
-      }
-    } catch (ex) {
-      this.debug(`Config Load Failed (Clearing): ${ex}`);
-      this.clear();
-    }
-    if (!loaded) {
+    if (!this.load()) {
       // set defaults
       this.divinerAddress = `localhost:24456`;
       this.tokenAddress = `0x55296f69f40Ea6d20E478533C15A6B08B654E758`;
     }
   }
 
-  clear(_name) {
-    const name = _name || `default`;
-    localStorage.setItem(`xy-crypto-config-${name}`, `{}`);
+  clear() {
+    this.debug(`clear: ${this.name}`);
+    localStorage.setItem(`xy-crypto-config-${this.name}`, `{}`);
     return this;
   }
 
-  save(_name) {
-    const name = _name || `default`;
-    localStorage.setItem(`xy-crypto-config-${name}`, JSON.stringify(this));
+  load() {
+    const self = this;
+    this.debug(`load: ${this.name}`);
+    try {
+      const data = localStorage.getItem(`xy-crypto-config-${this.name}`);
+      const obj = JSON.parse(data);
+      if (obj) {
+        Object.keys(obj).forEach((key) => {
+          self.debug(`Config Field: ${key}=${obj[key]}`);
+          self[key] = obj[key];
+        });
+        return true;
+      }
+    } catch (ex) {
+      this.debug(`Config Load Failed (Clearing): ${ex}`);
+      this.clear();
+    }
+    return false;
+  }
+
+  save() {
+    const data = JSON.stringify(this);
+    this.debug(`save-data: ${data}`);
+    localStorage.setItem(`xy-crypto-config-${this.name}`, data);
     return this;
   }
 }

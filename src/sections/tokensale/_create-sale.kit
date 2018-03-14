@@ -1,29 +1,49 @@
 
 
-<section class="container section-saleselect" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+<section class="container section-create-token" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
   <form>
-    <div class="row">
+    <div class="row center">
       <div class="col-xs-12">
-        &nbsp;
+        <h1>Create Token Sales Contract - Ethereum ERC20</h1>
+        <p>Create a ERC20 compliant token sale.</p>
       </div>
     </div>
-    <div class="install-meta-mask row center" style="display:none;">
-      <div class="col-xs-12">
-        <h3><a href="https://metamask.io/" target="_blank">Install Meta Mask</a></h3>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="sale_contract">Sale Contract</label>
+          <select name="sale_contract" id="sale_contract" value="">
+          </select>
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Sale Contract" data-placement="left" data-content="The name of the sale contract."></span>
+        </div>
       </div>
     </div>
-    <div class="meta-mask-information row">
-      <div class="col-xs-12 col-sm-6 center">
-        <p>
-          <label class="center" for="sale_address">Sale Address</label><br/>
-          <input class="center filled" style="width:100%;" name="sale_address" id="sale_address" readonly type="text"/>
-        </p>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="token_name">Token Name</label>
+          <input name="token_name" id="token_name" type="text" value="Test" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Token Name" data-placement="left" data-content="The name of your token."></span>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 center">
-        <p>
-          <label class="center" for="sale_contract">Sale Contract</label><br/>
-          <input class="center filled" style="width:100%;" name="sale_contract" id="sale_contract" readonly type="text"/>
-        </p>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="token_symbol">Token Symbol</label>
+          <input name="token_symbol" id="token_symbol" type="text" value="TST" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Token Symbol" data-placement="left" data-content="The symbol of your token."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <button class="create_token" type="button">Create Token</button>
       </div>
     </div>
   </form>
@@ -31,28 +51,33 @@
 
 <script>
   $(document).ready(() => {
-    var section = $(".section-saleselect");
-    try {
-      var client = new XYClient(function() {
-        /*client.getTokenSaleAddress(function (error, result) {
-          if (error) {
-            console.log(error);
-          } else {
-            section.find("[name='sale_address']").val(result);
+    let section = $(".section-create-token");
+    section.find(".create_token").click(function() {
+      var client = new XYClient(function(client) {
+        var section = $(".section-create-token");
+        var initialSupply = section.find("[name='initial_supply']").val();
+        var tokenName = section.find("[name='token_name']").val();
+        var tokenSymbol = section.find("[name='tokenSymbol']").val();
+        let contract = new XYContract('/contracts/TokenSale/ERC20.json', (contract) => {
+          try {
+            let instance = contract.getContract(client.getWeb3()).new(
+              [initialSupply, tokenName, tokenSymbol],
+              {data:contract.getByteCode(), from: client.getDAppAddress(), gasPrice: 10000000000, gas: 2000000},
+              (error, result) => {
+                if (error) {
+                  console.error(error);
+                } else {
+                  client.config.tokenAddress = result.address;
+                  client.config.save();
+                }
+              }
+            );
+          } catch (ex) {
+            $(".error-message").text(ex.message);
+            console.error(ex);
           }
-        });*/
-
-        section.find("[name='sale_contract']").val("XYEligibleTokenSale");
-
-        $(".meta-mask-information").show();
-
+        });
       });
-    } catch (ex) {
-      console.log("No Meta Mask Found or Meta Mask Not Signed In");
-      $(".install-meta-mask").fadeTo(1000, 1)
-      $(".meta-mask-information").fadeTo(300, .5);
-      $(".meta-mask-information").attr("disabled","disabled");
-    }
-
+    });
   });
 </script>

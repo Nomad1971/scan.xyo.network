@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: XYContract.js
  * @Last modified by:   arietrouw
- * @Last modified time: Monday, March 12, 2018 7:20 PM
+ * @Last modified time: Tuesday, March 13, 2018 5:27 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -19,8 +19,6 @@ class XYContract extends XYBase {
     const callback = _callback;
     this.file = _file;
     $.getJSON(_file, (data) => {
-      this.debug(data);
-      window.arie = data;
       this.contract = data;
       callback(this);
     }, (error) => {
