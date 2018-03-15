@@ -1,29 +1,46 @@
-
-
-<section class="container section-saleselect" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+<section class="container section-approve" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
   <form>
-    <div class="row">
+    <div class="row center">
       <div class="col-xs-12">
-        &nbsp;
+        <h1>Approver - Ethereum ERC20</h1>
+        <p>Approver a pending purchase for the sale</p>
       </div>
     </div>
-    <div class="install-meta-mask row center" style="display:none;">
-      <div class="col-xs-12">
-        <h3><a href="https://metamask.io/" target="_blank">Install Meta Mask</a></h3>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="address">Address</label>
+          <input name="address" id="address" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Address" data-placement="left" data-content=""></span>
+        </div>
       </div>
     </div>
-    <div class="meta-mask-information row">
-      <div class="col-xs-12 col-sm-6 center">
-        <p>
-          <label class="center" for="sale_address">Sale Address</label><br/>
-          <input class="center filled" style="width:100%;" name="sale_address" id="sale_address" readonly type="text"/>
-        </p>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="tokens">Tokens</label>
+          <input name="tokens" id="tokens" type="number" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Tokens" data-placement="left" data-content=""></span>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 center">
-        <p>
-          <label class="center" for="sale_contract">Sale Contract</label><br/>
-          <input class="center filled" style="width:100%;" name="sale_contract" id="sale_contract" readonly type="text"/>
-        </p>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="ether">Ether</label>
+          <input name="ether" id="ether" type="number" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Ether" data-placement="left" data-content=""></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <button class="set_approver" type="button">Approve</button>
       </div>
     </div>
   </form>
@@ -31,28 +48,51 @@
 
 <script>
   $(document).ready(() => {
-    var section = $(".section-saleselect");
-    try {
-      var client = new XYClient(function() {
-        /*client.getTokenSaleAddress(function (error, result) {
-          if (error) {
-            console.log(error);
-          } else {
-            section.find("[name='sale_address']").val(result);
+    let section = $(".section-approve");
+    section.find(".set_approver").click(function() {
+      var client = new XYClient(function(client) {
+        var address = section.find("[name='address']").val();
+        var approver = section.find("[name='approve']").val() === "true";
+        var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+        let contract = new XYContract(contractFile, (contract) => {
+          try {
+            let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
+            instance.approve(address, (error, result) => {
+              if (error) {
+                console.error(error);
+              } else {
+                console.log(result);
+              }
+            });
+          } catch (ex) {
+            $(".error-message").text(ex.message);
+            console.error(ex);
           }
-        });*/
-
-        section.find("[name='sale_contract']").val("XYEligibleTokenSale");
-
-        $(".meta-mask-information").show();
-
+        });
       });
-    } catch (ex) {
-      console.log("No Meta Mask Found or Meta Mask Not Signed In");
-      $(".install-meta-mask").fadeTo(1000, 1)
-      $(".meta-mask-information").fadeTo(300, .5);
-      $(".meta-mask-information").attr("disabled","disabled");
-    }
-
+    });
+    var client = new XYClient(function(client) {
+      var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+      let contract = new XYContract(contractFile, (contract) => {
+        try {
+          let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
+          instance.pending(section.find("[name='address']").val(), (error, result) => {
+            if (error) {
+              $(".error-message").text(error);
+              console.error(error);
+            } else {
+              console.log("Amount: " + result);
+              window.arie = result;
+              section.find("[name='ether']").val(result[0].toString(10));
+              section.find("[name='tokens']").val(result[1].toString(10));
+            }
+          });
+        } catch (ex) {
+          $(".error-message").text(ex.message);
+          console.error(ex);
+        }
+      });
+      section.find("[name='address']").val(client.getDAppAddress());
+    });
   });
 </script>

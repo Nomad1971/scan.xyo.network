@@ -78,7 +78,6 @@
           if (error) {
             console.error(error);
           } else {
-            window.arie = result;
             section.find("[name='xyo_balance']").val(result.shift(-18).toString(10));
           }
         });
