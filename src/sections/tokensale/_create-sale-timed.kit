@@ -1,9 +1,9 @@
-<section class="container section-create-sale" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+<section class="container section-create-sale-timed" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
   <form>
     <div class="row center">
       <div class="col-xs-12">
-        <h1>Create Token Sales Contract - Ethereum ERC20</h1>
-        <p>Create a ERC20 compliant token sale.</p>
+        <h1>Create Token Timed Sales Contract - Ethereum ERC20</h1>
+        <p>Create a ERC20 compliant token sale that has start and end times.</p>
       </div>
     </div>
     <div class="row center">
@@ -11,7 +11,7 @@
         <div class="field-with-helper">
           <label for="sale_contract">Sale Contract</label>
           <select name="sale_contract" id="sale_contract" value="">
-            <option selected>XYTokenSale</option>
+            <option selected>XYTimedTokenSale</option>
           </select>
         </div>
       </div>
@@ -44,6 +44,26 @@
       </div>
     </div>
     <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="start_time">Start Time</label>
+          <input name="start_time" id="start_time" type="number" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Start Time" data-placement="left" data-content=""></span>
+          <span class='start_now' style='cursor:pointer;'>Set to Now</span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="end_time">End Time</label>
+          <input name="end_time" id="end_time" type="number" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="End Time" data-placement="left" data-content=""></span>
+          <span class='end_now' style='cursor:pointer;'>Set to Now</span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
       <div class="col-xs-offset-3 col-xs-6">
         <span class="error-message"></span>
       </div>
@@ -58,19 +78,35 @@
 
 <script>
   $(document).ready(() => {
-    let section = $(".section-create-sale");
+    let section = $(".section-create-sale-timed");
+    section.find(".start_now").click(function() {
+      let section = $(".section-create-sale-timed");
+      section.find("[name='start_time']").val(Math.floor(Date.now() / 1000));
+    });
+    section.find(".end_now").click(function() {
+      let section = $(".section-create-sale-timed");
+      section.find("[name='end_time']").val(Math.floor(Date.now() / 1000));
+    });
     section.find(".create_sale").click(function() {
       var client = new XYClient(function(client) {
-        var section = $(".section-create-sale");
+        var section = $(".section-create-sale-timed");
         var contractName = section.find("[name='sale_contract']").val();
         var tokenAddress = section.find("[name='token_address']").val();
         var price = section.find("[name='price']").val();
         var minEther = client.toBigInt(section.find("[name='min_ether']").val()).toString();
+        var startTime = section.find("[name='start_time']").val();
+        var endTime = section.find("[name='end_time']").val();
         var saleContractFile = '/contracts/TokenSale/' + contractName + '.json';
         let contract = new XYContract(saleContractFile, (contract) => {
           try {
+            console.log('=====Creating Timed Contract=====');
+            console.log('tokenAddress: ' + tokenAddress);
+            console.log('price: ' + price);
+            console.log('minEther: ' + minEther);
+            console.log('startTime: ' + startTime);
+            console.log('endTime: ' + endTime);
             let instance = contract.getContract(client.getWeb3()).new(
-              tokenAddress, price, minEther,
+              tokenAddress, price, minEther, startTime, endTime,
               {data:contract.getByteCode(), from: client.getDAppAddress(), gasPrice: 20000000000, gas: 6000000},
               (error, result) => {
                 if (error) {
@@ -92,6 +128,8 @@
     });
     var client = new XYClient(function(client) {
       section.find("[name='token_address']").val(client.config.tokenAddress);
+      section.find("[name='start_time']").val(1521096482);
+      section.find("[name='end_time']").val(1526799600);
     });
   });
 </script>

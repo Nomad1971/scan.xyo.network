@@ -23,7 +23,7 @@
     "bootstrap": "^4.0.0",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.1",
-    "xyo-solidity": "^0.1.19"
+    "xyo-solidity": "file:../xyo-solidity"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",

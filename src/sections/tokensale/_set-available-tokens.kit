@@ -3,7 +3,7 @@
     <div class="row center">
       <div class="col-xs-12">
         <h1>Set Allowed Tokens - Ethereum ERC20</h1>
-        <p>Set the allowance for the token</p>
+        <p>Set the allowance for the token (Currently: <span class="current_value"></span>)</p>
       </div>
     </div>
     <div class="row center">
@@ -35,7 +35,7 @@
       var client = new XYClient(function(client) {
         var section = $(".section-allow-tokens");
         var allowedTokens = client.toBigInt(section.find("[name='allowed_tokens']").val());
-        var saleContractFile = '/contracts/TokenSale/ERC20.json';
+        var saleContractFile = '/contracts/TokenSale/lib/ERC20.json';
         let contract = new XYContract(saleContractFile, (contract) => {
           try {
             let instance = contract.getInstance(client.getWeb3(), client.config.tokenAddress);
@@ -57,6 +57,21 @@
       section.find("[name='token_address']").val(client.config.tokenAddress);
       section.find("[name='start_time']").val(1521529200000);
       section.find("[name='end_time']").val(1526799600000);
+
+      var saleContractFile = '/contracts/TokenSale/lib/ERC20.json';
+      let contract = new XYContract(saleContractFile, (contract) => {
+        try {
+          let instance = contract.getInstance(client.getWeb3(), client.config.tokenAddress);
+          instance.allowance(client.getDAppAddress(), client.config.saleAddress, (error, result) => {
+            console.log("CurrentValue: " + result);
+            section.find(".current_value").html(result.shift(-18).toString(10));
+          });
+        } catch (ex) {
+          $(".error-message").text(ex.message);
+          console.error(ex);
+        }
+      });
+
     });
   });
 </script>

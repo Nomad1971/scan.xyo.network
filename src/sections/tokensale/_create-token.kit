@@ -52,13 +52,13 @@
     section.find(".create_token").click(function() {
       var client = new XYClient(function(client) {
         var section = $(".section-create-token");
-        var initialSupply = client.toBigInt(section.find("[name='initial_supply']").val());
+        var initialSupply = section.find("[name='initial_supply']").val();
         var tokenName = section.find("[name='token_name']").val();
-        var tokenSymbol = section.find("[name='tokenSymbol']").val();
-        let contract = new XYContract('/contracts/TokenSale/ERC20.json', (contract) => {
+        var tokenSymbol = section.find("[name='token_symbol']").val();
+        let contract = new XYContract('/contracts/TokenSale/lib/ERC20.json', (contract) => {
           try {
             let instance = contract.getContract(client.getWeb3()).new(
-              [initialSupply, tokenName, tokenSymbol],
+              initialSupply, tokenName, tokenSymbol,
               {data:contract.getByteCode(), from: client.getDAppAddress(), gasPrice: 10000000000, gas: 2000000},
               (error, result) => {
                 if (error) {

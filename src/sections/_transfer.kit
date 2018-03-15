@@ -65,7 +65,7 @@
           var address = section.find("[name='address']").val();
           var amount = client.toBigInt(section.find("[name='amount']").val(), 10);
           console.log('BN:' + amount);
-          let contract = new XYContract('/contracts/TokenSale/ERC20.json', (contract) => {
+          let contract = new XYContract('/contracts/TokenSale/lib/ERC20.json', (contract) => {
             try {
               let instance = contract.getInstance(this.web3, client.config.tokenAddress);
               instance.transfer(address, amount, { gasPrice: 10000000000 }, (_error, _result) => {
