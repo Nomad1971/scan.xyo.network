@@ -35,8 +35,8 @@
       var client = new XYClient(function(client) {
         var section = $(".section-allow-tokens");
         var allowedTokens = client.toBigInt(section.find("[name='allowed_tokens']").val());
-        var saleContractFile = '/contracts/TokenSale/lib/ERC20.json';
-        let contract = new XYContract(saleContractFile, (contract) => {
+        var contractFile = '/contracts/TokenSale/lib/ERC20.json';
+        let contract = new XYContract(contractFile, (contract) => {
           try {
             let instance = contract.getInstance(client.getWeb3(), client.config.tokenAddress);
             instance.approve(client.config.saleAddress, allowedTokens, (error, result) => {
@@ -54,17 +54,18 @@
       });
     });
     var client = new XYClient(function(client) {
-      section.find("[name='token_address']").val(client.config.tokenAddress);
-      section.find("[name='start_time']").val(1521529200000);
-      section.find("[name='end_time']").val(1526799600000);
-
       var saleContractFile = '/contracts/TokenSale/lib/ERC20.json';
       let contract = new XYContract(saleContractFile, (contract) => {
         try {
           let instance = contract.getInstance(client.getWeb3(), client.config.tokenAddress);
           instance.allowance(client.getDAppAddress(), client.config.saleAddress, (error, result) => {
-            console.log("CurrentValue: " + result);
-            section.find(".current_value").html(result.shift(-18).toString(10));
+            if (error) {
+              $(".error-message").text(ex.message);
+              console.error(error);
+            } else {
+              console.log("CurrentValue: " + result);
+              section.find(".current_value").html(result.shift(-18).toString(10));
+            }
           });
         } catch (ex) {
           $(".error-message").text(ex.message);
