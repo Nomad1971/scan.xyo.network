@@ -1,4 +1,4 @@
-<section class="container section-allow-tokens" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+<section class="container section-min-ether" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
   <form>
     <div class="row center">
       <div class="col-xs-12">
@@ -22,7 +22,7 @@
     </div>
     <div class="row center">
       <div class="col-xs-offset-3 col-xs-6">
-        <button class="allow_tokens" type="button">Set Min Ether</button>
+        <button class="set_min_ether" type="button">Set Min Ether</button>
       </div>
     </div>
   </form>
@@ -30,10 +30,10 @@
 
 <script>
   $(document).ready(() => {
-    let section = $(".section-allow-tokens");
-    section.find(".allow_tokens").click(function() {
+    let section = $(".section-min-ether");
+    section.find(".set_min_ether").click(function() {
       var client = new XYClient(function(client) {
-        var section = $(".section-allow-tokens");
+        var section = $(".section-min-ether");
         var minEther = client.toBigInt(section.find("[name='min_ether']").val());
         var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
         let contract = new XYContract(contractFile, (contract) => {

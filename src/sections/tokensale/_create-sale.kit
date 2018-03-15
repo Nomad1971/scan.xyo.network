@@ -64,7 +64,7 @@
         var section = $(".section-create-sale");
         var contractName = section.find("[name='sale_contract']").val();
         var tokenAddress = section.find("[name='token_address']").val();
-        var price = section.find("[name='price']").val();
+        var price = client.toBigInt(section.find("[name='price']").val()).toString();
         var minEther = client.toBigInt(section.find("[name='min_ether']").val()).toString();
         var saleContractFile = '/contracts/TokenSale/' + contractName + '.json';
         let contract = new XYContract(saleContractFile, (contract) => {

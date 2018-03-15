@@ -92,7 +92,7 @@
         var section = $(".section-create-sale-eligible");
         var contractName = section.find("[name='sale_contract']").val();
         var tokenAddress = section.find("[name='token_address']").val();
-        var price = section.find("[name='price']").val();
+        var price = client.toBigInt(section.find("[name='price']").val()).toString();
         var minEther = client.toBigInt(section.find("[name='min_ether']").val()).toString();
         var startTime = section.find("[name='start_time']").val();
         var endTime = section.find("[name='end_time']").val();
