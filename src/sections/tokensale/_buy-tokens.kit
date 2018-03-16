@@ -22,7 +22,7 @@
     </div>
     <div class="row center">
       <div class="col-xs-offset-3 col-xs-6">
-        <button class="create_sale" type="button">Send Ether</button>
+        <button class="send_ether" type="button">Send Ether</button>
       </div>
     </div>
   </form>
@@ -31,13 +31,31 @@
 <script>
   $(document).ready(() => {
     let section = $(".section-create-sale");
-    section.find(".create_sale").click(function() {
+    section.find(".send_ether").click(function() {
       var client = new XYClient(function(client) {
         var section = $(".section-create-sale");
         var etherToSend = section.find("[name='ether_to_send']").val();
 
         try {
-          var params = {from: client.getDAppAddress(), to: client.config.saleAddress, gasPrice: 10000000000, gas: 2000000, value: web3.toWei(etherToSend, 'ether')};
+          var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+          let contract = new XYContract(contractFile, (contract) => {
+            try {
+              let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
+              var params = {from: client.getDAppAddress(), to: client.config.saleAddress, gasPrice: 10000000000, gas: 2000000, value: web3.toWei(etherToSend, 'ether')}
+
+              instance.purchase(params, (error, result) => {
+                if (error) {
+                  console.error(error);
+                } else {
+                  console.log(result);
+                }
+              });
+            } catch (ex) {
+              $(".error-message").text(ex.message);
+              console.error(ex);
+            }
+          });
+          /*var params = {from: client.getDAppAddress(), to: client.config.saleAddress, gasPrice: 10000000000, gas: 2000000, value: web3.toWei(etherToSend, 'ether')};
           console.log("Params: " + JSON.stringify(params));
           client.getWeb3().eth.sendTransaction(
             params,
@@ -47,7 +65,7 @@
               } else {
                 console.log("Result: " + result);
               }
-          });
+          });*/
         } catch (ex) {
           $(".error-message").text(ex.message);
           console.error(ex);

@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: browserify.js
  * @Last modified by:   arietrouw
- * @Last modified time: Wednesday, March 14, 2018 9:10 AM
+ * @Last modified time: Thursday, March 15, 2018 3:22 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -40,7 +40,10 @@ const javascript = () => {
     .pipe(connect.reload());
 };
 
-gulp.task(`js`, javascript);
-gulp.watch(getLocation(SOURCE_BASE, `/js/**/*.js`), [`js`], connect.reload());
+gulp.task(`js-task`, javascript);
+
+gulp.task(`js`, [`js-task`], () => {
+  gulp.watch(getLocation(SOURCE_BASE, `/js/**/*.js`), [`js`], connect.reload());
+});
 
 module.exports = javascript;

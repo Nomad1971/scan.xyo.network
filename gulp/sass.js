@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: sass.js
  * @Last modified by:   arietrouw
- * @Last modified time: Wednesday, March 14, 2018 9:22 AM
+ * @Last modified time: Friday, March 16, 2018 12:18 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -27,9 +27,7 @@ const getLocation = (base, location) => `${base}${location}`;
 const sass = () => {
   const sassOutput = gulp.src(getLocation(SOURCE_BASE, `/css/**/*.scss`))
     .pipe(gulpSass({
-      includePaths: [
-        `./node_modules/`,
-      ],
+      includePaths: [`node_modules/bootstrap-sass/assets/stylesheets/`],
     }).on(`error`, (err) => {
       console.log(err.message);
     }));
@@ -48,7 +46,10 @@ const sass = () => {
     .pipe(connect.reload());
 };
 
-gulp.task(`sass`, sass);
-gulp.watch(getLocation(SOURCE_BASE, `/css/**/*.*`), [`sass`], connect.reload());
+gulp.task(`sass-task`, sass);
+
+gulp.task(`sass`, [`sass-task`], () => {
+  gulp.watch(getLocation(SOURCE_BASE, `/css/**/*.*`), [`sass`], connect.reload());
+});
 
 module.exports = sass;

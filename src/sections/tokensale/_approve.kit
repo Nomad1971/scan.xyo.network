@@ -82,9 +82,8 @@
               console.error(error);
             } else {
               console.log("Amount: " + result);
-              window.arie = result;
-              section.find("[name='ether']").val(result[0].toString(10));
-              section.find("[name='tokens']").val(result[1].toString(10));
+              section.find("[name='ether']").val(result[0].shift(-18).toString(10));
+              section.find("[name='tokens']").val(result[1].shift(-18).toString(10));
             }
           });
         } catch (ex) {

@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: codekit.js
  * @Last modified by:   arietrouw
- * @Last modified time: Wednesday, March 14, 2018 9:06 AM
+ * @Last modified time: Thursday, March 15, 2018 3:20 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -32,7 +32,10 @@ const codekit = () => gulp.src(getLocation(SOURCE_BASE, `/**/*.kit`))
   .pipe(gulp.dest(OUTPUT_BASE))
   .pipe(connect.reload());
 
-gulp.task(`kit`, codekit);
-gulp.watch(getLocation(SOURCE_BASE, `/**/*.kit`), [`kit`], connect.reload());
+gulp.task(`codekit`, codekit);
+
+gulp.task(`kit`, [`codekit`], () => {
+  gulp.watch(getLocation(SOURCE_BASE, `/**/*.kit`), [`kit`], connect.reload());
+});
 
 module.exports = codekit;

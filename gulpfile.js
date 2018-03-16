@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: gulpfile.js
  * @Last modified by:   arietrouw
- * @Last modified time: Wednesday, March 14, 2018 9:21 AM
+ * @Last modified time: Friday, March 16, 2018 8:52 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -22,10 +22,10 @@ const open = require(`gulp-open`);
 require(`./gulp/codekit.js`);
 require(`./gulp/javascript.js`);
 require(`./gulp/sass.js`);
+require(`./gulp/solidity.js`);
 
 const SOURCE_BASE = `./src`;
 const OUTPUT_BASE = `./dist`;
-const MODULE_BASE = `./node_modules`;
 
 const PORT = 8080;
 
@@ -71,14 +71,6 @@ const processData = () => gulp.src([
   .pipe(gulp.dest(OUTPUT_BASE))
   .pipe(connect.reload());
 
-const processSolidity = () => gulp.src([
-  getLocation(MODULE_BASE, `/**/dist/**/*.json`),
-], {
-  base: `${MODULE_BASE}/**/dist/`,
-})
-  .pipe(gulp.dest(OUTPUT_BASE))
-  .pipe(connect.reload());
-
 const publish = () => {
   gulp.src(`./dist/**`)
     .pipe(gulpS3Upload({
@@ -112,12 +104,14 @@ gulp.task(`develop`, [`kit`, `sass`, `js`, `assets`, `solidity`], (callback) => 
   reloadPage();
   callback();
 });
+
+gulp.task(`cs`, [`solidity`]);
+
 gulp.task(`release`, [`kit`, `sass`, `js`, `assets`]);
 gulp.task(`assets`, [`images`, `fonts`, `data`]);
 gulp.task(`serve`, serve);
 gulp.task(`images`, processImages);
 gulp.task(`fonts`, processFonts);
 gulp.task(`data`, processData);
-gulp.task(`solidity`, processSolidity);
 gulp.task(`publish`, publish);
 gulp.task(`invalidate`, invalidate);

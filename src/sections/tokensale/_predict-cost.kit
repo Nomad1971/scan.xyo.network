@@ -1,0 +1,70 @@
+<section class="container section-predict-cost" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+  <form>
+    <div class="row center">
+      <div class="col-xs-12">
+        <h1>Predict Cost</h1>
+        <p>Predict how much it would cost to buy a certain amount of tokens</p>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="ether_to_send">Ether to Send (0 Places)</label>
+          <input name="ether_to_send" id="ether_to_send" type="number" value="5" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Ether To Send" data-placement="left" data-content=""></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-12">
+        <h2>Predicted Cost: <span class='predicted-cost'>Unknown</span></h2>
+        <p>Predict how much it would cost to buy a certain amount of tokens</p>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <button class="predict-cost" type="button">Predict Cost</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(() => {
+    let section = $(".section-predict-cost");
+    section.find(".predict-cost").click(function() {
+      var client = new XYClient(function(client) {
+        var etherToSend = section.find("[name='ether_to_send']").val();
+        try {
+          var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+          let contract = new XYContract(contractFile, (contract) => {
+            try {
+              let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
+              instance.predictCost(etherToSend, (error, result) => {
+                if (error) {
+                  $(".error-message").text(error);
+                  console.error(error);
+                } else {
+                  console.log("Predicted Cost: " + result);
+                  section.find(".predicted-cost").html(result);
+                }
+              });
+            } catch (ex) {
+              $(".error-message").text(ex.message);
+              console.error(ex);
+            }
+          });
+        } catch (ex) {
+          $(".error-message").text(ex.message);
+          console.error(ex);
+        }
+
+      });
+    });
+  });
+</script>

@@ -23,7 +23,7 @@
     "bootstrap": "^4.0.0",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.1",
-    "xyo-solidity": "^0.1.27"
+    "xyo-solidity": "file:../xyo-solidity"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
@@ -45,6 +45,7 @@
     "gulp-connect": "^5.5.0",
     "gulp-css-copy-assets": "^0.0.4",
     "gulp-debug": "^3.2.0",
+    "gulp-debug-streams": "^3.0.0",
     "gulp-htmlmin": "^3.0.0",
     "gulp-insert-lines": "^0.0.4",
     "gulp-kit": "^0.3.0",

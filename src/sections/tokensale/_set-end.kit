@@ -12,6 +12,7 @@
           <label for="end">End (0 Places)</label>
           <input name="end" id="end" type="number" value="" />
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Price" data-placement="left" data-content=""></span>
+          <span class='set_now' style='cursor:pointer;'>Set to Now</span>
         </div>
       </div>
     </div>
@@ -31,14 +32,17 @@
 <script>
   $(document).ready(() => {
     let section = $(".section-end");
+    section.find(".set_now").click(function() {
+      section.find("[name='end']").val(Math.floor(Date.now() / 1000));
+    });
     section.find(".set_end").click(function() {
       var client = new XYClient(function(client) {
-        var start = client.toBigInt(section.find("[name='end']").val());
+        var end = section.find("[name='end']").val();
         var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
         let contract = new XYContract(contractFile, (contract) => {
           try {
             let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
-            instance.setStartTime(start, (error, result) => {
+            instance.setEndTime(end, (error, result) => {
               if (error) {
                 console.error(error);
               } else {
