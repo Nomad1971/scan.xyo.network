@@ -34,7 +34,7 @@
     section.find(".send_ether").click(function() {
       var client = new XYClient(function(client) {
         var section = $(".section-create-sale");
-        var etherToSend = section.find("[name='ether_to_send']").val();
+        var etherToSend = client.toBigInt(section.find("[name='ether_to_send']").val());
 
         try {
           var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';

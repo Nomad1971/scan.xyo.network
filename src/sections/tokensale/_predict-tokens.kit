@@ -1,9 +1,9 @@
-<section class="container section-predict-cost" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+<section class="container section-predict-tokens" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
   <form>
     <div class="row center">
       <div class="col-xs-12">
-        <h1>Predict Cost</h1>
-        <p>Predict how much it would cost to buy a certain amount of tokens</p>
+        <h1>Predict Tokens</h1>
+        <p>Predict how many tokens you would get for a certain number of ETH</p>
       </div>
     </div>
     <div class="row center">
@@ -17,8 +17,7 @@
     </div>
     <div class="row center">
       <div class="col-xs-12">
-        <h2>Predicted Cost: <span class='predicted-cost'>Unknown</span></h2>
-        <p>Predict how much it would cost to buy a certain amount of tokens</p>
+        <h2>Predicted Tokens: <span class='predicted-tokens'>Unknown</span></h2>
       </div>
     </div>
     <div class="row center">
@@ -28,7 +27,7 @@
     </div>
     <div class="row center">
       <div class="col-xs-offset-3 col-xs-6">
-        <button class="predict-cost" type="button">Predict Cost</button>
+        <button class="predict-tokens" type="button">Predict Cost</button>
       </div>
     </div>
   </form>
@@ -36,10 +35,10 @@
 
 <script>
   $(document).ready(() => {
-    let section = $(".section-predict-cost");
-    section.find(".predict-cost").click(function() {
+    let section = $(".section-predict-tokens");
+    section.find(".predict-tokens").click(function() {
       var client = new XYClient(function(client) {
-        var etherToSend = section.find("[name='ether_to_send']").val();
+        var etherToSend = client.toBigInt(section.find("[name='ether_to_send']").val());
         try {
           var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
           let contract = new XYContract(contractFile, (contract) => {
@@ -50,8 +49,8 @@
                   $(".error-message").text(error);
                   console.error(error);
                 } else {
-                  console.log("Predicted Cost: " + result);
-                  section.find(".predicted-cost").html(result);
+                  console.log("Predicted Tokens: " + result.toString(10));
+                  section.find(".predicted-tokens").html(result.shift(-18).toString(10));
                 }
               });
             } catch (ex) {
