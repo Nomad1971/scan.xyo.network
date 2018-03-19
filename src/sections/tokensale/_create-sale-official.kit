@@ -28,6 +28,15 @@
     <div class="row center">
       <div class="col-xs-8 col-xs-offset-2">
         <div class="field-with-helper">
+          <label for="benefactor_address">Benefactor Address</label>
+          <input name="benefactor_address" id="benefactor_address" type="text" value="0x7Fe214bfdECD41F1D742A75CA6d267551e9a4578" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Benefactor Address" data-placement="left" data-content="The address of the benifactor."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
           <label for="min_ether">Minimum Ether (0 Places)</label>
           <input name="min_ether" id="min_ether" type="number" value="0.01" />
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Minimum Ether" data-placement="left" data-content=""></span>
@@ -115,10 +124,12 @@
       section.find("[name='end_time']").val(Math.floor(Date.now() / 1000));
     });
     section.find(".create_sale").click(function() {
+      console.log("Loading Contract Info");
       var client = new XYClient(function(client) {
         var section = $(".section-create-sale-official");
         var contractName = section.find("[name='sale_contract']").val();
         var tokenAddress = section.find("[name='token_address']").val();
+        var benefactorAddress = section.find("[name='benefactor_address']").val();
         var minEther = client.toBigInt(section.find("[name='min_ether']").val()).toString();
         var startTime = section.find("[name='start_time']").val();
         var endTime = section.find("[name='end_time']").val();
@@ -126,20 +137,27 @@
         var endPrice = section.find("[name='end_price']").val();
         var totalVariableTokens = section.find("[name='total_variable_tokens']").val();
         var totalFixedTokens = section.find("[name='total_fixed_tokens']").val();
-        var saleContractFile = '/contracts/TokenSale/' + contractName + '.json';
+        var saleContractFile = '/contracts/' + contractName + '.json';
+        console.log("Done Loading Contract Info");
         let contract = new XYContract(saleContractFile, (contract) => {
+          console.log("New Contract");
           try {
+            console.log("Creating Contract");
             let instance = contract.getContract(client.getWeb3()).new(
-              tokenAddress, minEther, startTime, endTime, startPrice, endPrice, totalVariableTokens, totalFixedTokens,
+              tokenAddress, benefactorAddress, minEther, startTime, endTime, startPrice, endPrice, totalVariableTokens, totalFixedTokens,
               {data:contract.getByteCode(), from: client.getDAppAddress(), gasPrice: 20000000000, gas: 6000000},
               (error, result) => {
                 if (error) {
                   console.error(error);
                 } else {
-                  client.config.saleAddress = result.address;
-                  client.config.saleContractName = contractName;
-                  client.config.saleContractFile = saleContractFile;
-                  client.config.save();
+                  console.log("Tx: " + result.transactionHash);
+                  client.getWeb3().eth.getTransactionReceipt(result.transactionHash, (error, result) => {
+                    console.log("Address: " + result.contractAddress);
+                    client.config.saleAddress = result.contractAddress;
+                    client.config.saleContractName = contractName;
+                    client.config.saleContractFile = saleContractFile;
+                    client.config.save();
+                  });
                 }
               }
             );

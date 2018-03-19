@@ -16,6 +16,15 @@
       </div>
     </div>
     <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="tokens_sold">Tokens Sold to Date (0 Places)</label>
+          <input name="tokens_sold" id="tokens_sold" type="number" value="2000000000" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Tokens Sold" data-placement="left" data-content=""></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
       <div class="col-xs-12">
         <h2>Predicted Tokens: <span class='predicted-tokens'>Unknown</span></h2>
       </div>
@@ -39,12 +48,13 @@
     section.find(".predict-tokens").click(function() {
       var client = new XYClient(function(client) {
         var etherToSend = client.toBigInt(section.find("[name='ether_to_send']").val());
+        var tokensSold = client.toBigInt(section.find("[name='tokens_sold']").val()).shift(18);
         try {
-          var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+          var contractFile = '/contracts/' + client.config.saleContractName + '.json';
           let contract = new XYContract(contractFile, (contract) => {
             try {
               let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
-              instance.predictCost(etherToSend, (error, result) => {
+              instance.predictTokensForEther(etherToSend, tokensSold, (error, result) => {
                 if (error) {
                   $(".error-message").text(error);
                   console.error(error);

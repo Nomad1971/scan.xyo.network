@@ -23,7 +23,7 @@
   $(document).ready(() => {
     let section = $(".section-check-live");
     var client = new XYClient(function(client) {
-      var saleContractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+      var saleContractFile = '/contracts/' + client.config.saleContractName + '.json';
       let contract = new XYContract(saleContractFile, (contract) => {
         try {
           let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);

@@ -34,10 +34,10 @@
     section.find(".send_ether").click(function() {
       var client = new XYClient(function(client) {
         var section = $(".section-create-sale");
-        var etherToSend = client.toBigInt(section.find("[name='ether_to_send']").val());
+        var etherToSend = section.find("[name='ether_to_send']").val();
 
         try {
-          var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+          var contractFile = '/contracts/' + client.config.saleContractName + '.json';
           let contract = new XYContract(contractFile, (contract) => {
             try {
               let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);

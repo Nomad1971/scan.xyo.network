@@ -34,7 +34,7 @@
     section.find(".set_price").click(function() {
       var client = new XYClient(function(client) {
         var price = client.toBigInt(section.find("[name='price']").val());
-        var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+        var contractFile = '/contracts/' + client.config.saleContractName + '.json';
         let contract = new XYContract(contractFile, (contract) => {
           try {
             let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
@@ -53,7 +53,7 @@
       });
     });
     var client = new XYClient(function(client) {
-      var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+      var contractFile = '/contracts/' + client.config.saleContractName + '.json';
       let contract = new XYContract(contractFile, (contract) => {
         try {
           let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);

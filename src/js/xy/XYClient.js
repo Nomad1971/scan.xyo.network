@@ -130,7 +130,7 @@ class XYClient extends XYBase {
   }
 
   getTokenBalance(_callback) {
-    const contractFile = `/contracts/TokenSale/lib/ERC20.json`;
+    const contractFile = `/contracts//ERC20.json`;
     const _ = new XYContract(contractFile, (contract) => {
       try {
         console.log(`Get Token Balance: ${this.config.tokenAddress}`);

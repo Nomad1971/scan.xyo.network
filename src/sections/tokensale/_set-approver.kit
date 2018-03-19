@@ -45,7 +45,7 @@
         var section = $(".section-approver");
         var address = section.find("[name='address']").val();
         var approver = section.find("[name='approver']").val() === "true";
-        var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+        var contractFile = '/contracts/' + client.config.saleContractName + '.json';
         let contract = new XYContract(contractFile, (contract) => {
           try {
             let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
@@ -64,7 +64,7 @@
       });
     });
     var client = new XYClient(function(client) {
-      var contractFile = '/contracts/TokenSale/' + client.config.saleContractName + '.json';
+      var contractFile = '/contracts/' + client.config.saleContractName + '.json';
       let contract = new XYContract(contractFile, (contract) => {
         try {
           let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);

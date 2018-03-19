@@ -14,25 +14,26 @@
       <div class="col-xs-12 col-sm-6 col-lg-2 center">
         <p>
           <label class="center" for="dapp_network">DApp Network</label><br/>
-          <input class="center filled" style="width:100%;" name="dapp_network" id="dapp_network" readonly type="text"/>
+          <select class="center" style="width:100%;" name="dapp_network" id="dapp_network">
+          </select>
         </p>
       </div>
       <div class="col-xs-12 col-sm-6 col-lg-4 center">
         <p>
           <label class="center" for="dapp_balance">DApp Balance</label><br/>
-          <input class="center filled" style="width:100%;" name="dapp_balance" id="dapp_balance" readonly type="text"/>
+          <input class="center" style="width:100%;" name="dapp_balance" id="dapp_balance" readonly type="text"/>
         </p>
       </div>
       <div class="col-xs-12 col-sm-6 col-lg-2 center">
         <p>
           <label class="center" for="xyo_network">XYO Network</label><br/>
-          <input class="center filled" style="width:100%;" name="xyo_network" id="xyo_network" readonly type="text"/>
+          <input class="center" style="width:100%;" name="xyo_network" id="xyo_network" readonly type="text"/>
         </p>
       </div>
       <div class="col-xs-12 col-sm-6 col-lg-4 center">
         <p>
           <label class="center" for="xyo_balance">XYO Balance</label><br/>
-          <input class="center filled" style="width:100%;" name="xyo_balance" id="xyo_balance" readonly type="text"/>
+          <input class="center" style="width:100%;" name="xyo_balance" id="xyo_balance" readonly type="text"/>
         </p>
       </div>
     </div>
@@ -46,7 +47,14 @@
 
     try {
       console.log("init");
-      let client = new XYClient(function(client) {
+      let client = new XYOClient(function(client) {
+
+        const wallets = client.getWallets();
+        const dappNetworkSelect = section.find("[name='dapp_network']");
+
+        for (i = 0; i < wallet.length; i++) {
+          dappNetworkSelect.
+        }
 
         client.getDAppNetworkName(function (error, result) {
           if (error) {

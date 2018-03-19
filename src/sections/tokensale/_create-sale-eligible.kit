@@ -28,6 +28,15 @@
     <div class="row center">
       <div class="col-xs-8 col-xs-offset-2">
         <div class="field-with-helper">
+          <label for="benefactor_address">Benefactor Address</label>
+          <input name="benefactor_address" id="benefactor_address" type="text" value="0x7Fe214bfdECD41F1D742A75CA6d267551e9a4578" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Benefactor Address" data-placement="left" data-content="The address of the benifactor."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
           <label for="price">Price (0 Places)</label>
           <input name="price" id="price" type="number" value="100000" />
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Price" data-placement="left" data-content=""></span>
@@ -92,11 +101,12 @@
         var section = $(".section-create-sale-eligible");
         var contractName = section.find("[name='sale_contract']").val();
         var tokenAddress = section.find("[name='token_address']").val();
+        var benefactorAddress = section.find("[name='benefactor_address']").val();
         var price = client.toBigInt(section.find("[name='price']").val()).toString();
         var minEther = client.toBigInt(section.find("[name='min_ether']").val()).toString();
         var startTime = section.find("[name='start_time']").val();
         var endTime = section.find("[name='end_time']").val();
-        var saleContractFile = '/contracts/TokenSale/' + contractName + '.json';
+        var saleContractFile = '/contracts/' + contractName + '.json';
         let contract = new XYContract(saleContractFile, (contract) => {
           try {
             console.log('=====Creating Timed Contract=====');
@@ -106,16 +116,19 @@
             console.log('startTime: ' + startTime);
             console.log('endTime: ' + endTime);
             let instance = contract.getContract(client.getWeb3()).new(
-              tokenAddress, price, minEther, startTime, endTime,
+              tokenAddress, benefactorAddress, price, minEther, startTime, endTime,
               {data:contract.getByteCode(), from: client.getDAppAddress(), gasPrice: 20000000000, gas: 6000000},
               (error, result) => {
                 if (error) {
                   console.error(error);
                 } else {
-                  client.config.saleAddress = result.address;
-                  client.config.saleContractName = contractName;
-                  client.config.saleContractFile = saleContractFile;
-                  client.config.save();
+                  client.getWeb3().eth.getTransactionReceipt(result.transactionHash, (error, result) => {
+                    console.log("Address: " + result.contractAddress);
+                    client.config.saleAddress = result.contractAddress;
+                    client.config.saleContractName = contractName;
+                    client.config.saleContractFile = saleContractFile;
+                    client.config.save();
+                  });
                 }
               }
             );

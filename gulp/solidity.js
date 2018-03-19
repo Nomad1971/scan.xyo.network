@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: solidity.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 16, 2018 8:52 AM
+ * @Last modified time: Monday, March 19, 2018 11:20 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -16,12 +16,13 @@ const gulp = require(`gulp`);
 const connect = require(`gulp-connect`);
 // const debug = require(`gulp-debug-streams`);
 
-const SOURCE_BASE = `./src`;
 const OUTPUT_BASE = `./dist`;
 
 const MODULE_BASE = `./node_modules`;
 
 const getLocation = (base, location) => `${base}${location}`;
+
+let watch = null;
 
 const solidity = () => gulp.src([
   getLocation(MODULE_BASE, `/xyo-solidity/dist/**/*.json`),
@@ -35,7 +36,7 @@ const solidity = () => gulp.src([
 gulp.task(`solidity-task`, solidity);
 
 gulp.task(`solidity`, [`solidity-task`], () => {
-  gulp.watch(getLocation(SOURCE_BASE, `/css/**/*.*`), [`solidity`], connect.reload());
+  watch = watch || gulp.watch(getLocation(MODULE_BASE, `/xyo-solidity/dist/**/*.json`), [`solidity`], connect.reload());
 });
 
 module.exports = solidity;

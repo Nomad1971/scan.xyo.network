@@ -55,7 +55,7 @@
         var initialSupply = section.find("[name='initial_supply']").val();
         var tokenName = section.find("[name='token_name']").val();
         var tokenSymbol = section.find("[name='token_symbol']").val();
-        let contract = new XYContract('/contracts/TokenSale/lib/ERC20.json', (contract) => {
+        let contract = new XYContract('/contracts//ERC20.json', (contract) => {
           try {
             let instance = contract.getContract(client.getWeb3()).new(
               initialSupply, tokenName, tokenSymbol,
@@ -64,9 +64,11 @@
                 if (error) {
                   console.error(error);
                 } else {
-                  console.log("Address: " + result.address);
-                  client.config.tokenAddress = result.address;
-                  client.config.save();
+                  client.getWeb3().eth.getTransactionReceipt(result.transactionHash, (error, result) => {
+                    console.log("Address: " + result.contractAddress);
+                    client.config.tokenAddress = result.contractAddress;
+                    client.config.save();
+                  });
                 }
               }
             );

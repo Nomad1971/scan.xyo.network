@@ -35,7 +35,7 @@
       var client = new XYClient(function(client) {
         var section = $(".section-allow-tokens");
         var allowedTokens = client.toBigInt(section.find("[name='allowed_tokens']").val());
-        var contractFile = '/contracts/TokenSale/lib/ERC20.json';
+        var contractFile = '/contracts//ERC20.json';
         let contract = new XYContract(contractFile, (contract) => {
           try {
             let instance = contract.getInstance(client.getWeb3(), client.config.tokenAddress);
@@ -54,7 +54,7 @@
       });
     });
     var client = new XYClient(function(client) {
-      var saleContractFile = '/contracts/TokenSale/lib/ERC20.json';
+      var saleContractFile = '/contracts//ERC20.json';
       let contract = new XYContract(saleContractFile, (contract) => {
         try {
           let instance = contract.getInstance(client.getWeb3(), client.config.tokenAddress);
