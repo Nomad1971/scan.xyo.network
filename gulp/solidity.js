@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: solidity.js
  * @Last modified by:   arietrouw
- * @Last modified time: Monday, March 19, 2018 11:20 AM
+ * @Last modified time: Tuesday, March 20, 2018 11:05 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -16,27 +16,25 @@ const gulp = require(`gulp`);
 const connect = require(`gulp-connect`);
 // const debug = require(`gulp-debug-streams`);
 
-const OUTPUT_BASE = `./dist`;
+const utils = require(`./utils`);
 
 const MODULE_BASE = `./node_modules`;
 
-const getLocation = (base, location) => `${base}${location}`;
-
 let watch = null;
+const dest = `./dist`;
+const filter = `/xyo-solidity/dist/**/*.json`;
 
-const solidity = () => gulp.src([
-  getLocation(MODULE_BASE, `/xyo-solidity/dist/**/*.json`),
-], {
-  base: `${MODULE_BASE}/xyo-solidity/dist/`,
-})
-  // .pipe(debug())
-  .pipe(gulp.dest(OUTPUT_BASE));
-  // .pipe(debug());
+const solidity = () =>
+  gulp.src([
+    utils.getLocation(MODULE_BASE, filter),
+  ], {
+    base: `${MODULE_BASE}/xyo-solidity/dist/`,
+  })
+    .pipe(gulp.dest(utils.getLocation(dest, filter)));
+gulp.task(`solidity`, solidity);
 
-gulp.task(`solidity-task`, solidity);
-
-gulp.task(`solidity`, [`solidity-task`], () => {
-  watch = watch || gulp.watch(getLocation(MODULE_BASE, `/xyo-solidity/dist/**/*.json`), [`solidity`], connect.reload());
+gulp.task(`watch-solidity`, [`solidity`], () => {
+  watch = watch || gulp.watch(utils.getLocation(MODULE_BASE, filter), [`solidity`], connect.reload());
 });
 
 module.exports = solidity;

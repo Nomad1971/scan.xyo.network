@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: codekit.js
  * @Last modified by:   arietrouw
- * @Last modified time: Monday, March 19, 2018 11:06 AM
+ * @Last modified time: Tuesday, March 20, 2018 11:15 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -14,30 +14,26 @@
 const gulp = require(`gulp`);
 
 const connect = require(`gulp-connect`);
-const htmlmin = require(`gulp-htmlmin`);
 const kit = require(`gulp-kit`);
-
-const SOURCE_BASE = `./src`;
-const OUTPUT_BASE = `./dist`;
+const utils = require(`./utils`);
 
 let watch = null;
+const src = `./src`;
+const dest = `./dist`;
+const filter = `/**/*.kit`;
 
-const getLocation = (base, location) => `${base}${location}`;
-
-const codekit = () => gulp.src(getLocation(SOURCE_BASE, `/**/*.kit`))
-  .pipe(kit().on(`error`, (err) => {
+const codekit = () => gulp.src(utils.getLocation(src, filter))
+  .pipe(kit())
+  .on(`error`, (err) => {
     console.log(err.message);
-  }))
-  .pipe(htmlmin({
-    collapseWhitespace: true,
-  }))
-  .pipe(gulp.dest(OUTPUT_BASE))
+  })
+  .pipe(gulp.dest(dest))
   .pipe(connect.reload());
 
-gulp.task(`codekit`, codekit);
+gulp.task(`kit`, codekit);
 
-gulp.task(`kit`, [`codekit`], () => {
-  watch = watch || gulp.watch(getLocation(SOURCE_BASE, `/**/*.kit`), [`kit`], connect.reload());
+gulp.task(`watch-kit`, [`kit`], () => {
+  watch = watch || gulp.watch(utils.getLocation(src, filter), [`kit`], connect.reload());
 });
 
 module.exports = codekit;

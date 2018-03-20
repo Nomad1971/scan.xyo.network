@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: browserify.js
  * @Last modified by:   arietrouw
- * @Last modified time: Monday, March 19, 2018 11:07 AM
+ * @Last modified time: Tuesday, March 20, 2018 11:05 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -16,19 +16,19 @@ const buffer = require(`vinyl-buffer`);
 const connect = require(`gulp-connect`);
 const source = require(`vinyl-source-stream`);
 const sourcemaps = require(`gulp-sourcemaps`);
+const utils = require(`./utils`);
 // const uglify = require(`gulp-uglify`);
 
-const SOURCE_BASE = `./src`;
-const OUTPUT_BASE = `./dist`;
-
 let watch = null;
+const src = `./src`;
+const dest = `./dist`;
 
 const getLocation = (base, location) => `${base}${location}`;
 
 const javascript = () => {
   const b = browserify({
     insertGlobals: true,
-    entries: [getLocation(SOURCE_BASE, `/js/all.js`)],
+    entries: [utils.getLocation(src, `/js/all.js`)],
     debug: true,
   });
 
@@ -38,14 +38,14 @@ const javascript = () => {
     .pipe(sourcemaps.init({ loadMaps: true }))
     // .pipe(uglify())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(getLocation(OUTPUT_BASE, `/js`)))
+    .pipe(gulp.dest(utils.getLocation(dest, `/js`)))
     .pipe(connect.reload());
 };
 
-gulp.task(`js-task`, javascript);
+gulp.task(`js`, javascript);
 
-gulp.task(`js`, [`js-task`], () => {
-  watch = watch || gulp.watch(getLocation(SOURCE_BASE, `/js/**/*.js`), [`js`], connect.reload());
+gulp.task(`watch-js`, [`js`], () => {
+  watch = watch || gulp.watch(getLocation(src, `/js/**/*.js`), [`js`], connect.reload());
 });
 
 module.exports = javascript;
