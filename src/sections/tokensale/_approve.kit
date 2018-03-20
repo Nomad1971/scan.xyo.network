@@ -2,8 +2,8 @@
   <form>
     <div class="row center">
       <div class="col-xs-12">
-        <h1>Approver - Ethereum ERC20</h1>
-        <p>Approver a pending purchase for the sale</p>
+        <h1>Approve - Ethereum ERC20</h1>
+        <p>Approve a pending purchase for the sale</p>
       </div>
     </div>
     <div class="row center">
@@ -18,18 +18,9 @@
     <div class="row center">
       <div class="col-xs-8 col-xs-offset-2">
         <div class="field-with-helper">
-          <label for="tokens">Tokens</label>
-          <input name="tokens" id="tokens" type="number" value="" />
+          <label for="proof_bytes">Proof Bytes</label>
+          <input name="proof_bytes" id="proof_bytes" type="text" value="" />
           <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Tokens" data-placement="left" data-content=""></span>
-        </div>
-      </div>
-    </div>
-    <div class="row center">
-      <div class="col-xs-8 col-xs-offset-2">
-        <div class="field-with-helper">
-          <label for="ether">Ether</label>
-          <input name="ether" id="ether" type="number" value="" />
-          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Ether" data-placement="left" data-content=""></span>
         </div>
       </div>
     </div>
@@ -40,7 +31,7 @@
     </div>
     <div class="row center">
       <div class="col-xs-offset-3 col-xs-6">
-        <button class="set_approver" type="button">Approve</button>
+        <button class="approve" type="button">Approve</button>
       </div>
     </div>
   </form>
@@ -49,16 +40,20 @@
 <script>
   $(document).ready(() => {
     let section = $(".section-approve");
-    section.find(".set_approver").click(function() {
+    section.find(".approve").click(function() {
       var client = new XYClient(function(client) {
         var address = section.find("[name='address']").val();
+        var proof_string = section.find("[name='proof_bytes']").val();
+        var proof_bytes = [];
+        for (var i = 0; i < proof_string.length; i++) {
+          proof_bytes.push(`0x${proof_string.charCodeAt(i).toString(16)}`);
+        }
         var approver = section.find("[name='approve']").val() === "true";
         var contractFile = '/contracts/' + client.config.saleContractName + '.json';
         let contract = new XYContract(contractFile, (contract) => {
           try {
             let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
-            window.arie = instance;
-            instance.approve(address, address, (error, result) => {
+            instance.approve(address, proof_bytes, (error, result) => {
               if (error) {
                 console.error(error);
               } else {

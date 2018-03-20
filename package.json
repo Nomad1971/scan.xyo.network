@@ -24,7 +24,7 @@
     "jquery": "^3.3.1",
     "popper.js": "^1.14.1",
     "xyo-client": "file:../xyo-client",
-    "xyo-solidity": "file:../xyo-solidity"
+    "xyo-solidity": "^0.1.43"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
