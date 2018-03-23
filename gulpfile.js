@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: gulpfile.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 23, 2018 12:30 PM
+ * @Last modified time: Friday, March 23, 2018 4:26 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -18,6 +18,7 @@ const open = require(`gulp-open`);
 
 require(`./gulp/clean.js`);
 require(`./gulp/codekit.js`);
+require(`./gulp/contracts.js`);
 require(`./gulp/fonts.js`);
 require(`./gulp/images.js`);
 require(`./gulp/invalidate.js`);
@@ -47,12 +48,12 @@ const reloadPage = (event) => {
 };
 
 gulp.task(`default`, [`develop`]);
-gulp.task(`develop`, [`watch-kit`, `watch-sass`, `watch-js`, `images`, `fonts`], (callback) => {
+gulp.task(`develop`, [`watch-kit`, `watch-sass`, `watch-js`, `images`, `fonts`, `contracts`], (callback) => {
   console.log(`Hello`);
   serve();
   reloadPage();
   callback();
 });
 
-gulp.task(`release`, [`kit`, `sass`, `js`, `images`, `fonts`]);
+gulp.task(`release`, [`kit`, `sass`, `js`, `images`, `fonts`, `contracts`]);
 gulp.task(`serve`, serve);

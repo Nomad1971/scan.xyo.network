@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: XYConfig.js
  * @Last modified by:   arietrouw
- * @Last modified time: Wednesday, March 14, 2018 9:45 AM
+ * @Last modified time: Friday, March 23, 2018 4:14 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -20,7 +20,8 @@ class XYConfig extends XYBase {
       // set defaults
       this.divinerAddress = `localhost:24456`;
       this.tokenAddress = `0x55296f69f40Ea6d20E478533C15A6B08B654E758`;
-      this.saleAddress = ``;
+      this.saleAddress = `0xd840a4501df78d56ae18700dbed0c84be7def4da`;
+      this.saleContractName = `XYOfficialTokenSale`;
     }
   }
 

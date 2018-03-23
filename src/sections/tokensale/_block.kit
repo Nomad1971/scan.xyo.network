@@ -1,0 +1,95 @@
+<section class="container section-block" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+  <form>
+    <div class="row center">
+      <div class="col-xs-12">
+        <h1>Block - Ethereum ERC20</h1>
+        <p>Block future purchases for the sale</p>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="address">Address</label>
+          <input name="address" id="address" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Address" data-placement="left" data-content=""></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="field-with-helper">
+          <label for="blocked">Blocked</label>
+          <input name="blocked" id="blocked" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Blocked" data-placement="left" data-content=""></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-3 col-xs-6">
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-xs-offset-2 col-xs-4">
+        <button class="block" type="button">Block</button>
+      </div>
+      <div class="col-xs-4">
+        <button class="check-status" type="button">Check</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(document).ready(() => {
+    let section = $(".section-block");
+    section.find(".block").click(function() {
+      var client = new XYClient(function(client) {
+        var address = section.find("[name='address']").val();
+        var blocked = section.find("[name='blocked']").val();
+        var contractFile = '/contracts/' + client.config.saleContractName + '.json';
+        let contract = new XYContract(contractFile, (contract) => {
+          try {
+            let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
+            instance.blockAddress(address, (error, result) => {
+              if (error) {
+                console.error(error);
+              } else {
+                console.log(result);
+              }
+            });
+          } catch (ex) {
+            $(".error-message").text(ex.message);
+            console.error(ex);
+          }
+        });
+      });
+    });
+    let checkStatus = () => {
+      var client = new XYClient(function(client) {
+        var contractFile = '/contracts/' + client.config.saleContractName + '.json';
+        let contract = new XYContract(contractFile, (contract) => {
+          try {
+            let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
+            instance.blocked(section.find("[name='address']").val(), (error, result) => {
+              if (error) {
+                $(".error-message").text(error);
+                console.error(error);
+              } else {
+                console.log("Blocked: " + result);
+              }
+            });
+          } catch (ex) {
+            $(".error-message").text(ex.message);
+            console.error(ex);
+          }
+        });
+      });
+    }
+
+    section.find(".check-status").click(function() {
+      checkStatus();
+    });
+
+  });
+</script>
