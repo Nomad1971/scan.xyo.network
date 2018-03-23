@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: sass.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, March 20, 2018 11:05 AM
+ * @Last modified time: Friday, March 23, 2018 12:20 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -18,32 +18,23 @@ const concat = require(`gulp-concat`);
 const connect = require(`gulp-connect`);
 const es = require(`event-stream`);
 const gulpSass = require(`gulp-sass`);
-const utils = require(`./utils`);
 
 let watch = null;
-const src = `./src`;
-const dest = `./dist`;
-const filter = `/css/**/*.*`;
 
 const sass = () => {
-  const sassOutput = gulp.src(utils.getLocation(src, filter))
+  const sassOutput = gulp.src(`./src/css/**/*.*`)
     .pipe(gulpSass({
       includePaths: [`node_modules/bootstrap-sass/assets/stylesheets/`],
     }).on(`error`, (err) => {
       console.log(err.message);
     }));
 
-  const css =
-    gulp.src(utils.getLocation(src, `/css/**/*.css`));
-  // .pipe(sourcemaps.write('./'));
-
-  const merge = es.merge(sassOutput, css)
-    /* would like to get this working .pipe(cssCopyAssets) */
+  const merge = es.merge(sassOutput, gulp.src(`./src/css/**/*.css`))
     .pipe(concat(`all.css`))
     .pipe(cleanCSS({
       compatibility: `ie8`,
     }))
-    .pipe(gulp.dest(utils.getLocation(dest, filter)))
+    .pipe(gulp.dest(`./dist/css`))
     .pipe(connect.reload());
 
   return merge;
@@ -52,7 +43,7 @@ const sass = () => {
 gulp.task(`sass`, sass);
 
 gulp.task(`watch-sass`, [`sass`], () => {
-  watch = watch || gulp.watch(utils.getLocation(src, filter), [`sass`], connect.reload());
+  watch = watch || gulp.watch(`./src/css/**/*`, [`sass`], connect.reload());
 });
 
 module.exports = sass;

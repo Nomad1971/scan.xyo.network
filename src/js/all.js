@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: all-require.js
  * @Last modified by:   arietrouw
- * @Last modified time: Monday, March 19, 2018 10:35 AM
+ * @Last modified time: Wednesday, March 21, 2018 11:52 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -16,7 +16,7 @@ global.jQuery = require(`jquery`);
 global.$ = global.jQuery;
 
 require(`bootstrap`);
-require(`xyo-client`);
+// window.XYOClient = require(`xyo-client`);
 
 window.XYAccount = require(`./xy/XYAccount.js`);
 window.XYClient = require(`./xy/XYClient.js`);

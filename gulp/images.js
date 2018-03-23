@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: codekit.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 23, 2018 12:12 PM
+ * @Last modified time: Friday, March 23, 2018 12:21 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -14,22 +14,16 @@
 const gulp = require(`gulp`);
 
 const connect = require(`gulp-connect`);
-const kit = require(`gulp-kit`);
-
 let watch = null;
 
-const codekit = () => gulp.src(`./src/**/*.kit`)
-  .pipe(kit())
-  .on(`error`, (err) => {
-    console.log(err.message);
-  })
-  .pipe(gulp.dest(`./dist`))
+const images = () => gulp.src(`./src/img/**`)
+  .pipe(gulp.dest(`./dist/img`))
   .pipe(connect.reload());
 
-gulp.task(`kit`, codekit);
+gulp.task(`images`, images);
 
-gulp.task(`watch-kit`, [`kit`], () => {
-  watch = watch || gulp.watch(`./src/**/*.kit`, [`kit`], connect.reload());
+gulp.task(`watch-images`, [`images`], () => {
+  watch = watch || gulp.watch(`./src/img/**/*`, [`images`], connect.reload());
 });
 
-module.exports = codekit;
+module.exports = images;

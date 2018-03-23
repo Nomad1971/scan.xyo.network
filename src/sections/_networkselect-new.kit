@@ -49,12 +49,15 @@
       console.log("init");
       let client = new XYOClient(function(client) {
 
-        const wallets = client.getWallets();
         const dappNetworkSelect = section.find("[name='dapp_network']");
 
-        for (i = 0; i < wallet.length; i++) {
-          dappNetworkSelect.
-        }
+        Object.keys(client.wallets).forEach((key) => {
+          console.log("adding");
+          dappNetworkSelect.append($('<option>', {
+            value: item.name,
+            text : item.address
+          }));
+        });
 
         client.getDAppNetworkName(function (error, result) {
           if (error) {

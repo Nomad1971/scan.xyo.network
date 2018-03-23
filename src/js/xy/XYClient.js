@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: XYClient.js
  * @Last modified by:   arietrouw
- * @Last modified time: Wednesday, March 14, 2018 5:33 PM
+ * @Last modified time: Tuesday, March 20, 2018 12:29 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -49,8 +49,8 @@ class XYClient extends XYBase {
 
   checkWalletAddress() {
     const web3 = this.getWeb3();
-    if (web3 && this.etherWallet !== web3.eth.accounts[0]) {
-      console.log(`Wallet Changed`);
+    if (web3 && web3.eth.accounts[0] && this.etherWallet !== web3.eth.accounts[0]) {
+      this.debug(`Wallet Changed [${web3.eth.accounts[0]}]`);
       const wallet = web3.eth.accounts[0];
       this.etherWallet = wallet;
       if (this.onWalletChange) {
