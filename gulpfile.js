@@ -4,56 +4,10 @@
  * @Email:  developer@xyfindables.com
  * @Filename: gulpfile.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 23, 2018 4:26 PM
+ * @Last modified time: Saturday, March 24, 2018 11:46 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-/* eslint no-console: 0 */
-
-const connect = require(`gulp-connect`);
-
-const gulp = require(`gulp`);
-const open = require(`gulp-open`);
-
-require(`./gulp/clean.js`);
-require(`./gulp/codekit.js`);
-require(`./gulp/contracts.js`);
-require(`./gulp/fonts.js`);
-require(`./gulp/images.js`);
-require(`./gulp/invalidate.js`);
-require(`./gulp/javascript.js`);
-require(`./gulp/publish.js`);
-require(`./gulp/sass.js`);
-
-const PORT = 8081;
-
-const serve = () => {
-  connect.server({
-    livereload: true,
-    root: `./dist`,
-    port: PORT,
-  });
-  gulp.src(__dirname)
-    .pipe(open({
-      app: `google chrome`,
-      uri: `http://localhost:${PORT}`,
-    }));
-};
-
-const reloadPage = (event) => {
-  console.log(`>>>>>>> Reload Page <<<<<<<`);
-  console.log(event);
-  connect.reload();
-};
-
-gulp.task(`default`, [`develop`]);
-gulp.task(`develop`, [`watch-kit`, `watch-sass`, `watch-js`, `images`, `fonts`, `contracts`], (callback) => {
-  console.log(`Hello`);
-  serve();
-  reloadPage();
-  callback();
-});
-
-gulp.task(`release`, [`kit`, `sass`, `js`, `images`, `fonts`, `contracts`]);
-gulp.task(`serve`, serve);
+const xyo = require(`./gulp/index.js`);
+xyo.serve.config(8080);
