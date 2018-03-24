@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: serve.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, March 24, 2018 11:18 AM
+ * @Last modified time: Saturday, March 24, 2018 11:57 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -16,7 +16,7 @@ const open = require(`gulp-open`);
 
 let port = 8080;
 
-const serve = () => {
+const browse = () => {
   connect.server({
     livereload: true,
     root: `./dist`,
@@ -29,10 +29,10 @@ const serve = () => {
     }));
 };
 
-serve.config = (_port) => {
+browse.config = (_port) => {
   port = _port;
 };
 
-gulp.task(`serve`, serve);
+gulp.task(`browse`, browse);
 
-module.exports = serve;
+module.exports = browse;
