@@ -30,6 +30,7 @@
     "babel-eslint": "^8.2.2",
     "bootstrap-sass": "^3.3.7",
     "browserify": "^16.1.1",
+    "debug": "^3.1.0",
     "eslint": "^4.19.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-fixer": "^0.1.4",

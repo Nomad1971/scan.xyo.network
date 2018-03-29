@@ -4,10 +4,12 @@
  * @Email:  developer@xyfindables.com
  * @Filename: gulpfile.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, March 24, 2018 11:59 AM
+ * @Last modified time: Thursday, March 29, 2018 12:01 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
+
+process.env.DEBUG = `*`;
 
 const xyo = require(`./gulp/index.js`);
 xyo.browse.config(8080);

@@ -4,20 +4,40 @@
  * @Email:  developer@xyfindables.com
  * @Filename: atom.js
  * @Last modified by:   arietrouw
- * @Last modified time: Thursday, March 29, 2018 11:31 AM
+ * @Last modified time: Thursday, March 29, 2018 12:55 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-/* eslint no-console:0 */
-
 const gulp = require(`gulp`);
 const { exec } = require(`child_process`);
+const debug = require(`debug`)(`atom`);
+
+let dots = null;
+
+const stopDots = () => {
+  if (dots) {
+    clearInterval(dots);
+  }
+};
+
+const startDots = () => {
+  stopDots();
+  dots = setInterval(() => { process.stdout.write(`.`); }, 500);
+};
+
 
 const atomInstall = (pkg, callback) => {
+  debug(`Installing: `, pkg);
+  startDots();
   exec(`apm install ${pkg}`, (err, stdout, stderr) => {
-    console.log(stdout);
-    console.error(stderr);
+    stopDots();
+    if (stdout && stdout.length > 0) {
+      debug(stdout);
+    }
+    if (stderr && stderr.length > 0) {
+      debug(`Error: `, stderr);
+    }
     callback(err);
   });
 };

@@ -4,36 +4,37 @@
  * @Email:  developer@xyfindables.com
  * @Filename: help.js
  * @Last modified by:   arietrouw
- * @Last modified time: Thursday, March 29, 2018 9:39 AM
+ * @Last modified time: Thursday, March 29, 2018 12:06 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-/* eslint no-console: 0 */
-
 const gulp = require(`gulp`);
+const debug = require(`debug`)(`help`);
 
 const help = () => {
-  console.log(`\r\n`);
-  console.log(`\r\n`);
-  console.log(`============================== XYO Gulp Help ==============================`);
-  console.log(`\r\n`);
-  console.log(` atom         Install all standard XY/XYO Atom Packages`);
-  console.log(` browse       Open the project in a browser and watches`);
-  console.log(` build        Start a standard build`);
-  console.log(` clean        Delete the dist folder`);
-  console.log(` contracts    Copy compiled solidity contracts from xyo-solidity to dist`);
-  console.log(` develop      watch + browse`);
-  console.log(` help         Instructions on how to use XYO's Build System (this output)`);
-  console.log(` images       Copy the img folder from src to dist`);
-  console.log(` invalidate   Invalidate a cloudfront distribution`);
-  console.log(` javascript   Process .js files from src to dist`);
-  console.log(` kit          Process .kit files from src to dist`);
-  console.log(` publish      Invalidate a cloudfront distribution`);
-  console.log(` sass         Process .scss files from src to dist`);
-  console.log(` watch        Watch for changes in src files and then processes them`);
-  console.log(`\r\n`);
-  console.log(`\r\n`);
+  const message = [];
+  message.push(``);
+  message.push(``);
+  message.push(`============================== XYO Gulp Help ==============================`);
+  message.push(``);
+  message.push(` atom         Install all standard XY/XYO Atom Packages`);
+  message.push(` browse       Open the project in a browser and watches`);
+  message.push(` build        Start a standard build`);
+  message.push(` clean        Delete the dist folder`);
+  message.push(` contracts    Copy compiled solidity contracts from xyo-solidity to dist`);
+  message.push(` develop      watch + browse`);
+  message.push(` help         Instructions on how to use XYO's Build System (this output)`);
+  message.push(` images       Copy the img folder from src to dist`);
+  message.push(` invalidate   Invalidate a cloudfront distribution`);
+  message.push(` javascript   Process .js files from src to dist`);
+  message.push(` kit          Process .kit files from src to dist`);
+  message.push(` publish      Invalidate a cloudfront distribution`);
+  message.push(` sass         Process .scss files from src to dist`);
+  message.push(` watch        Watch for changes in src files and then processes them`);
+  message.push(``);
+  message.push(``);
+  debug(message.join(`\r\n`));
 };
 
 gulp.task(`help`, help);
