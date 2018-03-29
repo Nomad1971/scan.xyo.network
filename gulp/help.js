@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: help.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, March 24, 2018 12:04 PM
+ * @Last modified time: Thursday, March 29, 2018 9:39 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -18,6 +18,7 @@ const help = () => {
   console.log(`\r\n`);
   console.log(`============================== XYO Gulp Help ==============================`);
   console.log(`\r\n`);
+  console.log(` atom         Install all standard XY/XYO Atom Packages`);
   console.log(` browse       Open the project in a browser and watches`);
   console.log(` build        Start a standard build`);
   console.log(` clean        Delete the dist folder`);

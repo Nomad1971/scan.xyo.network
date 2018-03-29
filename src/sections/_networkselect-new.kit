@@ -44,10 +44,9 @@
   $(document).ready(() => {
     var section = $(".section-networkselect");
     var dappNetworkName = "None";
-
     try {
       console.log("init");
-      let client = new XYOClient(function(client) {
+      let client = new XYClient(function(client) {
 
         const dappNetworkSelect = section.find("[name='dapp_network']");
 

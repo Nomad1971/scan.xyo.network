@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: index.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, March 24, 2018 12:03 PM
+ * @Last modified time: Thursday, March 29, 2018 9:23 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -14,6 +14,7 @@
 const gulp = require(`gulp`);
 
 const xyo = {
+  atom: require(`./atom`),
   browse: require(`./browse`),
   clean: require(`./clean`),
   kit: require(`./kit`),
@@ -38,6 +39,6 @@ xyo.tasks.watch = gulp.task(`develop`, [`watch`], (callback) => {
   callback();
 });
 
-xyo.tasks.build = gulp.task(`build`, [`kit`, `sass`, `js`, `images`, `fonts`, `contracts`]);
+xyo.tasks.build = gulp.task(`build`, [`kit`, `sass`, `js`, `images`, `contracts`]);
 
 module.exports = xyo;
