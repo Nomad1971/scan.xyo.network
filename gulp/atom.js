@@ -4,54 +4,56 @@
  * @Email:  developer@xyfindables.com
  * @Filename: atom.js
  * @Last modified by:   arietrouw
- * @Last modified time: Thursday, March 29, 2018 9:43 AM
+ * @Last modified time: Thursday, March 29, 2018 11:31 AM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-const gulp = require(`gulp`);
-const exec = require(`child_process`).exec;
+/* eslint no-console:0 */
 
-const atom_install = (pkg, callback) => {
+const gulp = require(`gulp`);
+const { exec } = require(`child_process`);
+
+const atomInstall = (pkg, callback) => {
   exec(`apm install ${pkg}`, (err, stdout, stderr) => {
     console.log(stdout);
-    console.log(stderr);
+    console.error(stderr);
     callback(err);
   });
 };
 
 const atom =
-  callback => atom_install(
+  callback => atomInstall(
     `atom-beautify`,
-    () => atom_install(
+    () => atomInstall(
       `linter`,
-      () => atom_install(
+      () => atomInstall(
         `linter-eslint`,
-        () => atom_install(
+        () => atomInstall(
           `linter-sass-lint`,
-          () => atom_install(
+          () => atomInstall(
             `linter-solidity`,
-            () => atom_install(
+            () => atomInstall(
               `linter-tidy`,
-              () => atom_install(
+              () => atomInstall(
                 `linter-ui-default`,
-                () => atom_install(
+                () => atomInstall(
                   `linter-bootlint`,
-                  () => atom_install(
+                  () => atomInstall(
                     `language-json5`,
-                    () => atom_install(
+                    () => atomInstall(
                       `language-ethereum`,
-                      () => atom_install(
+                      () => atomInstall(
                         `intentions`,
-                        () => atom_install(
+                        () => atomInstall(
                           `atom-ide-ui`,
-                          () => atom_install(
+                          () => atomInstall(
                             `autocomplete-html-entities`,
-                            () => atom_install(
+                            () => atomInstall(
                               `busy-signal`,
-                              () => atom_install(
+                              () => atomInstall(
                                 `file-type-icons`,
-                                () => atom_install(`file-header`, callback),
+                                () => atomInstall(`file-header`, callback),
                               ),
                             ),
                           ),
