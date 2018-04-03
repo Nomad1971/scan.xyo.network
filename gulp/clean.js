@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: clean.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 23, 2018 11:58 AM
+ * @Last modified time: Tuesday, April 3, 2018 12:42 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -13,7 +13,7 @@ const gulp = require(`gulp`);
 const del = require(`del`);
 
 const clean = () => {
-  del(`./dist`);
+  del(`./dist/*`);
 };
 
 gulp.task(`clean`, clean);

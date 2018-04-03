@@ -3,13 +3,14 @@
 // @Email:  developer@xyfindables.com
 // @Filename: all.scss
 // @Last modified by:   arietrouw
-// @Last modified time: Friday, March 16, 2018 12:16 PM
+// @Last modified time: Tuesday, April 3, 2018 12:53 PM
 // @License: All Rights Reserved
 // @Copyright: Copyright XY | The Findables Company
 
 $font-family-sans-serif:  'Titillium Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $font-size-base: 16px;
 
+@import 'font-awesome';
 @import 'jquery-ui';
 @import 'bootstrap';
 @import 'xy/xy';

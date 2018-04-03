@@ -63,7 +63,7 @@
         var client = new XYClient(function(client) {
           var section = $(".section-transfer");
           var address = section.find("[name='address']").val();
-          var amount = client.toBigInt(section.find("[name='amount']").val(), 10);
+          var amount = client.toBigInt(section.find("[name='amount']").val());
           console.log('BN:' + amount);
           let contract = new XYContract('/contracts//ERC20.json', (contract) => {
             try {

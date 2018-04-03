@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: sass.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 23, 2018 12:20 PM
+ * @Last modified time: Tuesday, April 3, 2018 12:53 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -24,7 +24,7 @@ let watch = null;
 const sass = () => {
   const sassOutput = gulp.src(`./src/css/**/*.*`)
     .pipe(gulpSass({
-      includePaths: [`node_modules/bootstrap-sass/assets/stylesheets/`],
+      includePaths: [`node_modules/bootstrap-sass/assets/stylesheets/`, `node_modules/font-awesome/scss/`],
     }).on(`error`, (err) => {
       console.log(err.message);
     }));
