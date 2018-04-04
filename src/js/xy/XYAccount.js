@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: xyo-account.js
  * @Last modified by:   arietrouw
- * @Last modified time: Wednesday, March 14, 2018 3:34 PM
+ * @Last modified time: Tuesday, April 3, 2018 6:44 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -13,6 +13,7 @@
 /* eslint max-len: 0 */
 
 const AmazonCognitoIdentity = require(`amazon-cognito-identity-js`);
+const AWS = require(`aws-sdk`);
 const XYBase = require(`./XYBase.js`);
 
 class XYAccount extends XYBase {
@@ -43,6 +44,36 @@ class XYAccount extends XYBase {
         _callback(_error, null);
       } else {
         _callback(null, _result);
+      }
+    });
+  }
+
+  facebookSignin(accessToken) {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: this.poolData.UserPoolId,
+      Logins: { 'graph.facebook.com': accessToken },
+    });
+
+    AWS.config.credentials.get((err) => {
+      if (err) {
+        console.log(`Error`, err);
+      } else {
+        console.log(`Cognito Identity Id`, AWS.config.credentials.identityId);
+      }
+    });
+  }
+
+  googleSignin(accessToken) {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: this.poolData.UserPoolId,
+      Logins: { 'accounts.google.com': accessToken },
+    });
+
+    AWS.config.credentials.get((err) => {
+      if (err) {
+        console.log(`Error`, err);
+      } else {
+        console.log(`Cognito Identity Id`, AWS.config.credentials.identityId);
       }
     });
   }

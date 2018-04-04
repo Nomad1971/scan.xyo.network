@@ -3,7 +3,7 @@
 // @Email:  developer@xyfindables.com
 // @Filename: _site.scss
 // @Last modified by:   arietrouw
-// @Last modified time: Monday, February 26, 2018 9:57 AM
+// @Last modified time: Tuesday, April 3, 2018 6:21 PM
 // @License: All Rights Reserved
 // @Copyright: Copyright XY | The Findables Company
 
@@ -20,4 +20,12 @@ hr {
 
 .error-message {
   color: $red;
+}
+
+.fb-login-button {
+  margin: 6px;
+}
+
+.google-sign-in {
+  margin: 6px;
 }

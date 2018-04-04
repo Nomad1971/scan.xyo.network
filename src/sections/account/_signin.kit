@@ -2,8 +2,8 @@
   <form>
     <div class='row center'>
       <div class='col-xs-12'>
-        <h1>Create an XYO account</h1>
-        <p>Create an XYO account to be able to store your settings.</p>
+        <h1>XYO account Sign In</h1>
+        <p>Sign into an XYO account to be able to store your settings.</p>
       </div>
     </div>
     <div class='row center'>
@@ -30,8 +30,23 @@
       </div>
     </div>
     <div class='row center'>
-      <div class='col-xs-offset-3 col-xs-6'>
-        <button class='signup' type='button'>Sign In</button>
+      <div class='col-xs-12'>
+        <button class='signup' type='button'>Sign In with Email</button>
+      </div>
+    </div>
+    <div class='row center'>
+      <div class='col-xs-6 right'>
+        <div class="fb-login-button"
+          data-max-rows="1"
+          data-size="large"
+          data-button-type="continue_with"
+          data-show-faces="false"
+          data-auto-logout-link="false"
+          data-use-continue-as="false">
+        </div>
+      </div>
+      <div class='col-xs-6 left'>
+        <div id="google-sign-in" class="google-sign-in"></div>
       </div>
     </div>
   </form>
@@ -61,3 +76,66 @@
     });
   });
 </script>
+<script>
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '628116180865569',
+      cookie     : true,
+
+      xfbml      : true,
+      version    : 'v2.2'
+    });
+    FB.getLoginStatus(statusChangeCallback);
+  };
+
+
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback', response);
+
+    if (response.status === 'connected' && response.authResponse) {
+      XYO.ACCOUNT.fbsignin(response.authResponse.accessToken);
+    } else if (response.status === 'not_authorized') {
+      document.getElementById('status').innerHTML = 'Please log into this app.';
+    } else {
+      document.getElementById('status').innerHTML = 'Please log into Facebook.';
+    }
+  }
+
+
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+</script>
+<script>
+  function onSuccess(googleUser) {
+    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+  }
+  function onFailure(error) {
+    console.log(error);
+  }
+  function renderButton() {
+    gapi.signin2.render('google-sign-in', {
+      'scope': 'profile email',
+      'width': 240,
+      'height': 40,
+      'longtitle': true,
+      'theme': 'dark',
+      'onsuccess': onSuccess,
+      'onfailure': onFailure
+    });
+  }
+</script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>

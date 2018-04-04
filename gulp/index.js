@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: index.js
  * @Last modified by:   arietrouw
- * @Last modified time: Thursday, March 29, 2018 9:23 AM
+ * @Last modified time: Tuesday, April 3, 2018 6:09 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -17,8 +17,9 @@ const xyo = {
   atom: require(`./atom`),
   browse: require(`./browse`),
   clean: require(`./clean`),
-  kit: require(`./kit`),
   contracts: require(`./contracts`),
+  fonts: require(`./fonts`),
+  kit: require(`./kit`),
   help: require(`./help`),
   images: require(`./images`),
   invalidate: require(`./invalidate`),
@@ -30,7 +31,7 @@ const xyo = {
 
 xyo.tasks.default = gulp.task(`default`, [`help`]);
 
-xyo.tasks.watch = gulp.task(`watch`, [`watch-kit`, `watch-sass`, `watch-js`, `images`, `contracts`], (callback) => {
+xyo.tasks.watch = gulp.task(`watch`, [`watch-kit`, `watch-sass`, `watch-js`, `images`, `fonts`, `contracts`], (callback) => {
   callback();
 });
 
@@ -39,6 +40,6 @@ xyo.tasks.watch = gulp.task(`develop`, [`watch`], (callback) => {
   callback();
 });
 
-xyo.tasks.build = gulp.task(`build`, [`kit`, `sass`, `js`, `images`, `contracts`]);
+xyo.tasks.build = gulp.task(`build`, [`kit`, `sass`, `js`, `images`, `fonts`, `contracts`]);
 
 module.exports = xyo;
