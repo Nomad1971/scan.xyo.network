@@ -4,26 +4,47 @@
  * @Email:  developer@xyfindables.com
  * @Filename: codekit.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 23, 2018 12:21 PM
+ * @Last modified time: Saturday, May 19, 2018 1:37 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-/* eslint no-console: 0 */
+/* eslint import/no-extraneous-dependencies: 0 */
 
-const gulp = require(`gulp`);
+import imagemin from 'gulp-imagemin'
+import gulpif from 'gulp-if'
 
-const connect = require(`gulp-connect`);
-let watch = null;
+import Base from './base'
 
-const images = () => gulp.src(`./src/img/**`)
-  .pipe(gulp.dest(`./dist/img`))
-  .pipe(connect.reload());
+class Images extends Base {
+  constructor (gulp, config) {
+    super(gulp, config)
 
-gulp.task(`images`, images);
+    gulp.task(`main-images`, () => this.mainImages())
+    gulp.task(`footer-images`, () => this.footerImages())
+    gulp.task(`images`, gulp.series(`footer-images`, `main-images`))
+  }
 
-gulp.task(`watch-images`, [`images`], () => {
-  watch = watch || gulp.watch(`./src/img/**/*`, [`images`], connect.reload());
-});
+  footerImages () {
+    return this.gulp.src(`./node_modules/@xyo-network/website/dist/${this.language()}/img/**/*`)
+      .pipe(this.dest(`img`))
+  }
 
-module.exports = images;
+  mainImages () {
+    return this.src(`img/**`)
+      .pipe(gulpif(this.release, imagemin([
+        imagemin.gifsicle({ interlaced: true }),
+        imagemin.jpegtran({ progressive: true }),
+        imagemin.optipng({ optimizationLevel: 3 }),
+        imagemin.svgo({
+          plugins: [
+            { removeViewBox: true },
+            { cleanupIDs: true }
+          ]
+        })
+      ])))
+      .pipe(this.dest(`img`))
+  }
+}
+
+export default Images

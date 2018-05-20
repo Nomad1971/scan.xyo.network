@@ -1,38 +1,31 @@
 /**
  * @Author: XY | The Findables Company <arietrouw>
- * @Date:   Saturday, March 24, 2018 11:08 AM
+ * @Date:   Saturday, March 24, 2018 11:02 AM
  * @Email:  developer@xyfindables.com
  * @Filename: serve.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, March 24, 2018 11:57 AM
+ * @Last modified time: Saturday, May 19, 2018 1:37 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-const gulp = require(`gulp`);
+/* eslint import/no-extraneous-dependencies: 0 */
 
-const connect = require(`gulp-connect`);
-const open = require(`gulp-open`);
+import gulp from 'gulp'
+import server from 'gulp-server-io'
+import { argv } from 'yargs'
 
-let port = 8080;
+class Browse {
+  constructor () {
+    this.port = argv.port || 8080
+    this.lang = argv.lang || `en`
+    gulp.task(`browse`, () => this.browse())
+  }
 
-const browse = () => {
-  connect.server({
-    livereload: true,
-    root: `./dist`,
-    port,
-  });
-  gulp.src(__dirname)
-    .pipe(open({
-      app: `google chrome`,
-      uri: `http://localhost:${port}`,
-    }));
-};
+  browse () {
+    return gulp.src(`./dist/${this.lang}`)
+      .pipe(server())
+  }
+}
 
-browse.config = (_port) => {
-  port = _port;
-};
-
-gulp.task(`browse`, browse);
-
-module.exports = browse;
+export default Browse

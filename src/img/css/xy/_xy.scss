@@ -3,14 +3,13 @@
 // @Email:  developer@xyfindables.com
 // @Filename: _xy.scss
 // @Last modified by:   arietrouw
-// @Last modified time: Tuesday, April 3, 2018 12:46 PM
+// @Last modified time: Thursday, May 17, 2018 9:30 AM
 // @License: All Rights Reserved
 // @Copyright: Copyright XY | The Findables Company
 
 
 
 @import 'variables';
-@import 'bootstrap';
 @import 'simple';
 @import 'colors';
 @import 'button';
@@ -24,9 +23,6 @@ body {
   color: $dark-gray;
   overflow-y: scroll;
   font-size: $font-size-base;
-  @media screen and (max-width: $screen-xs-max) {
-    font-size: $font-size-small;
-  }
 }
 
 main {
@@ -47,12 +43,8 @@ p {
   font-size: $font-size-base;
   padding: $padding;
 
-  @media screen and (max-width: $screen-xs-max) {
-    font-size: $font-size-small;
-  }
-
   [class~='small'] {
-    font-size: $font-size-small;
+    font-size: $font-size-sm;
   }
 }
 

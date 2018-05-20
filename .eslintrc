@@ -3,12 +3,12 @@
 # @Email:  developer@xyfindables.com
 # @Filename: .eslintrc
 # @Last modified by:   arietrouw
-# @Last modified time: Monday, March 12, 2018 6:29 PM
+# @Last modified time: Saturday, May 19, 2018 1:36 PM
 # @License: All Rights Reserved
 # @Copyright: Copyright XY | The Findables Company
 
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "standard", "standard-react"],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
@@ -20,6 +20,8 @@
     "func-names": 0,
     "quotes": [2, 'backtick'],
     "no-plusplus": 0,
-    "max-len": 0
+    "max-len": 0,
+    "no-underscore-dangle": 0,
+    "import/extensions": 0
   }
 }

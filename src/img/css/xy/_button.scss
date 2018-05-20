@@ -3,13 +3,10 @@
 // @Email:  developer@xyfindables.com
 // @Filename: _button.scss
 // @Last modified by:   arietrouw
-// @Last modified time: Friday, March 16, 2018 12:20 PM
+// @Last modified time: Thursday, May 17, 2018 9:29 AM
 // @License: All Rights Reserved
 // @Copyright: Copyright XY | The Findables Company
 
-
-
-@import 'bootstrap';
 @import 'variables';
 @import 'colors';
 
@@ -22,13 +19,13 @@ button {
   border: solid 1px $button-border-color;
   color: $button-color;
   border-radius: 3px;
-  font-size: $font-size-large;
+  font-size: $font-size-lg;
   margin: 6px;
   padding: 5px 15px;
 
   &[class~='x-small'] {
-    font-size: $font-size-small;
-    line-height: $line-height-small;
+    font-size: $font-size-sm;
+    line-height: $line-height-sm;
     opacity: 1;
     border-radius: 2px;
     margin: 2px;
@@ -37,7 +34,7 @@ button {
 
   &[class~='small'] {
     font-size: $font-size-base;
-    line-height: $line-height-computed;
+    line-height: $line-height-base;
     opacity: 1;
     border-radius: 3px;
     margin: 4px;
@@ -45,8 +42,8 @@ button {
   }
 
   &[class~='large'] {
-    font-size: $font-size-large;
-    line-height: $line-height-large;
+    font-size: $font-size-lg;
+    line-height: $line-height-lg;
     opacity: 1;
     border-radius: 4px;
     margin: 8px;

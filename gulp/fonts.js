@@ -1,19 +1,29 @@
 /**
  * @Author: XY | The Findables Company <arietrouw>
- * @Date:   Tuesday, April 3, 2018 4:28 PM
+ * @Date:   Monday, April 9, 2018 5:01 PM
  * @Email:  developer@xyfindables.com
  * @Filename: fonts.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, April 3, 2018 4:31 PM
+ * @Last modified time: Saturday, May 19, 2018 1:37 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-const gulp = require(`gulp`);
+/* eslint import/no-extraneous-dependencies: 0 */
 
-const fonts = () => gulp.src(`node_modules/font-awesome/fonts/*`)
-  .pipe(gulp.dest(`dist/fonts`));
+import Base from './base'
 
-gulp.task(`fonts`, fonts);
+class Fonts extends Base {
+  constructor (gulp, config) {
+    super(gulp, config)
 
-module.exports = fonts;
+    gulp.task(`fonts`, () => this.fonts())
+  }
+
+  fonts () {
+    return this.gulp.src(`./node_modules/@fortawesome/fontawesome-free-webfonts/webfonts/*`)
+      .pipe(this.dest(`fonts`))
+  }
+}
+
+export default Fonts

@@ -4,23 +4,14 @@
  * @Email:  developer@xyfindables.com
  * @Filename: all-require.js
  * @Last modified by:   arietrouw
- * @Last modified time: Wednesday, March 21, 2018 11:52 AM
+ * @Last modified time: Saturday, May 19, 2018 2:30 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-// we are assigning the global jquery here to make sure they are available for following module
-// see: https://stackoverflow.com/questions/33019133/browserify-change-the-order-the-dependencies-are-loaded
+import 'babel-polyfill'
+import 'bootstrap'
 
-global.jQuery = require(`jquery`);
-global.$ = global.jQuery;
-
-require(`bootstrap`);
-// window.XYOClient = require(`xyo-client`);
-
-window.XYAccount = require(`./xy/XYAccount.js`);
-window.XYClient = require(`./xy/XYClient.js`);
-window.XYConfig = require(`./xy/XYConfig.js`);
-window.XYContract = require(`./xy/XYContract.js`);
-
-require(`./ajax-setup.js`);
+import './sections/header.js'
+import './sections/transfer.js'
+import './sections/networkselect.js'

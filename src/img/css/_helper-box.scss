@@ -3,7 +3,7 @@
 // @Email:  developer@xyfindables.com
 // @Filename: _helper_box.scss
 // @Last modified by:   arietrouw
-// @Last modified time: Tuesday, March 13, 2018 6:05 PM
+// @Last modified time: Thursday, May 17, 2018 5:36 PM
 // @License: All Rights Reserved
 // @Copyright: Copyright XY | The Findables Company
 
@@ -12,7 +12,9 @@
   line-height: 32px;
 
   .helper-box {
-    @extend .fa, .fa-question-circle-o;
+    @extend .fab;
+    @include fa-icon;
+    content: fa-content($fa-var-circle);
     cursor: pointer;
     line-height: 32px;
     font-size: 20px;

@@ -1,45 +1,75 @@
 /**
  * @Author: XY | The Findables Company <arietrouw>
- * @Date:   Saturday, March 24, 2018 11:38 AM
+ * @Date:   Saturday, March 24, 2018 11:31 AM
  * @Email:  developer@xyfindables.com
  * @Filename: index.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, April 3, 2018 6:09 PM
+ * @Last modified time: Saturday, May 19, 2018 1:37 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
 /* eslint global-require: 0 */
+/* eslint import/no-extraneous-dependencies: 0 */
 
-const gulp = require(`gulp`);
+import Browse from './browse'
+import Clean from './clean'
+import Fonts from './fonts'
+import Help from './help'
+import Images from './images'
+import Javascript from './javascript'
+import Kit from './codeKit'
+import Publish from './publish'
+import Robots from './robots'
+import Sass from './sass'
+import Sitemap from './sitemap'
 
-const xyo = {
-  atom: require(`./atom`),
-  browse: require(`./browse`),
-  clean: require(`./clean`),
-  contracts: require(`./contracts`),
-  fonts: require(`./fonts`),
-  kit: require(`./kit`),
-  help: require(`./help`),
-  images: require(`./images`),
-  invalidate: require(`./invalidate`),
-  javascript: require(`./javascript`),
-  publish: require(`./publish`),
-  sass: require(`./sass`),
-  tasks: {},
-};
+class XYO {
+  constructor (gulp, config) {
+    this.browse = new Browse(gulp, config)
+    this.clean = new Clean(gulp, config)
+    this.fonts = new Fonts(gulp, config)
+    this.help = new Help(gulp, config)
+    this.images = new Images(gulp, config)
+    this.javascript = new Javascript(gulp, config)
+    this.kit_localized = new Kit(gulp, config)
+    this.sass = new Sass(gulp, config)
+    this.sitemap = new Sitemap(gulp, config)
+    this.robots = new Robots(gulp, config)
 
-xyo.tasks.default = gulp.task(`default`, [`help`]);
+    gulp.task(`default`, gulp.series(`help`))
 
-xyo.tasks.watch = gulp.task(`watch`, [`watch-kit`, `watch-sass`, `watch-js`, `images`, `fonts`, `contracts`], (callback) => {
-  callback();
-});
+    gulp.task(
+      `build`,
+      gulp.series(
+        `clean`,
+        gulp.parallel(
+          `sass`,
+          `js`,
+          `kit`,
+          `images`,
+          `fonts`
+        ),
+        gulp.parallel(
+          `sitemap`,
+          `robots`
+        )
+      ),
+      (callback) => { callback() }
+    )
 
-xyo.tasks.watch = gulp.task(`develop`, [`watch`], (callback) => {
-  xyo.browse();
-  callback();
-});
+    this.publish = new Publish(gulp, config)
 
-xyo.tasks.build = gulp.task(`build`, [`kit`, `sass`, `js`, `images`, `fonts`, `contracts`]);
+    gulp.task(
+      `develop`,
+      gulp.series(
+        `build`,
+        `browse`,
+        gulp.parallel(`watch-js`, `watch-sass`, `watch-kit`)
+      ),
+      (callback) => { callback() }
+    )
+  }
+}
 
-module.exports = xyo;
+module.exports = XYO

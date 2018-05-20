@@ -1,3 +1,14 @@
+# @Author: XY | The Findables Company <arietrouw>
+# @Date:   Monday, April 9, 2018 5:10 PM
+# @Email:  developer@xyfindables.com
+# @Filename: .sass-lint.yml
+# @Last modified by:   arietrouw
+# @Last modified time: Saturday, May 19, 2018 2:01 PM
+# @License: All Rights Reserved
+# @Copyright: Copyright XY | The Findables Company
+
+
+
 options:
   formatter: stylish
 files:

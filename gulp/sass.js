@@ -4,46 +4,36 @@
  * @Email:  developer@xyfindables.com
  * @Filename: sass.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, April 3, 2018 12:53 PM
+ * @Last modified time: Saturday, May 19, 2018 1:37 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-/* eslint no-console: 0 */
+/* eslint import/no-extraneous-dependencies: 0 */
 
-const gulp = require(`gulp`);
+import cleanCSS from 'gulp-clean-css'
+import gulpSass from 'gulp-sass'
+import gulpif from 'gulp-if'
+import sourcemaps from 'gulp-sourcemaps'
 
-const cleanCSS = require(`gulp-clean-css`);
-const concat = require(`gulp-concat`);
-const connect = require(`gulp-connect`);
-const es = require(`event-stream`);
-const gulpSass = require(`gulp-sass`);
+import Base from './base'
 
-let watch = null;
+class Sass extends Base {
+  constructor (gulp, config) {
+    super(gulp, config)
 
-const sass = () => {
-  const sassOutput = gulp.src(`./src/css/**/*.*`)
-    .pipe(gulpSass({
-      includePaths: [`node_modules/bootstrap-sass/assets/stylesheets/`, `node_modules/font-awesome/scss/`],
-    }).on(`error`, (err) => {
-      console.log(err.message);
-    }));
+    gulp.task(`sass`, () => this.sass())
+    gulp.task(`watch-sass`, () => gulp.watch(`./src/css/**/*`, gulp.series(`sass`)))
+  }
 
-  const merge = es.merge(sassOutput, gulp.src(`./src/css/**/*.css`))
-    .pipe(concat(`all.css`))
-    .pipe(cleanCSS({
-      compatibility: `ie8`,
-    }))
-    .pipe(gulp.dest(`./dist/css`))
-    .pipe(connect.reload());
+  sass () {
+    return this.gulp.src(`./src/css/**/*.*`)
+      .pipe(gulpif(!this.gulp.optimize, sourcemaps.init()))
+      .pipe(gulpSass({ includePaths: [`./node_modules/`] }).on(`error`, gulpSass.logError))
+      .pipe(cleanCSS())
+      .pipe(gulpif(!this.gulp.optimize, sourcemaps.write()))
+      .pipe(this.gulp.dest(`./dist/${this.language()}/css`))
+  }
+}
 
-  return merge;
-};
-
-gulp.task(`sass`, sass);
-
-gulp.task(`watch-sass`, [`sass`], () => {
-  watch = watch || gulp.watch(`./src/css/**/*`, [`sass`], connect.reload());
-});
-
-module.exports = sass;
+export default Sass

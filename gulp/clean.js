@@ -4,18 +4,27 @@
  * @Email:  developer@xyfindables.com
  * @Filename: clean.js
  * @Last modified by:   arietrouw
- * @Last modified time: Tuesday, April 3, 2018 12:42 PM
+ * @Last modified time: Saturday, May 19, 2018 1:37 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-const gulp = require(`gulp`);
-const del = require(`del`);
+/* eslint import/no-extraneous-dependencies: 0 */
 
-const clean = () => {
-  del(`./dist/*`);
-};
+import rm from 'gulp-rm'
 
-gulp.task(`clean`, clean);
+import Base from './base'
 
-module.exports = clean;
+class Delete extends Base {
+  constructor (gulp, config) {
+    super(gulp, config)
+    gulp.task(`clean`, () => this.clean())
+  }
+
+  clean () {
+    return this.gulp.src(`dist/**/*`, { read: false })
+      .pipe(rm())
+  }
+}
+
+export default Delete

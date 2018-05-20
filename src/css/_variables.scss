@@ -1,0 +1,104 @@
+// @Author: XY | The Findables Company <arietrouw>
+// @Date:   Monday, April 9, 2018 5:17 PM
+// @Email:  developer@xyfindables.com
+// @Filename: _variables.scss
+// @Last modified by:   arietrouw
+// @Last modified time: Saturday, May 19, 2018 2:12 PM
+// @License: All Rights Reserved
+// @Copyright: Copyright XY | The Findables Company
+
+$selection-background: #b3d4fc;
+$gradient-start: #f27b37;
+$gradient-end: #ed495e;
+$main-text-color: #9399c3;
+$deep-blue-sea: #222a43;
+$white: #fff;
+$white22: rgba(255, 255, 255, .22);
+$white12: rgba(255, 255, 255, .12);
+$red: #f00;
+$red22: rgba(255, 0, 0, .22);
+$red12: rgba(255, 0, 0, .12);
+$black: #000;
+$black22: rgba(0, 0, 0, .22);
+$black12: rgba(0, 0, 0, .12);
+$input-border: #dae0e9;
+$input-color: #4e6487;
+$body-bg: #222a43;
+$signup-container-gradient-start: #5f45b3;
+$signup-container-gradient-end: #9b28b0;
+$footer-background: #18253d;
+$footer-background-two: #18253d;
+$footer-border: #18253d;
+$footer-menu-color: #9299c3;
+$footer-header-color: rgb(41, 195, 220);
+$soft-purple: #9679dc;
+$subtle-green: #a9dedc;
+$important-text: #e91e63;
+
+$eth-text-color: rgb(129, 97, 214);
+$xyo-text-color: #18bcc9;
+$supporting-text-color: #8392be;
+
+$header-underline-color: #30caa9;
+
+$fa-font-path:   "../fonts";
+$font-family-sans-serif:  'Titillium Web', Helvetica, Arial, sans-serif;
+$font-size-base: 1.2rem;
+$font-size-button: ceil($font-size-base * 2);
+$font-size-button-icon: ceil($font-size-base * 3);
+$headings-color: $white;
+$body-color: $white;
+
+$section-padding: 40px !default;
+$section-padding-top: $section-padding !default;
+$section-padding-bottom: $section-padding !default;
+
+$row-padding: 15px !default;
+$row-padding-top: $row-padding !default;
+$row-padding-bottom: $row-padding !default;
+
+$gamma-subtitle-color: #a6a6f1;
+$gamma-title-color:  #fff;
+$gamma-spacer-color: #30caa9;
+$gamma-span-color: #30caa9;
+$gamma-bg-sub-desc-color: #949ac3;
+$gamma-card-background: #fff;
+$gamma-card-title-color: #18bcc9;
+$gamma-card-body-color: #4c6485;
+$gamma-title-one-color: #33d2eb;
+$gamma-title-two-color: #2cedc3;
+$gamma-title-three-color: #ffc000;
+$gamma-box-shadow-color: rgba(0, 0, 0, .14);
+$gamma-token-pool-third-color:  #abb0d1;
+$gamma-table-background: #384767;
+
+$gamma-slanted-bg: #263c5b;
+
+$gamma-hot-one: #f27b37;
+$gamma-hot-two: #ed495e;
+
+$gamma-yellow-one: #f3bc38;
+$gamma-yellow-two: #fe8f38;
+
+$gamma-pink-one: #d85caf;
+$gamma-pink-two: #b74ba4;
+
+$gamma-lightpurple-one: #838be1;
+$gamma-lightpurple-two: #b25eb9;
+
+$gamma-blue-one: #6877fe;
+$gamma-blue-two: #37c8f4;
+
+$gamma-green-one: #0ba4d7;
+$gamma-green-two: #12d1b7;
+
+$gamma-purple-one: #5f42b3;
+$gamma-purple-two: #9b27b0;
+
+$gamma-hot-gradient: linear-gradient(to right, $gamma-hot-one , $gamma-hot-two);
+$gamma-yellow-gradient: linear-gradient(to right, $gamma-yellow-one , $gamma-yellow-two);
+$gamma-pink-gradient: linear-gradient(to right, $gamma-pink-one , $gamma-pink-two);
+$gamma-lightpurple-gradient: linear-gradient(to right, $gamma-lightpurple-one , $gamma-lightpurple-two);
+$gamma-blue-gradient: linear-gradient(to right, $gamma-blue-one , $gamma-blue-two);
+$gamma-green-gradient: linear-gradient(to right, $gamma-green-one , $gamma-green-two);
+$gamma-purple-gradient: linear-gradient(to right, $gamma-purple-one, $gamma-purple-two);

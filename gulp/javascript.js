@@ -4,43 +4,49 @@
  * @Email:  developer@xyfindables.com
  * @Filename: browserify.js
  * @Last modified by:   arietrouw
- * @Last modified time: Friday, March 23, 2018 12:05 PM
+ * @Last modified time: Saturday, May 19, 2018 2:09 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
 
-const gulp = require(`gulp`);
+/* eslint import/no-extraneous-dependencies: 0 */
 
-const browserify = require(`browserify`);
-const buffer = require(`vinyl-buffer`);
-const connect = require(`gulp-connect`);
-const source = require(`vinyl-source-stream`);
-const sourcemaps = require(`gulp-sourcemaps`);
-// const uglify = require(`gulp-uglify`);
+import browserify from 'browserify'
+import buffer from 'vinyl-buffer'
+import uglify from 'gulp-uglify'
+import gulpif from 'gulp-if'
+import source from 'vinyl-source-stream'
+import sourcemaps from 'gulp-sourcemaps'
 
-let watch = null;
+import Base from './base.js'
 
-const javascript = () => {
-  const b = browserify({
-    insertGlobals: true,
-    entries: [`./src/js/all.js`],
-    debug: true,
-  });
+class Javascript extends Base {
+  constructor (gulp, config) {
+    super(gulp, config)
 
-  return b.bundle()
-    .pipe(source(`all.js`))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    // .pipe(uglify())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(`./dist/js`))
-    .pipe(connect.reload());
-};
+    gulp.task(`js`, () => this.javascript())
+    gulp.task(`watch-js`, () => gulp.watch(`./src/js/**/*`, gulp.series(`js`)))
+  }
 
-gulp.task(`js`, javascript);
+  javascript () {
+    const file = `all.js`
+    this.log(`Building Javascript [Optimized=${this.release}]`)
+    const b = browserify(`src/js/${file}`, {
+      debug: !(this.release),
+      targets: {
+        browsers: [`last 2 versions`, `safari >= 7`]
+      },
+      transform: [`babelify-9`]
+    })
 
-gulp.task(`watch-js`, [`js`], () => {
-  watch = watch || gulp.watch(`./src/js/**/*.js`, [`js`], connect.reload());
-});
+    return b.bundle()
+      .pipe(source(file).on(`error`, this.log))
+      .pipe(buffer().on(`error`, this.log))
+      .pipe(gulpif(!(this.release), sourcemaps.init().on(`error`, this.log)))
+      .pipe(gulpif(this.release, uglify().on(`error`, this.log)))
+      .pipe(gulpif(!(this.release), sourcemaps.write().on(`error`, this.log)))
+      .pipe(this.dest(`js`).on(`error`, this.log))
+  }
+}
 
-module.exports = javascript;
+export default Javascript
