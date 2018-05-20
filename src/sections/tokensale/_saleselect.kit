@@ -1,6 +1,4 @@
-
-
-<section class="container section-saleselect" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+<section class="container section-saleselect">
   <form>
     <div class="row">
       <div class="col-12">
@@ -16,73 +14,30 @@
       <div class="col-12 col-sm-6 center">
         <p>
           <label class="center" for="token_address">Token Address</label><br/>
-          <input class="center" style="width:100%;" name="token_address" id="token_address" readonly type="text"/>
+          <input class="center" style="width:100%;" name="token_address" id="token_address" readonly type="text" />
         </p>
       </div>
       <div class="col-12 col-sm-6 center">
         <p>
           <label class="center" for="sale_address">Sale Address</label><br/>
-          <input class="center" style="width:100%;" name="sale_address" id="sale_address" readonly type="text"/>
+          <input class="center" style="width:100%;" name="sale_address" id="sale_address" readonly type="text" />
         </p>
       </div>
       <div class="col-12 col-sm-6 center">
         <p>
           <label class="center" for="sale_contract">Sale Contract</label><br/>
           <select name="sale_contract" id="sale_contract" value="">
-            <option selected>-------------------</option>
-            <option>XYEligibleTokenSale</option>
-            <option>XYOfficialTokenSale</option>
-            <option>XYPendingTokenSale</option>
-            <option>XYTimedTokenSale</option>
-            <option>XYTokenSale</option>
+            <option>-------------------</option>
+            <option selected>Exchange</option>
           </select>
         </p>
       </div>
       <div class="col-12 col-sm-6 center">
         <p>
           <label class="center" for="token_balance">Token Balance</label><br/>
-          <input class="center" style="width:100%;" name="token_balance" id="token_balance" readonly type="text"/>
+          <input class="center" style="width:100%;" name="token_balance" id="token_balance" readonly type="text" />
         </p>
       </div>
     </div>
   </form>
 </section>
-
-<script>
-  $(document).ready(() => {
-    var section = $(".section-saleselect");
-    section.find("[name='sale_contract']").change(() => {
-      var client = new XYClient(function(client) {
-        client.config.saleContractName = section.find("[name='sale_contract']").val();
-        client.config.save();
-        location.reload();
-      });
-    });
-    try {
-      var client = new XYClient(function(client) {
-        section.find("[name='token_address']").val(client.config.tokenAddress);
-        section.find("[name='sale_address']").val(client.config.saleAddress);
-        section.find("[name='sale_contract']").val(client.config.saleContractName);
-
-        client.getTokenBalance(function (error, result) {
-          if (error) {
-            console.error(error);
-          } else {
-            console.log('Token Balance: ', result);
-            section.find("[name='token_balance']").val(result.shift(-18).toString(10));
-          }
-        });
-
-        $(".meta-mask-information").show();
-
-      });
-    } catch (ex) {
-      console.log("No Meta Mask Found or Meta Mask Not Signed In");
-      console.error(ex);
-      $(".install-meta-mask").fadeTo(1000, 1)
-      $(".meta-mask-information").fadeTo(300, .5);
-      $(".meta-mask-information").attr("disabled","disabled");
-    }
-
-  });
-</script>

@@ -1,0 +1,48 @@
+<section class="container section-create-exchange">
+  <form>
+    <div class="row center">
+      <div class="col-12">
+        <h1>Create Token Exchange Contract - Ethereum ERC20</h1>
+        <p>Create a ERC20 compliant token exchange.</p>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-8 offset-2">
+        <div class="field-with-helper">
+          <label for="sale_contract">Sale Contract</label>
+          <select name="sale_contract" id="sale_contract" value="">
+            <option selected>XYTokenExchange</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-8 offset-2">
+        <div class="field-with-helper">
+          <label for="token_address">Token Address</label>
+          <input name="token_address" id="token_address" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Token Address" data-placement="left" data-content="The address of your token."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="col-8 offset-2">
+        <div class="field-with-helper">
+          <label for="benefactor_address">Benefactor Address</label>
+          <input name="benefactor_address" id="benefactor_address" type="text" value="" />
+          <span class="helper-box" data-toggle="popover" data-trigger="manual" title="Benefactor Address" data-placement="left" data-content="The address of the benifactor."></span>
+        </div>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="offset-3 col-6">
+        <span class="error-message"></span>
+      </div>
+    </div>
+    <div class="row center">
+      <div class="offset-3 col-6">
+        <button class="create" type="button">Create Exchange</button>
+      </div>
+    </div>
+  </form>
+</section>

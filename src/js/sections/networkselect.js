@@ -4,7 +4,7 @@
  * @Email:  developer@xyfindables.com
  * @Filename: _transfer.js
  * @Last modified by:   arietrouw
- * @Last modified time: Saturday, May 19, 2018 6:50 PM
+ * @Last modified time: Saturday, May 19, 2018 8:44 PM
  * @License: All Rights Reserved
  * @Copyright: Copyright XY | The Findables Company
  */
@@ -64,7 +64,7 @@ $(document).ready(() => {
   if (section && section.length > 0) {
     console.log(`section-networkselect`)
     window.sections = window.sections || {}
-    window.sections.transfer = new NetworkSelect()
+    window.sections.networkSelect = new NetworkSelect()
   }
 })
 

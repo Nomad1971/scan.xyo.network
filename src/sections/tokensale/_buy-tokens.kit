@@ -1,4 +1,4 @@
-<section class="container section-create-sale" style="background:#f1f1f1;margin:10px auto 10px auto;border: 1px #999999 dotted;border-radius:2px;">
+<section class="container section-create-sale">
   <form>
     <div class="row center">
       <div class="col-12">
@@ -41,7 +41,13 @@
           let contract = new XYContract(contractFile, (contract) => {
             try {
               let instance = contract.getInstance(client.getWeb3(), client.config.saleAddress);
-              var params = {from: client.getDAppAddress(), to: client.config.saleAddress, gasPrice: 10000000000, gas: 2000000, value: web3.toWei(etherToSend, 'ether')}
+              var params = {
+                from: client.getDAppAddress(),
+                to: client.config.saleAddress,
+                gasPrice: 10000000000,
+                gas: 2000000,
+                value: web3.toWei(etherToSend, 'ether')
+              }
 
               instance.purchase(params, (error, result) => {
                 if (error) {
